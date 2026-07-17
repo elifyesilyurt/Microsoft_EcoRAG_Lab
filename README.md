@@ -16,5 +16,3 @@ This repository contains a local LLM (Large Language Model) integration setup us
 1. Activate the environment:
    ```bash
    source foundry-env/bin/activate
-
-python app.py
