@@ -1,52 +1,27 @@
-
 import openai
-from foundry_local import FoundryLocalManager
 
-# By using an alias, the most suitable model variant will be
-# downloaded for your end-user's device hardware.
-alias = "phi-3.5-mini"
-
-# Step 1: Create a FoundryLocalManager and start the service
-print("Starting Foundry Local service...")
-manager = FoundryLocalManager()
-manager.start_service()
-
-# Step 2: Check if the model is already downloaded
-cached = manager.list_cached_models()
-catalog_info = manager.get_model_info(alias)
-is_cached = any(m.id == catalog_info.id for m in cached) if catalog_info else False
-
-if is_cached:
-    print(f"Model already downloaded: {alias}")
-else:
-    print(f"Downloading model: {alias} (this may take several minutes)...")
-    manager.download_model(alias)
-    print(f"Download complete: {alias}")
-
-# Step 3: Load the model into memory
-print(f"Loading model: {alias}...")
-manager.load_model(alias)
-print(f"Cached models: {[m.id for m in cached]}")
-
-# Configure the OpenAI client to use the local Foundry service.
-# Foundry Local assigns a dynamic port — always use manager.endpoint.
 client = openai.OpenAI(
-    base_url=manager.endpoint,
-    api_key=manager.api_key  # API key is not required for local usage
+    base_url="http://127.0.0.1:54137/v1",
+    api_key="foundry"
 )
 
-# Generate a streaming chat completion
-stream = client.chat.completions.create(
-    model=manager.get_model_info(alias).id,
-    messages=[{"role": "user", "content": "What is the golden ratio?"}],
-    stream=True,
-)
+print("\n--- Yerel Qwen2.5-0.5B Yanıtı Başlıyor ---\n")
 
-# Print the streaming response
-for chunk in stream:
-    if chunk.choices[0].delta.content is not None:
-        print(chunk.choices[0].delta.content, end="", flush=True)
-print()
+try:
+    stream = client.chat.completions.create(
+        model="qwen2.5-0.5b",
+        messages=[
+            {"role": "user", "content": "Give me 3 concrete tips to stay disciplined and focused."}
+        ],
+        temperature=0.7,
+        max_tokens=300,
+        stream=True,
+    )
 
-# Cleanup: unload the model to release resources
-manager.unload_model(alias)  # newline at end
+    for chunk in stream:
+        if chunk.choices and chunk.choices[0].delta.content is not None:
+            print(chunk.choices[0].delta.content, end="", flush=True)
+    print("\n\n--- Yanıt Tamamlandı ---\n")
+
+except Exception as e:
+    print(f"Hata: {e}")

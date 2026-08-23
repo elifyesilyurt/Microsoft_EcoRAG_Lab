@@ -2,3 +2,7 @@ foundry-env/
 .DS_Store
 __pycache__/
 *.pyc
+foundry-env/
+__pycache__/
+*.pyc
+.DS_Store
