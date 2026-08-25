@@ -1,0 +1,1 @@
+Microsoft Foundry Local is an open-source toolchain that enables developers to run generative AI models locally on workstations. It provides an OpenAI-compatible HTTP endpoint for local model inference. By hosting models locally, developers can build AI applications with zero cloud latency and complete data privacy.

@@ -1,0 +1,1 @@
+Vector embeddings are high-dimensional numerical representations of text where semantic similarity corresponds to geometric proximity. Sentence transformers convert sentences into dense vectors such that texts with similar meanings have high cosine similarity scores. These embeddings are stored in databases for fast semantic search.

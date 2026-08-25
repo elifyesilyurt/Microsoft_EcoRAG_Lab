@@ -1,0 +1,1 @@
+Retrieval-Augmented Generation combines external knowledge retrieval with large language models. Instead of relying solely on parametric knowledge, the system queries a local vector database to find relevant text chunks. These retrieved passages are injected into the context window of the language model to generate grounded and accurate responses.
