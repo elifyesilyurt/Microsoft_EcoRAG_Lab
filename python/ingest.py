@@ -4,12 +4,14 @@ import sqlite3
 import json
 from sentence_transformers import SentenceTransformer
 
+# 1. Configuration and Model Loading
 DB_PATH = "rag_storage.db"
 DATA_DIR = "data"
 CHUNK_SIZE = 150
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
+# 2. Text Chunking Function
 def split_text_into_chunks(text, max_words=CHUNK_SIZE):
     words = text.split()
     chunks = []
@@ -18,6 +20,7 @@ def split_text_into_chunks(text, max_words=CHUNK_SIZE):
         chunks.append(chunk)
     return chunks
 
+# 3. Database Initialization
 conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()
 
@@ -32,6 +35,7 @@ CREATE TABLE documents (
 """)
 conn.commit()
 
+# 4. Ingestion and Vectorization
 txt_files = glob.glob(os.path.join(DATA_DIR, "*.txt"))
 total_chunks_indexed = 0
 
@@ -52,7 +56,7 @@ for file_path in txt_files:
             (doc_title, chunk, vector_json)
         )
         total_chunks_indexed += 1
-        print(f"Indekslendi: {doc_title} ({len(chunk.split())} kelime)")
+        print(f"Indexed: {doc_title} ({len(chunk.split())} words)")
 
 conn.commit()
 
@@ -60,4 +64,4 @@ cursor.execute("SELECT COUNT(*) FROM documents")
 count = cursor.fetchone()[0]
 conn.close()
 
-print(f"\nToplam Eklenen Parca Sayisi: {count}")
+print(f"\nTotal Chunks Added: {count}")
