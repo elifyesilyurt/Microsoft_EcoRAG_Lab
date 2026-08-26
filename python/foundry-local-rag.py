@@ -3,8 +3,8 @@ from foundry_local_sdk import Configuration, FoundryLocalManager
 
 alias = "qwen2.5-0.5b"
 
-# 1. Servisi Başlat ve Modeli Yükle
-print("1. Foundry Local servisi başlatılıyor...")
+# 1. Initialize Foundry Local Service and Load Model
+print("1. Initializing Foundry Local service...")
 config = Configuration(app_name="FoundryLocalWorkshop")
 FoundryLocalManager.initialize(config)
 manager = FoundryLocalManager.instance
@@ -19,7 +19,7 @@ model.load()
 endpoint = manager.endpoint if hasattr(manager, "endpoint") else f"{manager.urls[0]}/v1"
 client = openai.OpenAI(base_url=endpoint, api_key="foundry-local")
 
-# 2. Egzersiz 1: Bellekteki Bilgi Tabanı
+# 2. In-Memory Knowledge Base
 KNOWLEDGE_BASE = [
     {
         "title": "Foundry Local Overview",
@@ -46,7 +46,7 @@ KNOWLEDGE_BASE = [
     }
 ]
 
-# 3. Egzersiz 2: Basit Anahtar Kelime Örtüşmesi (Keyword Overlap Retrieval)
+# 3. Simple Keyword Overlap Retrieval
 def retrieve(query: str, top_k: int = 2) -> list:
     query_words = set(query.lower().split())
     scored = []
@@ -57,20 +57,20 @@ def retrieve(query: str, top_k: int = 2) -> list:
     scored.sort(key=lambda x: x[0], reverse=True)
     return [item[1] for item in scored[:top_k]]
 
-# 4. Soru ve Getirme
+# 4. Query and Retrieve Context
 question = "How do I install Foundry Local and what hardware does it support?"
-print(f"\nSoru: {question}\n")
+print(f"\nQuestion: {question}\n")
 
 context_chunks = retrieve(question, top_k=2)
 context_text = "\n\n".join(
     f"### {c['title']}\n{c['content']}" for c in context_chunks
 )
 
-print("--- Getirilen Baglam (Retrieved Context) ---")
+print("--- Retrieved Context ---")
 print(context_text)
-print("-------------------------------------------\n")
+print("-------------------------\n")
 
-# 5. Egzersiz 3: Dayanaklı Sistem Promptu ile Yanıt Üretme
+# 5. Generate Grounded Response
 system_prompt = (
     "You are a helpful assistant. Answer the user's question using ONLY "
     "the information provided in the context below. If the context does "
@@ -87,5 +87,5 @@ response = client.chat.completions.create(
     temperature=0.0
 )
 
-print("Modelin Cevabi:")
+print("Model Response:")
 print(response.choices[0].message.content)

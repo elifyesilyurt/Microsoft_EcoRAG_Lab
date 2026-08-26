@@ -3,8 +3,8 @@ from foundry_local_sdk import Configuration, FoundryLocalManager
 
 alias = "qwen2.5-0.5b"
 
-# 1. Servisi Başlat ve İstemciyi Bağla
-print("Foundry Local servisine bağlanılıyor...")
+# 1. Initialize Foundry Local Service
+print("Connecting to Foundry Local service...")
 config = Configuration(app_name="FoundryLocalWorkshop")
 FoundryLocalManager.initialize(config)
 manager = FoundryLocalManager.instance
@@ -19,7 +19,7 @@ model.load()
 endpoint = manager.endpoint if hasattr(manager, "endpoint") else f"{manager.urls[0]}/v1"
 client = openai.OpenAI(base_url=endpoint, api_key="foundry-local")
 
-# 2. Deney 2: Fiyatlandırma Bilgisi Eklenmiş Bilgi Tabanı
+# 2. Knowledge Base with Pricing Added
 KNOWLEDGE_BASE = [
     {
         "title": "Foundry Local Overview",
@@ -72,7 +72,7 @@ def ask_llm(system_prompt: str, user_question: str) -> str:
     return response.choices[0].message.content
 
 print("\n=======================================================")
-print("DENEY 1 & 2: Yeni Bilgi Ekleme ve Fiyatlandırma Sorusu")
+print("EXPERIMENT 1 & 2: Pricing Knowledge & Retrieval")
 print("=======================================================")
 q_pricing = "How much does Foundry Local cost?"
 chunks_pricing = retrieve(q_pricing, top_k=1)
@@ -84,27 +84,25 @@ prompt_pricing = (
     "not contain enough information, say so.\n\n"
     f"Context:\n{ctx_pricing}"
 )
-print(f"Soru: {q_pricing}")
-print(f"Getirilen Baglam:\n{ctx_pricing}")
-print(f"Modelin Cevabi:\n{ask_llm(prompt_pricing, q_pricing)}")
+print(f"Question: {q_pricing}")
+print(f"Retrieved Context:\n{ctx_pricing}")
+print(f"Model Response:\n{ask_llm(prompt_pricing, q_pricing)}")
 
 print("\n=======================================================")
-print("DENEY 3: top_k=1 vs top_k=3 Karsilastirmasi")
+print("EXPERIMENT 3: top_k=1 vs top_k=3 Comparison")
 print("=======================================================")
 q_complex = "How do I install Foundry Local and what hardware does it support?"
-print(f"Soru: {q_complex}\n")
+print(f"Question: {q_complex}\n")
 
 # top_k = 1
 chunks_k1 = retrieve(q_complex, top_k=1)
 ctx_k1 = "\n\n".join(f"### {c['title']}\n{c['content']}" for c in chunks_k1)
-print("--- [top_k = 1] Getirilen Baglam Sayisi: 1 ---")
-print(f"Baglam Basliklari: {[c['title'] for c in chunks_k1]}")
+print(f"--- [top_k = 1] Retrieved Titles: {[c['title'] for c in chunks_k1]} ---")
 
 # top_k = 3
 chunks_k3 = retrieve(q_complex, top_k=3)
 ctx_k3 = "\n\n".join(f"### {c['title']}\n{c['content']}" for c in chunks_k3)
-print("\n--- [top_k = 3] Getirilen Baglam Sayisi: 3 ---")
-print(f"Baglam Basliklari: {[c['title'] for c in chunks_k3]}")
+print(f"--- [top_k = 3] Retrieved Titles: {[c['title'] for c in chunks_k3]} ---")
 
 prompt_k3 = (
     "You are a helpful assistant. Answer the user's question using ONLY "
@@ -112,14 +110,14 @@ prompt_k3 = (
     "not contain enough information, say so.\n\n"
     f"Context:\n{ctx_k3}"
 )
-print(f"\n[top_k = 3] ile Modelin Cevabi:\n{ask_llm(prompt_k3, q_complex)}")
+print(f"\n[top_k = 3] Model Response:\n{ask_llm(prompt_k3, q_complex)}")
 
 print("\n=======================================================")
-print("DENEY 4: Dayandirma Talimati Kaldirildiginda (No Grounding)")
+print("EXPERIMENT 4: Without Grounding Constraints (No Context)")
 print("=======================================================")
 q_unknown = "What is the warranty policy of Foundry Local?"
 prompt_no_grounding = "You are a helpful assistant."
 
-print(f"Soru: {q_unknown}")
-print("Sistem Talimati: 'You are a helpful assistant.' (Context YOK)")
-print(f"Modelin Cevabi:\n{ask_llm(prompt_no_grounding, q_unknown)}")
+print(f"Question: {q_unknown}")
+print("System Prompt: 'You are a helpful assistant.' (No Context)")
+print(f"Model Response:\n{ask_llm(prompt_no_grounding, q_unknown)}")
