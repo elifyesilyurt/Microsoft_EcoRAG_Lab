@@ -13,7 +13,7 @@ LLM_ALIAS = "qwen2.5-0.5b"
 print("1. Loading embedding model...")
 embed_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
 
-print("2. Initializing Foundry Local LLM service...")
+print("2. Initializing Foundry Local LLM service (qwen2.5-0.5b)...")
 config = Configuration(app_name="FoundryLocalWorkshop")
 FoundryLocalManager.initialize(config)
 manager = FoundryLocalManager.instance
@@ -21,8 +21,8 @@ manager.start_web_service()
 
 catalog = manager.get_catalog() if hasattr(manager, "get_catalog") else manager.catalog
 llm = catalog.get_model(LLM_ALIAS)
-if not llm.is_cached:
-    llm.download()
+
+print(f"Loading {LLM_ALIAS} into GPU/Memory...")
 llm.load()
 
 endpoint = manager.endpoint if hasattr(manager, "endpoint") else f"{manager.urls[0]}/v1"
@@ -64,14 +64,12 @@ def get_top_chunks(query: str, top_k: int = 2) -> list:
 
 
 # 3. End-to-End RAG Query Engine
-def answer_query(user_question: str, top_k: int = 2) -> str:
-    # Step A: Retrieve relevant context
+def answer_query(user_question: str, top_k: int = 2) -> tuple:
     retrieved_chunks = get_top_chunks(user_question, top_k=top_k)
     context_text = "\n\n".join(
         f"### {chunk['title']}\n{chunk['content']}" for chunk in retrieved_chunks
     )
     
-    # Step B: Construct strictly grounded system prompt
     system_prompt = (
         "You are a helpful and accurate technical assistant. "
         "Answer the user's question using ONLY the provided context below. "
@@ -80,7 +78,6 @@ def answer_query(user_question: str, top_k: int = 2) -> str:
         f"Context:\n{context_text}"
     )
     
-    # Step C: Generate grounded completion via Foundry Local
     response = client.chat.completions.create(
         model=LLM_ALIAS,
         messages=[
@@ -97,11 +94,11 @@ if __name__ == "__main__":
     test_questions = [
         "How does Microsoft Foundry Local ensure privacy and latency?",
         "What is the mathematical concept behind vector embeddings?",
-        "What is the price of the enterprise tier of Foundry Local?"  # Should trigger 'not available'
+        "What is the price of the enterprise tier of Foundry Local?"
     ]
     
     print("\n" + "=" * 60)
-    print("STARTING END-TO-END RAG VALIDATION")
+    print("STARTING END-TO-END RAG VALIDATION (qwen2.5-0.5b)")
     print("=" * 60)
     
     for q in test_questions:
