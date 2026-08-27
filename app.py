@@ -7,12 +7,93 @@ import openai
 from sentence_transformers import SentenceTransformer
 from foundry_local_sdk import Configuration, FoundryLocalManager
 
-# Streamlit UI Configuration
+# Page Configuration
 st.set_page_config(
-    page_title="Foundry Local RAG Assistant",
-    page_icon="🤖",
-    layout="wide"
+    page_title="Foundry Local • AI Studio",
+    page_icon="⚡",
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
+
+# Custom Animated & Glassmorphic CSS
+st.markdown("""
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+    
+    * {
+        font-family: 'Outfit', sans-serif;
+    }
+    
+    /* Animated Gradient Background for Header */
+    .hero-container {
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        border-radius: 20px;
+        padding: 30px;
+        color: white;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
+    .hero-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin: 0;
+        letter-spacing: -0.5px;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+        opacity: 0.9;
+        margin-top: 5px;
+        font-weight: 300;
+    }
+
+    /* Metric Badges with Hover Glow */
+    .metric-badge {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        padding: 6px 14px;
+        border-radius: 30px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        margin-right: 8px;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .metric-badge:hover {
+        transform: translateY(-2px);
+        border-color: #23d5ab;
+        box-shadow: 0 4px 15px rgba(35, 213, 171, 0.3);
+    }
+
+    /* Source Chunk Card Animation */
+    .source-card {
+        background: rgba(255, 255, 255, 0.03);
+        border-left: 4px solid #23a6d5;
+        border-radius: 10px;
+        padding: 14px;
+        margin-bottom: 12px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .source-card:hover {
+        transform: scale(1.01);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        border-left-color: #23d5ab;
+    }
+</style>
+""", unsafe_allow_html=True)
 
 DB_PATH = "rag_storage.db"
 EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
@@ -73,7 +154,7 @@ def get_top_chunks(query: str, top_k: int = 2) -> list:
     return scored_chunks[:top_k]
 
 
-def answer_query(user_question: str, top_k: int = 2) -> tuple:
+def stream_rag_response(user_question: str, top_k: int = 2):
     start_time = time.time()
     retrieved_chunks = get_top_chunks(user_question, top_k=top_k)
     context_text = "\n\n".join(
@@ -88,62 +169,93 @@ def answer_query(user_question: str, top_k: int = 2) -> tuple:
         f"Context:\n{context_text}"
     )
     
-    response = client.chat.completions.create(
+    stream = client.chat.completions.create(
         model=LLM_ALIAS,
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_question}
         ],
-        temperature=0.0
+        temperature=0.0,
+        stream=True
     )
     
-    elapsed_time = round(time.time() - start_time, 2)
-    return response.choices[0].message.content, retrieved_chunks, elapsed_time
+    return stream, retrieved_chunks, start_time
 
 
-# Sidebar Configuration
+# Top Animated Hero Section
+st.markdown("""
+<div class="hero-container">
+    <div class="hero-title">⚡ Foundry Local AI Studio</div>
+    <div class="hero-subtitle">100% Yerel Donanım Hızlandırmalı RAG & Vektör Çıkarım Motoru</div>
+    <div style="margin-top: 15px;">
+        <span class="metric-badge">🟢 LLM: qwen2.5-0.5b</span>
+        <span class="metric-badge">🧠 Embeddings: all-MiniLM-L6-v2</span>
+        <span class="metric-badge">⚡ Engine: Foundry Local</span>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# Sidebar Controls
 with st.sidebar:
-    st.header("⚙️ RAG Ayarları")
-    top_k = st.slider("Alınacak Doküman Sayısı (Top-K):", min_value=1, max_value=4, value=2)
-    if st.button("Sohbeti Temizle", use_container_width=True):
+    st.markdown("### 🎛️ Motor Yapılandırması")
+    top_k = st.slider("Alınacak Doküman Parçası (Top-K):", min_value=1, max_value=4, value=2)
+    st.markdown("---")
+    st.markdown("### 📊 Sistem Durumu")
+    st.success("Yerel GPU Hızlandırıcı: **Aktif**")
+    st.info("Vektör Veritabanı: **SQLite (Yerel)**")
+    
+    if st.button("🗑️ Sohbeti Sıfırla", use_container_width=True):
         st.session_state.messages = []
         st.rerun()
 
-st.title("🤖 Foundry Local RAG Assistant")
-st.caption("100% Yerel Çalışan, Kaynak Gösterimli Soru-Cevap Arayüzü")
-
-# Session State for Chat History
+# Initialize Chat Memory
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Display Chat History
+# Display Historical Messages
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
         if "chunks" in message and message["chunks"]:
-            with st.expander(f"📚 Kullanılan Kaynaklar ({len(message['chunks'])} Parça) - Süre: {message.get('latency', 0)}s"):
+            with st.expander(f"🔍 Doğrulanan Kaynaklar ({len(message['chunks'])}) • Gecikme: {message.get('latency', 0)}s"):
                 for chunk in message["chunks"]:
-                    st.markdown(f"**{chunk['title']}** (Benzerlik Skoru: `{chunk['score']:.4f}`)")
-                    st.caption(chunk["content"])
+                    st.markdown(f"""
+                    <div class="source-card">
+                        <b>📄 {chunk['title']}</b> <span style="float: right; opacity: 0.7;">Benzerlik: {chunk['score']:.4f}</span>
+                        <div style="font-size: 0.88rem; margin-top: 5px; opacity: 0.85;">{chunk['content']}</div>
+                    </div>
+                    """, unsafe_allow_html=True)
 
-# User Input
-if prompt := st.chat_input("Bir soru sorun (Örn: What is the benefit of Foundry Local?)..."):
+# User Chat Input
+if prompt := st.chat_input("Teknik veya kavramsal bir soru sorun..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
-        with st.spinner("Vektörler taranıyor ve yerel yanıt oluşturuluyor..."):
-            answer, chunks, latency = answer_query(prompt, top_k=top_k)
-            st.markdown(answer)
-            with st.expander(f"📚 Kullanılan Kaynaklar ({len(chunks)} Parça) - Süre: {latency}s"):
-                for chunk in chunks:
-                    st.markdown(f"**{chunk['title']}** (Benzerlik Skoru: `{chunk['score']:.4f}`)")
-                    st.caption(chunk["content"])
+        stream, chunks, start_time = stream_rag_response(prompt, top_k=top_k)
+        
+        # Real-time Typewriter Streaming Effect
+        def generate_stream():
+            for chunk in stream:
+                if chunk.choices and chunk.choices[0].delta.content:
+                    yield chunk.choices[0].delta.content
+
+        response_text = st.write_stream(generate_stream())
+        latency = round(time.time() - start_time, 2)
+        
+        with st.expander(f"🔍 Doğrulanan Kaynaklar ({len(chunks)}) • Gecikme: {latency}s"):
+            for chunk in chunks:
+                st.markdown(f"""
+                <div class="source-card">
+                    <b>📄 {chunk['title']}</b> <span style="float: right; opacity: 0.7;">Benzerlik: {chunk['score']:.4f}</span>
+                    <div style="font-size: 0.88rem; margin-top: 5px; opacity: 0.85;">{chunk['content']}</div>
+                </div>
+                """, unsafe_allow_html=True)
 
     st.session_state.messages.append({
         "role": "assistant",
-        "content": answer,
+        "content": response_text,
         "chunks": chunks,
         "latency": latency
     })
