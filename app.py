@@ -1,12 +1,13 @@
 import streamlit as st
 import sqlite3
 import json
+import time
 import numpy as np
 import openai
 from sentence_transformers import SentenceTransformer
 from foundry_local_sdk import Configuration, FoundryLocalManager
 
-# Streamlit Sayfa Yapılandırması
+# Streamlit UI Configuration
 st.set_page_config(
     page_title="Foundry Local RAG Assistant",
     page_icon="🤖",
@@ -73,6 +74,7 @@ def get_top_chunks(query: str, top_k: int = 2) -> list:
 
 
 def answer_query(user_question: str, top_k: int = 2) -> tuple:
+    start_time = time.time()
     retrieved_chunks = get_top_chunks(user_question, top_k=top_k)
     context_text = "\n\n".join(
         f"### {chunk['title']}\n{chunk['content']}" for chunk in retrieved_chunks
@@ -95,35 +97,53 @@ def answer_query(user_question: str, top_k: int = 2) -> tuple:
         temperature=0.0
     )
     
-    return response.choices[0].message.content, retrieved_chunks
+    elapsed_time = round(time.time() - start_time, 2)
+    return response.choices[0].message.content, retrieved_chunks, elapsed_time
 
 
-# UI Düzeni
+# Sidebar Configuration
+with st.sidebar:
+    st.header("⚙️ RAG Ayarları")
+    top_k = st.slider("Alınacak Doküman Sayısı (Top-K):", min_value=1, max_value=4, value=2)
+    if st.button("Sohbeti Temizle", use_container_width=True):
+        st.session_state.messages = []
+        st.rerun()
+
 st.title("🤖 Foundry Local RAG Assistant")
-st.caption("100% Yerel Çalışan Vektör Tabanlı Soru-Cevap Motoru")
+st.caption("100% Yerel Çalışan, Kaynak Gösterimli Soru-Cevap Arayüzü")
 
-col_main, col_context = st.columns([3, 2])
+# Session State for Chat History
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 
-with col_main:
-    user_query = st.text_input("Sorunuzu girin:", placeholder="Örn: How does Microsoft Foundry Local ensure privacy?")
-    top_k = st.slider("Alınacak en iyi belge parça sayısı (Top-K):", min_value=1, max_value=4, value=2)
-    ask_button = st.button("Yanıt Üret", type="primary")
+# Display Chat History
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+        if "chunks" in message and message["chunks"]:
+            with st.expander(f"📚 Kullanılan Kaynaklar ({len(message['chunks'])} Parça) - Süre: {message.get('latency', 0)}s"):
+                for chunk in message["chunks"]:
+                    st.markdown(f"**{chunk['title']}** (Benzerlik Skoru: `{chunk['score']:.4f}`)")
+                    st.caption(chunk["content"])
 
-    if ask_button and user_query:
-        with st.spinner("Vektör araması yapılıyor ve yerel model yanıtı üretiyor..."):
-            answer, chunks = answer_query(user_query, top_k=top_k)
-            st.session_state["last_answer"] = answer
-            st.session_state["last_chunks"] = chunks
+# User Input
+if prompt := st.chat_input("Bir soru sorun (Örn: What is the benefit of Foundry Local?)..."):
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.markdown(prompt)
 
-    if "last_answer" in st.session_state:
-        st.subheader("Model Yanıtı")
-        st.write(st.session_state["last_answer"])
+    with st.chat_message("assistant"):
+        with st.spinner("Vektörler taranıyor ve yerel yanıt oluşturuluyor..."):
+            answer, chunks, latency = answer_query(prompt, top_k=top_k)
+            st.markdown(answer)
+            with st.expander(f"📚 Kullanılan Kaynaklar ({len(chunks)} Parça) - Süre: {latency}s"):
+                for chunk in chunks:
+                    st.markdown(f"**{chunk['title']}** (Benzerlik Skoru: `{chunk['score']:.4f}`)")
+                    st.caption(chunk["content"])
 
-with col_context:
-    st.subheader("Kullanılan Kaynak Bağlamlar (Chunks)")
-    if "last_chunks" in st.session_state:
-        for chunk in st.session_state["last_chunks"]:
-            with st.expander(f"📄 {chunk['title']} (Benzerlik: {chunk['score']:.4f})"):
-                st.write(chunk["content"])
-    else:
-        st.info("Henüz bir soru sorulmadı. Sorgu yapıldığında getirilen doküman parçaları burada listelenecek.")
+    st.session_state.messages.append({
+        "role": "assistant",
+        "content": answer,
+        "chunks": chunks,
+        "latency": latency
+    })
