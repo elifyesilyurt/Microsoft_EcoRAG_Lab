@@ -2,302 +2,271 @@ import streamlit as st
 import sqlite3
 import json
 import time
+import subprocess
+import re
 import numpy as np
 import openai
 from sentence_transformers import SentenceTransformer
-from foundry_local_sdk import Configuration, FoundryLocalManager
-from typing import List, Tuple, Dict, Generator, Union
+from typing import List, Tuple, Dict, Union
 
 # -----------------------------------------------------------------------------
-# 1. Page Configuration & UI Styles
+# 1. Page Configuration & Theme
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="Foundry Local • AI Studio",
-    page_icon="⚡",
+    page_title="Microsoft EcoRAG - Sustainability AI Studio",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
-    * { font-family: 'Outfit', sans-serif; }
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+    * { font-family: 'Plus Jakarta Sans', sans-serif; }
     
     .hero-container {
-        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-        background-size: 400% 400%;
-        animation: gradientBG 15s ease infinite;
-        border-radius: 20px;
-        padding: 30px;
+        background: linear-gradient(135deg, #0d324d 0%, #0c7b93 50%, #00a896 100%);
+        border-radius: 12px;
+        padding: 24px 28px;
         color: white;
-        margin-bottom: 25px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        margin-bottom: 20px;
     }
+    .hero-title { font-size: 1.8rem; font-weight: 700; margin: 0; }
+    .hero-subtitle { font-size: 0.95rem; opacity: 0.9; margin-top: 4px; }
     
-    @keyframes gradientBG {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-    
-    .hero-title { font-size: 2.2rem; font-weight: 700; margin: 0; }
-    .hero-subtitle { font-size: 1rem; opacity: 0.9; margin-top: 5px; font-weight: 300; }
-
     .metric-badge {
-        display: inline-flex;
-        align-items: center;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        padding: 6px 14px;
-        border-radius: 30px;
-        font-size: 0.82rem;
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        padding: 4px 10px;
+        border-radius: 16px;
+        font-size: 0.78rem;
         font-weight: 600;
-        margin-right: 8px;
-        backdrop-filter: blur(10px);
+        margin-right: 6px;
+        margin-top: 8px;
     }
 
     .source-card {
-        background: rgba(255, 255, 255, 0.03);
-        border-left: 4px solid #23a6d5;
-        border-radius: 10px;
-        padding: 14px;
-        margin-bottom: 12px;
+        background: rgba(255, 255, 255, 0.04);
+        border-left: 4px solid #00a896;
+        border-radius: 6px;
+        padding: 10px 14px;
+        margin-bottom: 8px;
+    }
+    .year-tag {
+        background: #00a896;
+        color: white;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.72rem;
+        font-weight: 700;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
-# 2. Global Configurations
+# 2. Configurations & Model Client
 # -----------------------------------------------------------------------------
 DB_PATH = "rag_storage.db"
 EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
-LLM_ALIAS = "qwen2.5-0.5b"
-OUT_OF_DOMAIN_THRESHOLD = 0.12
+OUT_OF_DOMAIN_THRESHOLD = 0.15
 
+def detect_foundry_url() -> str:
+    try:
+        out = subprocess.check_output(["foundry", "status"], text=True)
+        match = re.search(r"http://127\.0\.0\.1:\d+", out)
+        if match:
+            return match.group(0)
+    except Exception:
+        pass
+    return "http://127.0.0.1:49826"
 
-# -----------------------------------------------------------------------------
-# 3. Core Engine Initialization
-# -----------------------------------------------------------------------------
 @st.cache_resource
-def load_rag_components() -> Tuple[SentenceTransformer, openai.OpenAI]:
-    """
-    Initializes the local embedding model and the Microsoft Foundry Local web service.
-    Utilizes caching to prevent re-initialization on Streamlit reruns.
-    
-    Returns:
-        Tuple containing the embedding model instance and the OpenAI client connected to Foundry Local.
-    """
-    embed_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
-    
-    try:
-        config = Configuration(app_name="FoundryLocalWorkshop")
-        FoundryLocalManager.initialize(config)
-    except Exception:
-        pass  # Ignore Singleton re-initialization errors
-        
-    manager = FoundryLocalManager.instance
-    try:
-        manager.start_web_service()
-    except Exception:
-        pass
-    
-    catalog = manager.get_catalog() if hasattr(manager, "get_catalog") else manager.catalog
-    llm = catalog.get_model(LLM_ALIAS)
-    try:
-        llm.load()
-    except Exception:
-        pass
-    
-    endpoint = manager.endpoint if hasattr(manager, "endpoint") else f"{manager.urls[0]}/v1"
-    client = openai.OpenAI(base_url=endpoint, api_key="foundry-local")
-    return embed_model, client
+def load_embed_model():
+    return SentenceTransformer(EMBEDDING_MODEL_NAME)
 
+@st.cache_resource
+def get_local_llm_client():
+    base = detect_foundry_url()
+    return openai.OpenAI(base_url=f"{base}/v1", api_key="foundry-local", timeout=60.0)
 
-embed_model, client = load_rag_components()
-
+embed_model = load_embed_model()
+client = get_local_llm_client()
 
 # -----------------------------------------------------------------------------
-# 4. Vector Operations
+# 3. Retrieval Engine
 # -----------------------------------------------------------------------------
-def cosine_similarity(vec_a: np.ndarray, vec_b: np.ndarray) -> float:
-    """
-    Calculates the cosine similarity between two numeric vectors.
-    
-    Args:
-        vec_a (np.ndarray): The first vector.
-        vec_b (np.ndarray): The second vector.
-        
-    Returns:
-        float: A similarity score between -1.0 and 1.0.
-    """
-    dot_product = np.dot(vec_a, vec_b)
-    norm_a = np.linalg.norm(vec_a)
-    norm_b = np.linalg.norm(vec_b)
-    if norm_a == 0 or norm_b == 0:
-        return 0.0
-    return float(dot_product / (norm_a * norm_b))
-
-
-def get_top_chunks(query: str, top_k: int = 2) -> List[Dict]:
-    """
-    Encodes the user query and searches the SQLite database for the most semantically similar chunks.
-    
-    Args:
-        query (str): The user's input question.
-        top_k (int): The maximum number of documents to retrieve.
-        
-    Returns:
-        List[Dict]: A sorted list of the top retrieved documents containing their id, title, content, and similarity score.
-    """
-    query_vector = embed_model.encode(query)
-    
+def get_db_stats() -> Tuple[int, List[int]]:
     try:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
-        cursor.execute("SELECT id, title, content, embedding FROM documents")
-        rows = cursor.fetchall()
+        cursor.execute("SELECT COUNT(*) FROM documents")
+        count = cursor.fetchone()[0]
+        cursor.execute("SELECT DISTINCT year FROM documents ORDER BY year")
+        years = [r[0] for r in cursor.fetchall() if r[0] is not None]
         conn.close()
-    except sqlite3.Error as e:
-        st.error(f"Database error: {e}")
-        return []
+        return count, years
+    except Exception:
+        return 0, []
+
+def cosine_similarity(vec_a: np.ndarray, vec_b: np.ndarray) -> float:
+    dot = np.dot(vec_a, vec_b)
+    norm = np.linalg.norm(vec_a) * np.linalg.norm(vec_b)
+    return float(dot / norm) if norm > 0 else 0.0
+
+def retrieve_strands(query: str, top_k: int = 3, filter_year: Union[str, int] = "All") -> List[Dict]:
+    query_vector = embed_model.encode(query)
     
-    scored_chunks = []
-    for doc_id, title, content, emb_str in rows:
-        doc_vector = np.array(json.loads(emb_str))
-        score = cosine_similarity(query_vector, doc_vector)
-        scored_chunks.append({
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    if filter_year != "All":
+        cursor.execute("SELECT id, year, title, content, embedding FROM documents WHERE year = ?", (filter_year,))
+    else:
+        cursor.execute("SELECT id, year, title, content, embedding FROM documents")
+    rows = cursor.fetchall()
+    conn.close()
+    
+    scored = []
+    for doc_id, year, title, content, emb_str in rows:
+        score = cosine_similarity(query_vector, np.array(json.loads(emb_str)))
+        scored.append({
             "id": doc_id,
+            "year": year,
             "title": title,
             "content": content,
             "score": score
         })
-    
-    scored_chunks.sort(key=lambda item: item["score"], reverse=True)
-    return scored_chunks[:top_k]
-
-
-# -----------------------------------------------------------------------------
-# 5. RAG Pipeline & Inference
-# -----------------------------------------------------------------------------
-def stream_rag_response(user_question: str, top_k: int = 2) -> Tuple[Union[Generator, openai.Stream], List[Dict], float]:
-    """
-    Executes the Retrieval-Augmented Generation pipeline. Applies dynamic thresholding to mitigate hallucinations.
-    
-    Args:
-        user_question (str): The user's input question.
-        top_k (int): Number of chunks to retrieve.
         
-    Returns:
-        Tuple: A text generator or OpenAI stream, the retrieved source chunks, and the start timestamp.
-    """
+    scored.sort(key=lambda x: x["score"], reverse=True)
+    top_results = scored[:top_k]
+    top_results.sort(key=lambda x: x["year"] if x["year"] else 0)
+    return top_results
+
+# -----------------------------------------------------------------------------
+# 4. RAG Execution (Robust Non-Streaming with Simulated Typing)
+# -----------------------------------------------------------------------------
+def execute_rag(query: str, top_k: int = 3, filter_year: Union[str, int] = "All"):
     start_time = time.time()
-    retrieved_chunks = get_top_chunks(user_question, top_k=top_k)
-
-    # Base Hallucination Guard (Catches out-of-domain questions instantly)
-    best_score = retrieved_chunks[0]["score"] if retrieved_chunks else 0.0
+    chunks = retrieve_strands(query, top_k=top_k, filter_year=filter_year)
+    
+    best_score = max([c["score"] for c in chunks]) if chunks else 0.0
     if best_score < OUT_OF_DOMAIN_THRESHOLD:
-        def fallback_generator():
-            yield "This information is not available in the documents."
-        return fallback_generator(), [], start_time
+        def fallback():
+            yield "This specific information is not available in the Microsoft Environmental Sustainability reports."
+        return fallback(), [], start_time
 
-    context_text = "\n\n".join(
-        f"Document: {chunk['title']}\nContent: {chunk['content']}" for chunk in retrieved_chunks
+    context_str = "\n\n".join(
+        f"[{c.get('year', 'N/A')} Report | {c['title']}]\n{c['content']}" for c in chunks
     )
     
-    # Strict Constraints Prompt
     system_prompt = (
-        "You are an AI assistant designed exclusively to answer questions about technical documents. "
-        "Strictly adhere to these rules:\n"
-        "1. Base your answer EXCLUSIVELY on the facts provided in the CONTEXT.\n"
-        "2. Never use pre-trained world knowledge, facts, or assumptions.\n"
-        "3. If the context does not explicitly answer the question, output ONLY: "
-        "'This information is not available in the documents.'"
+        "You are an expert AI Sustainability Analyst specialized in Microsoft Environmental Reports. "
+        "Strictly adhere to the following rules:\n"
+        "1. Base your answer EXCLUSIVELY on the provided CONTEXT.\n"
+        "2. Highlight chronological changes, metrics (Scope 1/2/3, water replenishment, clean energy contracts), and report years.\n"
+        "3. Never hallucinate facts not present in the text.\n"
+        "4. If context does not contain the answer, state: 'This specific information is not available in the Microsoft Environmental Sustainability reports.'"
     )
     
-    user_payload = f"CONTEXT:\n{context_text}\n\nQUESTION: {user_question}\nANSWER:"
+    user_payload = f"CONTEXT:\n{context_str}\n\nQUESTION: {query}\nDETAILED ANALYSIS:"
     
-    stream = client.chat.completions.create(
-        model=LLM_ALIAS,
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_payload}
-        ],
-        temperature=0.0,
-        stream=True
-    )
-    
-    return stream, retrieved_chunks, start_time
+    try:
+        models = client.models.list()
+        model_name = models.data[0].id if models.data else "qwen2.5-0.5b"
+    except Exception:
+        model_name = "qwen2.5-0.5b"
 
+    try:
+        # stream=False kullanarak soket kapanma hatasını sıfıra indiriyoruz
+        response = client.chat.completions.create(
+            model=model_name,
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_payload}
+            ],
+            temperature=0.0,
+            stream=False
+        )
+        full_text = response.choices[0].message.content or ""
+        
+        def word_stream():
+            for word in full_text.split(" "):
+                yield word + " "
+                time.sleep(0.015)
+
+        return word_stream(), chunks, start_time
+    except Exception as err:
+        err_msg = str(err)
+        def err_stream():
+            yield f"Context retrieved ({len(chunks)} chunks).\n\n"
+            yield f"Yerel LLM servisine baglanirken durum olustu: {err_msg}"
+        return err_stream(), chunks, start_time
 
 # -----------------------------------------------------------------------------
-# 6. Streamlit User Interface
+# 5. UI Layout
 # -----------------------------------------------------------------------------
-st.markdown("""
+total_chunks, available_years = get_db_stats()
+endpoint_url = detect_foundry_url()
+
+st.markdown(f"""
 <div class="hero-container">
-    <div class="hero-title">⚡ Foundry Local AI Studio</div>
-    <div class="hero-subtitle">100% Yerel Donanım Hızlandırmalı & Halüsinasyon Korumalı RAG Motoru</div>
-    <div style="margin-top: 15px;">
-        <span class="metric-badge">🟢 LLM: qwen2.5-0.5b</span>
-        <span class="metric-badge">🧠 Embeddings: all-MiniLM-L6-v2</span>
-        <span class="metric-badge">🛡️ Dinamik Halüsinasyon Koruması: Aktif</span>
+    <div class="hero-title">Microsoft EcoRAG Studio</div>
+    <div class="hero-subtitle">Cok Yillik Surdurulebilirlik Raporlari Yerel Analiz Motoru</div>
+    <div>
+        <span class="metric-badge">Endpoint: {endpoint_url}</span>
+        <span class="metric-badge">Embedding: {EMBEDDING_MODEL_NAME}</span>
+        <span class="metric-badge">Veritabani: {total_chunks} Parca</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
 with st.sidebar:
-    st.markdown("### 🎛️ Motor Yapılandırması")
-    top_k = st.slider("Alınacak Doküman Parçası (Top-K):", min_value=1, max_value=4, value=2)
-    st.markdown("---")
-    st.markdown("### 📊 Güvenlik & Durum")
-    st.success("Güvenlik Filtresi: **Otomatik & Dinamik (0 Ayar)**")
+    st.markdown("### Parametreler")
+    year_options = ["All"] + [str(y) for y in available_years] if available_years else ["All"]
+    selected_year = st.selectbox("Rapor Yili:", year_options, index=0)
+    top_k = st.slider("Top-K Parca Sayisi:", min_value=1, max_value=5, value=3)
     
-    if st.button("🗑️ Sohbeti Sıfırla", use_container_width=True):
+    st.markdown("---")
+    st.info(f"Toplam Parca: {total_chunks}\nYillar: {', '.join(map(str, available_years))}")
+    
+    if st.button("Sohbeti Sifirla", use_container_width=True):
         st.session_state.messages = []
         st.rerun()
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Render chat history
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
         if "chunks" in message and message["chunks"]:
-            with st.expander(f"🔍 Doğrulanan Kaynaklar ({len(message['chunks'])}) • Gecikme: {message.get('latency', 0)}s"):
+            with st.expander(f"Kaynaklar ({len(message['chunks'])})"):
                 for chunk in message["chunks"]:
                     st.markdown(f"""
                     <div class="source-card">
-                        <b>📄 {chunk['title']}</b> <span style="float: right; opacity: 0.7;">Benzerlik: {chunk['score']:.4f}</span>
-                        <div style="font-size: 0.88rem; margin-top: 5px; opacity: 0.85;">{chunk['content']}</div>
+                        <span class="year-tag">{chunk.get('year', 'Rapor')}</span> <b>{chunk['title']}</b> 
+                        <span style="float: right; opacity: 0.7;">Skor: {chunk['score']:.4f}</span>
+                        <div style="font-size: 0.88rem; margin-top: 6px;">{chunk['content']}</div>
                     </div>
                     """, unsafe_allow_html=True)
 
-# Chat Input & Stream Processing
-if prompt := st.chat_input("Teknik bir soru sorun..."):
+if prompt := st.chat_input("Microsoft surdurulebilirlik raporlari hakkinda bir soru sorun..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
-        stream_or_gen, chunks, start_time = stream_rag_response(prompt, top_k=top_k)
-        
-        def generate_stream():
-            for item in stream_or_gen:
-                if isinstance(item, str):
-                    yield item
-                elif hasattr(item, "choices") and item.choices and item.choices[0].delta.content:
-                    yield item.choices[0].delta.content
-
-        response_text = st.write_stream(generate_stream())
+        stream_or_gen, chunks, start_time = execute_rag(prompt, top_k=top_k, filter_year=selected_year)
+        response_text = st.write_stream(stream_or_gen)
         latency = round(time.time() - start_time, 2)
         
         if chunks:
-            with st.expander(f"🔍 Doğrulanan Kaynaklar ({len(chunks)}) • Gecikme: {latency}s"):
+            with st.expander(f"Kaynaklar ({len(chunks)}) - {latency}s"):
                 for chunk in chunks:
                     st.markdown(f"""
                     <div class="source-card">
-                        <b>📄 {chunk['title']}</b> <span style="float: right; opacity: 0.7;">Benzerlik: {chunk['score']:.4f}</span>
-                        <div style="font-size: 0.88rem; margin-top: 5px; opacity: 0.85;">{chunk['content']}</div>
+                        <span class="year-tag">{chunk.get('year', 'Rapor')}</span> <b>{chunk['title']}</b> 
+                        <span style="float: right; opacity: 0.7;">Skor: {chunk['score']:.4f}</span>
+                        <div style="font-size: 0.88rem; margin-top: 6px;">{chunk['content']}</div>
                     </div>
                     """, unsafe_allow_html=True)
 
