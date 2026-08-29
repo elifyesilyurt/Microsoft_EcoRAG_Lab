@@ -6,8 +6,11 @@ import numpy as np
 import openai
 from sentence_transformers import SentenceTransformer
 from foundry_local_sdk import Configuration, FoundryLocalManager
+from typing import List, Tuple, Dict, Generator, Union
 
-# Page Configuration
+# -----------------------------------------------------------------------------
+# 1. Page Configuration & UI Styles
+# -----------------------------------------------------------------------------
 st.set_page_config(
     page_title="Foundry Local • AI Studio",
     page_icon="⚡",
@@ -15,7 +18,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom Animated & Glassmorphic CSS
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
@@ -64,20 +66,34 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+# -----------------------------------------------------------------------------
+# 2. Global Configurations
+# -----------------------------------------------------------------------------
 DB_PATH = "rag_storage.db"
 EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
 LLM_ALIAS = "qwen2.5-0.5b"
-OUT_OF_DOMAIN_THRESHOLD = 0.12  # Alakasiz sorulari yakalayan guvenli taban esik
+OUT_OF_DOMAIN_THRESHOLD = 0.12
 
+
+# -----------------------------------------------------------------------------
+# 3. Core Engine Initialization
+# -----------------------------------------------------------------------------
 @st.cache_resource
-def load_rag_components():
+def load_rag_components() -> Tuple[SentenceTransformer, openai.OpenAI]:
+    """
+    Initializes the local embedding model and the Microsoft Foundry Local web service.
+    Utilizes caching to prevent re-initialization on Streamlit reruns.
+    
+    Returns:
+        Tuple containing the embedding model instance and the OpenAI client connected to Foundry Local.
+    """
     embed_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
     
     try:
         config = Configuration(app_name="FoundryLocalWorkshop")
         FoundryLocalManager.initialize(config)
     except Exception:
-        pass
+        pass  # Ignore Singleton re-initialization errors
         
     manager = FoundryLocalManager.instance
     try:
@@ -96,9 +112,24 @@ def load_rag_components():
     client = openai.OpenAI(base_url=endpoint, api_key="foundry-local")
     return embed_model, client
 
+
 embed_model, client = load_rag_components()
 
+
+# -----------------------------------------------------------------------------
+# 4. Vector Operations
+# -----------------------------------------------------------------------------
 def cosine_similarity(vec_a: np.ndarray, vec_b: np.ndarray) -> float:
+    """
+    Calculates the cosine similarity between two numeric vectors.
+    
+    Args:
+        vec_a (np.ndarray): The first vector.
+        vec_b (np.ndarray): The second vector.
+        
+    Returns:
+        float: A similarity score between -1.0 and 1.0.
+    """
     dot_product = np.dot(vec_a, vec_b)
     norm_a = np.linalg.norm(vec_a)
     norm_b = np.linalg.norm(vec_b)
@@ -106,13 +137,29 @@ def cosine_similarity(vec_a: np.ndarray, vec_b: np.ndarray) -> float:
         return 0.0
     return float(dot_product / (norm_a * norm_b))
 
-def get_top_chunks(query: str, top_k: int = 2) -> list:
+
+def get_top_chunks(query: str, top_k: int = 2) -> List[Dict]:
+    """
+    Encodes the user query and searches the SQLite database for the most semantically similar chunks.
+    
+    Args:
+        query (str): The user's input question.
+        top_k (int): The maximum number of documents to retrieve.
+        
+    Returns:
+        List[Dict]: A sorted list of the top retrieved documents containing their id, title, content, and similarity score.
+    """
     query_vector = embed_model.encode(query)
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute("SELECT id, title, content, embedding FROM documents")
-    rows = cursor.fetchall()
-    conn.close()
+    
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, title, content, embedding FROM documents")
+        rows = cursor.fetchall()
+        conn.close()
+    except sqlite3.Error as e:
+        st.error(f"Database error: {e}")
+        return []
     
     scored_chunks = []
     for doc_id, title, content, emb_str in rows:
@@ -128,11 +175,25 @@ def get_top_chunks(query: str, top_k: int = 2) -> list:
     scored_chunks.sort(key=lambda item: item["score"], reverse=True)
     return scored_chunks[:top_k]
 
-def stream_rag_response(user_question: str, top_k: int = 2):
+
+# -----------------------------------------------------------------------------
+# 5. RAG Pipeline & Inference
+# -----------------------------------------------------------------------------
+def stream_rag_response(user_question: str, top_k: int = 2) -> Tuple[Union[Generator, openai.Stream], List[Dict], float]:
+    """
+    Executes the Retrieval-Augmented Generation pipeline. Applies dynamic thresholding to mitigate hallucinations.
+    
+    Args:
+        user_question (str): The user's input question.
+        top_k (int): Number of chunks to retrieve.
+        
+    Returns:
+        Tuple: A text generator or OpenAI stream, the retrieved source chunks, and the start timestamp.
+    """
     start_time = time.time()
     retrieved_chunks = get_top_chunks(user_question, top_k=top_k)
 
-    # 1. Taban Guvenlik Korumasi (Alakasiz konulari aninda yakalar)
+    # Base Hallucination Guard (Catches out-of-domain questions instantly)
     best_score = retrieved_chunks[0]["score"] if retrieved_chunks else 0.0
     if best_score < OUT_OF_DOMAIN_THRESHOLD:
         def fallback_generator():
@@ -143,7 +204,7 @@ def stream_rag_response(user_question: str, top_k: int = 2):
         f"Document: {chunk['title']}\nContent: {chunk['content']}" for chunk in retrieved_chunks
     )
     
-    # 2. Guclu Kısıtlama Promptu
+    # Strict Constraints Prompt
     system_prompt = (
         "You are an AI assistant designed exclusively to answer questions about technical documents. "
         "Strictly adhere to these rules:\n"
@@ -167,6 +228,10 @@ def stream_rag_response(user_question: str, top_k: int = 2):
     
     return stream, retrieved_chunks, start_time
 
+
+# -----------------------------------------------------------------------------
+# 6. Streamlit User Interface
+# -----------------------------------------------------------------------------
 st.markdown("""
 <div class="hero-container">
     <div class="hero-title">⚡ Foundry Local AI Studio</div>
@@ -193,6 +258,7 @@ with st.sidebar:
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+# Render chat history
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
@@ -206,6 +272,7 @@ for message in st.session_state.messages:
                     </div>
                     """, unsafe_allow_html=True)
 
+# Chat Input & Stream Processing
 if prompt := st.chat_input("Teknik bir soru sorun..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
