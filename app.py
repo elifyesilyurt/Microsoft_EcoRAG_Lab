@@ -8,7 +8,9 @@ import re
 import time
 from sentence_transformers import SentenceTransformer
 
-# 1. Konfigurasyon ve Metadata
+# ---------------------------------------------------------
+# 1. Configuration and Metadata
+# ---------------------------------------------------------
 APP_VERSION = "v0.3.0-PoC"
 DB_PATH = "rag_storage.db"
 MODEL_NAME = "phi-3.5-mini-instruct"
@@ -20,9 +22,12 @@ st.set_page_config(
     layout="wide"
 )
 
-# 2. Dinamik Foundry Local Port Tespiti
+# ---------------------------------------------------------
+# 2. Dynamic Foundry Local Port Resolution
+# ---------------------------------------------------------
 @st.cache_resource
 def get_foundry_endpoint():
+    """Dynamically resolves the active port from Foundry Local CLI status."""
     try:
         result = subprocess.run(["foundry", "status"], capture_output=True, text=True, check=False)
         match = re.search(r"http://127\.0\.0\.1:(\d+)", result.stdout + result.stderr)
@@ -34,7 +39,9 @@ def get_foundry_endpoint():
 
 FOUNDRY_URL = get_foundry_endpoint()
 
-# 3. Model ve Veritabani Yukleyicileri
+# ---------------------------------------------------------
+# 3. Model and Database Loaders
+# ---------------------------------------------------------
 @st.cache_resource
 def load_embedder():
     return SentenceTransformer(EMBEDDING_MODEL_NAME)
@@ -42,6 +49,7 @@ def load_embedder():
 embedder = load_embedder()
 
 def search_context(query, top_k=4):
+    """Performs cosine similarity search over stored SQLite embeddings."""
     query_vector = embedder.encode(query)
     
     conn = sqlite3.connect(DB_PATH)
@@ -76,20 +84,22 @@ def search_context(query, top_k=4):
     max_score = top_chunks[0]["score"] if top_chunks else 0.0
     return top_chunks, max_score
 
-# 4. Arayuz (Streamlit UI)
+# ---------------------------------------------------------
+# 4. Streamlit User Interface
+# ---------------------------------------------------------
 st.title("Microsoft EcoRAG Lab")
-st.caption(f"Yerel SLM & Cok Yilli Surdurulebilirlik Analisti - Surum: {APP_VERSION}")
+st.caption(f"Local SLM & Multi-Year Sustainability Analyst - Version: {APP_VERSION}")
 
 with st.sidebar:
-    st.header("Sistem Durumu")
-    st.info(f"Mimari: Yerel Uc Cihaz (Edge/On-Device)\n\n"
-            f"LLM: {MODEL_NAME} (M4 Metal)\n\n"
-            f"Embedding: {EMBEDDING_MODEL_NAME} (384-d)\n\n"
-            f"Vektor Deposu: SQLite3 + NumPy Matrix\n\n"
-            f"OOD Esigi: {OOD_THRESHOLD}\n\n"
-            f"Foundry Uc Noktasi:\n{FOUNDRY_URL}")
+    st.header("System Status")
+    st.info(f"**Architecture:** Local Edge (On-Device)\n\n"
+            f"**LLM:** `{MODEL_NAME}` (Apple Metal)\n\n"
+            f"**Embedding:** `{EMBEDDING_MODEL_NAME}` (384-d)\n\n"
+            f"**Vector Store:** SQLite3 + NumPy Matrix\n\n"
+            f"**OOD Threshold:** `{OOD_THRESHOLD}`\n\n"
+            f"**Foundry Endpoint:**\n`{FOUNDRY_URL}`")
     
-    if st.button("Sohbeti Temizle"):
+    if st.button("Clear Chat"):
         st.session_state.messages = []
         st.rerun()
 
@@ -100,13 +110,15 @@ for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
         if "provenance" in msg and msg["provenance"]:
-            with st.expander(f"Kaynaklar ({len(msg['provenance'])}) - {msg.get('latency', '')}"):
+            with st.expander(f"Sources ({len(msg['provenance'])}) - {msg.get('latency', '')}"):
                 for idx, src in enumerate(msg["provenance"], 1):
-                    st.markdown(f"Kaynak {idx} | Yil: {src['year']} | Sayfa: {src['page']} | Skor: {src['score']:.4f}")
+                    st.markdown(f"**Source {idx}** | Year: `{src['year']}` | Page: `{src['page']}` | Score: `{src['score']:.4f}`")
                     st.text(src["content"][:300] + "...")
 
-# 5. Kullanici Etkilesimi ve RAG Hatti
-user_query = st.chat_input("Microsoft surdurulebilirlik raporlariyla ilgili bir soru sorun...")
+# ---------------------------------------------------------
+# 5. User Interaction and RAG Pipeline
+# ---------------------------------------------------------
+user_query = st.chat_input("Ask a question regarding Microsoft sustainability reports...")
 
 if user_query:
     st.session_state.messages.append({"role": "user", "content": user_query})
@@ -115,14 +127,14 @@ if user_query:
 
     start_time = time.time()
 
-    with st.spinner("Anlamsal arama ve baglam cikarimi yapiliyor..."):
+    with st.spinner("Retrieving semantic context..."):
         retrieved_chunks, max_similarity = search_context(user_query, top_k=4)
 
     with st.chat_message("assistant"):
         if max_similarity < OOD_THRESHOLD:
             answer = (
                 f"This specific information is not available in the Microsoft Environmental Sustainability reports. "
-                f"(Benzerlik Skoru: {max_similarity:.4f} < Esik: {OOD_THRESHOLD})"
+                f"(Similarity Score: {max_similarity:.4f} < Threshold: {OOD_THRESHOLD})"
             )
             elapsed_time = f"{time.time() - start_time:.2f}s"
             st.markdown(answer)
@@ -163,14 +175,14 @@ if user_query:
                 res_data = response.json()
                 answer = res_data["choices"][0]["message"]["content"]
             except Exception as e:
-                answer = f"Model cikarim hatasi: {str(e)}"
+                answer = f"Model inference error: {str(e)}"
 
             elapsed_time = f"{time.time() - start_time:.2f}s"
             st.markdown(answer)
 
-            with st.expander(f"Kaynaklar ({len(retrieved_chunks)}) - {elapsed_time}"):
+            with st.expander(f"Sources ({len(retrieved_chunks)}) - {elapsed_time}"):
                 for idx, src in enumerate(retrieved_chunks, 1):
-                    st.markdown(f"Kaynak {idx} | Rapor: {src['year']} | Sayfa: {src['page']} | Benzerlik Skoru: {src['score']:.4f}")
+                    st.markdown(f"**Source {idx}** | Report: `{src['year']}` | Page: `{src['page']}` | Similarity Score: `{src['score']:.4f}`")
                     st.text(src["content"])
 
             st.session_state.messages.append({
