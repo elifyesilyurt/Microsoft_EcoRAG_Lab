@@ -1,32 +1,38 @@
 import os
+import gc
 import json
+import re
 import sqlite3
 import time
 import requests
 import numpy as np
+import pandas as pd
 import streamlit as st
 from sentence_transformers import SentenceTransformer
+from esg_tables import get_carbon_emissions_df, get_carbon_removal_df, get_water_metrics_df
+from extraction_pipeline import (
+    EXTRACTION_SYSTEM_PROMPT,
+    format_extraction_prompt,
+    QueryExtractionPlan,
+    DeterministicResolver
+)
 
-# Application Configuration
 DB_PATH = "rag_storage.db"
 EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
 FOUNDRY_BASE_URL = "http://127.0.0.1:62095"
 MODEL_NAME = "phi-4-mini"
 
-# Retrieval Hyperparameters
-RELATIVE_DROP_RATIO = 0.80
-MAX_K = 12
+RELATIVE_DROP_RATIO = 0.70
+MAX_K = 6
 MIN_SCORE_FLOOR = 0.15
 
-SYSTEM_PROMPT = """You are a rigorous, production-grade Senior Sustainability Data Analyst.
-Analyze the user query based ONLY on the provided context.
+SYNTHESIS_PROMPT = """You are a Senior Sustainability Analyst.
+Synthesize the verified analytical calculation results into a clear, structured executive report with exact units (mtCO2e / metric tons / m3).
+Do not alter any calculated numbers."""
 
-Strict Matrix and Tabular Verification Rules:
-1. Column-to-Year Alignment: Ensure each metric is mapped to the exact target year column. Never substitute FY24 numbers for FY25, or vice-versa.
-2. Row-to-Metric Alignment: Match exact row names. Distinguish 'Scope 2 Market-based' from 'Scope 2 Location-based', and 'Scope 3 Subtotal' from 'Total GHG Emissions'.
-3. Arithmetic Integrity: When computing differences, verify both operands explicitly from the text/table (e.g., Target Year Value - Baseline Year Value).
-4. Structured Presentation: Present multi-year trend queries using explicit year breakdowns (FY20 Baseline, FY24, FY25) followed by the delta.
-5. Strict Faithfulness: Extract exact numbers without guessing or substituting adjacent cells."""
+FACTUAL_SYNTHESIS_PROMPT = """You are a Senior Sustainability AI Analyst.
+Using the verified structured metrics provided below, compose a concise, direct natural language answer.
+State the exact numbers and their corresponding units clearly in sentence 1."""
 
 @st.cache_resource
 def load_embedder():
@@ -34,8 +40,57 @@ def load_embedder():
 
 embedder = load_embedder()
 
-def search_context(query: str):
-    """Dynamic adaptive retrieval with domain keyword boosting."""
+def query_foundry(system_prompt: str, user_prompt: str, temperature: float = 0.0) -> str:
+    url = f"{FOUNDRY_BASE_URL}/v1/chat/completions"
+    headers = {
+        "Content-Type": "application/json",
+        "Connection": "close"
+    }
+    payload = {
+        "model": MODEL_NAME,
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ],
+        "temperature": temperature,
+        "max_tokens": 1024
+    }
+    
+    try:
+        with requests.Session() as session:
+            res = session.post(url, headers=headers, json=payload, timeout=180)
+            if res.status_code == 200:
+                return res.json()["choices"][0]["message"]["content"].strip()
+                return result
+            else:
+                raise RuntimeError(f"HTTP {res.status_code}: {res.text}")
+    finally:
+        gc.collect()
+
+def compute_carbon_trend_summary() -> str:
+    df = get_carbon_emissions_df()
+    s1 = df[df["Metric"] == "Scope 1"].iloc[0]
+    s2m = df[df["Metric"] == "Scope 2 (Market-based)"].iloc[0]
+    s3 = df[df["Metric"] == "Subtotal Scope 3"].iloc[0]
+    
+    cat_df = df[df["Metric"].str.startswith("Scope 3 Cat")].copy()
+    cat_df["Share_FY25"] = (cat_df["FY25"] / s3["FY25"]) * 100
+    top2 = cat_df.sort_values(by="FY25", ascending=False).head(2)
+    top2_list = [(r["Metric"], int(r["FY25"]), round(r["Share_FY25"], 2)) for _, r in top2.iterrows()]
+
+    lines = [
+        "Verified Scope Emissions Metrics (mtCO2e):",
+        f"- Scope 1: FY20={int(s1['FY20_Baseline']):,}, FY24={int(s1['FY24']):,}, FY25={int(s1['FY25']):,} (Delta: +{int(s1['FY25']-s1['FY20_Baseline']):,})",
+        f"- Scope 2 (Market-based): FY20={int(s2m['FY20_Baseline']):,}, FY24={int(s2m['FY24']):,}, FY25={int(s2m['FY25']):,} (Delta: +{int(s2m['FY25']-s2m['FY20_Baseline']):,})",
+        f"- Scope 3 Subtotal: FY20={int(s3['FY20_Baseline']):,}, FY24={int(s3['FY24']):,}, FY25={int(s3['FY25']):,} (Delta: +{int(s3['FY25']-s3['FY20_Baseline']):,})",
+        f"- FY25 Total Scope 3: {int(s3['FY25']):,} mtCO2e",
+        "- Top 2 Scope 3 Categories (FY25):",
+        f"  1. {top2_list[0][0]}: {top2_list[0][1]:,} mtCO2e ({top2_list[0][2]}%)",
+        f"  2. {top2_list[1][0]}: {top2_list[1][1]:,} mtCO2e ({top2_list[1][2]}%)"
+    ]
+    return "\n".join(lines)
+
+def search_context_hybrid(query: str):
     query_vector = embedder.encode(query)
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -46,9 +101,7 @@ def search_context(query: str):
     if not rows:
         return [], 0.0
 
-    query_lower = query.lower()
-    keywords = ["scope 1", "scope 2", "scope 3", "baseline", "emissions", "water", "waste", "table", "market-based", "location-based"]
-    matched_keywords = [k for k in keywords if k in query_lower]
+    keywords = [w.lower() for w in query.replace("?", "").replace(",", "").split() if len(w) > 3]
 
     scores = []
     for r in rows:
@@ -59,62 +112,39 @@ def search_context(query: str):
         sim = 0.0 if (norm_q == 0 or norm_d == 0) else float(np.dot(query_vector, doc_vector) / (norm_q * norm_d))
         
         content_lower = content.lower()
-        boost = sum(0.04 for kw in matched_keywords if kw in content_lower)
-        adjusted_score = sim + boost
-
-        scores.append({
-            "id": c_id,
-            "year": year,
-            "title": title,
-            "content": content,
-            "score": adjusted_score,
-            "base_sim": sim
-        })
+        match_count = sum(1 for kw in keywords if kw in content_lower)
+        hybrid_score = sim + (0.05 * match_count)
+        
+        scores.append({"id": c_id, "year": year, "title": title, "content": content, "score": hybrid_score})
 
     scores.sort(key=lambda x: x["score"], reverse=True)
     if not scores:
         return [], 0.0
 
-    max_score = scores[0]["base_sim"]
+    max_score = scores[0]["score"]
     if max_score < MIN_SCORE_FLOOR:
         return [], max_score
 
-    cutoff = scores[0]["score"] * RELATIVE_DROP_RATIO
-    dynamic_chunks = [item for item in scores[:MAX_K] if item["score"] >= cutoff]
-    return dynamic_chunks, max_score
-
-def query_foundry_model(prompt: str, context: str):
-    """Sends payload to Foundry Local endpoint."""
-    url = f"{FOUNDRY_BASE_URL}/v1/chat/completions"
-    headers = {"Content-Type": "application/json"}
-    payload = {
-        "model": MODEL_NAME,
-        "messages": [
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {prompt}"}
-        ],
-        "temperature": 0.1,
-        "max_tokens": 1024
-    }
+    cutoff = max_score * RELATIVE_DROP_RATIO
+    filtered = [item for item in scores[:MAX_K] if item["score"] >= cutoff]
     
-    response = requests.post(url, headers=headers, json=payload, timeout=90)
-    if response.status_code == 200:
-        return response.json()["choices"][0]["message"]["content"]
-    else:
-        raise RuntimeError(f"HTTP {response.status_code}: {response.text}")
+    del scores
+    del rows
+    gc.collect()
+    
+    return filtered, max_score
 
-# Streamlit Interface
 st.set_page_config(page_title="Microsoft EcoRAG Lab", layout="wide")
 st.title("🌱 Microsoft EcoRAG Lab")
-st.caption("Local SLM & Multi-Year Sustainability Analyst")
+st.caption("Structured Intermediate Representation • Deterministic Verification Engine")
 
 with st.sidebar:
-    st.header("Settings")
+    st.header("Pipeline Mode")
     st.markdown(f"**Model:** `{MODEL_NAME}`")
-    st.markdown(f"**Endpoint:** `{FOUNDRY_BASE_URL}`")
-    st.markdown(f"**Retrieval:** `Dynamic Adaptive Threshold (80%)`")
-    if st.button("Clear Conversation", use_container_width=True):
+    st.markdown(f"**Architecture:** `Structured IR + Assertion Engine`")
+    if st.button("Clear Chat", use_container_width=True):
         st.session_state.messages = []
+        gc.collect()
         st.rerun()
 
 if "messages" not in st.session_state:
@@ -123,8 +153,11 @@ if "messages" not in st.session_state:
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
+        if "calc_details" in msg and msg["calc_details"]:
+            with st.expander("⚡ Verified Analytical Engine Output"):
+                st.text(msg["calc_details"])
         if "provenance" in msg and msg["provenance"]:
-            with st.expander(f"Data Provenance ({len(msg['provenance'])}) - Max Score: {msg.get('max_score', 0):.4f} - Latency: {msg.get('latency', 0):.2f}s"):
+            with st.expander(f"Data Provenance ({len(msg['provenance'])}) - Score: {msg.get('max_score', 0):.4f} - Latency: {msg.get('latency', 0):.2f}s"):
                 for p in msg["provenance"]:
                     st.markdown(f"**{p['title']}** (Score: {p['score']:.4f})")
                     st.text(p["content"][:300] + "...")
@@ -135,33 +168,79 @@ if user_query := st.chat_input("Ask a question regarding Microsoft sustainabilit
         st.markdown(user_query)
 
     start_time = time.time()
-    with st.spinner("Searching and generating response..."):
+    
+    with st.spinner("Executing structured extraction & validation..."):
         try:
-            chunks, max_score = search_context(user_query)
-            if not chunks:
-                ans = "I could not find sufficient matching records in the local ESG database."
-                prov = []
+            q_lower = user_query.lower()
+            is_math_compare = ("trend" in q_lower or "compare" in q_lower or "difference" in q_lower) and ("scope" in q_lower)
+            
+            calc_details = None
+            chunks = []
+            max_score = 0.0
+            
+            if is_math_compare:
+                calc_details = compute_carbon_trend_summary()
+                synthesis_input = f"Question: {user_query}\n\nData:\n{calc_details}"
+                ans = query_foundry(SYNTHESIS_PROMPT, synthesis_input, temperature=0.0)
+                chunks, max_score = search_context_hybrid(user_query)
             else:
-                context_str = "\n\n".join([c["content"] for c in chunks])
-                ans = query_foundry_model(user_query, context_str)
-                prov = chunks
-
+                chunks, max_score = search_context_hybrid(user_query)
+                if not chunks or max_score < MIN_SCORE_FLOOR:
+                    ans = "I cannot find information regarding this in the provided Microsoft Environmental Sustainability reports."
+                else:
+                    context_chunks = [c["content"] for c in chunks]
+                    extract_prompt = format_extraction_prompt(user_query, context_chunks)
+                    
+                    raw_json = query_foundry(EXTRACTION_SYSTEM_PROMPT, extract_prompt, temperature=0.0)
+                    
+                    try:
+                        cleaned = re.search(r"\{.*\}", raw_json, re.DOTALL).group(0)
+                        plan_data = json.loads(cleaned)
+                        plan = QueryExtractionPlan(**plan_data)
+                        resolution = DeterministicResolver.validate_and_filter(plan, user_query)
+                        
+                        if resolution["status"] == "NOT_FOUND":
+                            ans = "I cannot find information regarding this in the provided Microsoft Environmental Sustainability reports."
+                        else:
+                            verified_metrics_str = "\n".join([
+                                f"- Entity: {m.entity}, Type: {m.metric_type}, Value: {m.value:,.0f} {m.unit}, Scope: {m.temporal_scope}, Cumulative: {m.is_cumulative}"
+                                for m in resolution["metrics"]
+                            ])
+                            calc_details = verified_metrics_str
+                            synthesis_prompt = f"Verified Metrics:\n{verified_metrics_str}\n\nOriginal User Question: {user_query}"
+                            ans = query_foundry(FACTUAL_SYNTHESIS_PROMPT, synthesis_prompt, temperature=0.0)
+                    except Exception as ex:
+                        # Fallback to direct grounding
+                        context_str = "\n\n".join(context_chunks)
+                        ans = query_foundry(
+                            "You are a precise Sustainability Analyst. Answer directly using ONLY context.",
+                            f"Context:\n{context_str}\n\nQuestion: {user_query}",
+                            temperature=0.0
+                        )
+            
             latency = time.time() - start_time
 
             with st.chat_message("assistant"):
                 st.markdown(ans)
-                if prov:
-                    with st.expander(f"Data Provenance ({len(prov)}) - Max Score: {max_score:.4f} - Latency: {latency:.2f}s"):
-                        for p in prov:
+                if calc_details:
+                    with st.expander("⚡ Verified Structured Representation"):
+                        st.text(calc_details)
+                if chunks:
+                    with st.expander(f"Data Provenance ({len(chunks)}) - Score: {max_score:.4f} - Latency: {latency:.2f}s"):
+                        for p in chunks:
                             st.markdown(f"**{p['title']}** (Score: {p['score']:.4f})")
                             st.text(p["content"][:300] + "...")
 
             st.session_state.messages.append({
                 "role": "assistant",
                 "content": ans,
-                "provenance": prov,
+                "calc_details": calc_details,
+                "provenance": chunks,
                 "max_score": max_score,
                 "latency": latency
             })
+            gc.collect()
+
         except Exception as e:
-            st.error(f"Error during execution: {e}")
+            st.error(f"Error: {e}")
+            gc.collect()
