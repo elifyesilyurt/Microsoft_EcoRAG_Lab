@@ -6,6 +6,12 @@ Microsoft EcoRAG Lab is an on-device AI analysis engine operating over Microsoft
 
 ---
 
+### Language / Dil
+
+[English Documentation](#english-documentation) | [Türkçe Dokümantasyon (Tıklayınız)](#türkçe-dokümantasyon)
+
+---
+
 ## English Documentation
 
 ### 1. Architecture & Key Components
@@ -139,6 +145,11 @@ python run_benchmarks.py --only 1,2,7,9
 
 ## Türkçe Dokümantasyon
 
+<details>
+<summary><strong>Türkçe Dokümantasyonu Görüntülemek İçin Tıklayınız (Genişlet / Daralt)</strong></summary>
+
+<br>
+
 ### 1. Genel Bakış ve Mimari
 
 Microsoft EcoRAG Lab; Microsoft'un 2024 ve 2025 Çevresel Sürdürülebilirlik Raporları (ESG) ile Veri Tabloları üzerinde çalışan, yerel, sıfır halüsinasyon hedefli bir sürdürülebilirlik analiz motorudur.
@@ -195,6 +206,8 @@ python run_benchmarks.py --only 1,2,7,9
 - **Factual & Sayısal Doğruluk:** %100 (9/9 Başarılı)
 - **Negatif Kontrol (Alan Dışı Reddetme):** %100 (5/5 Başarılı, 0 Halüsinasyon)
 - **Ortalama Yanıt Süresi:** ~6.46 saniye (PAL sorguları: ~3.2 saniye)
+
+</details>
 
 ---
 
