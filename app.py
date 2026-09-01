@@ -18,7 +18,7 @@ from extraction_pipeline import (
 )
 
 DB_PATH = "rag_storage.db"
-EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
+EMBEDDING_MODEL_NAME = "nomic-ai/nomic-embed-text-v1.5"
 FOUNDRY_BASE_URL = "http://127.0.0.1:62095"
 MODEL_NAME = "phi-4-mini"
 
@@ -36,7 +36,8 @@ State the exact numbers and their corresponding units clearly in sentence 1."""
 
 @st.cache_resource
 def load_embedder():
-    return SentenceTransformer(EMBEDDING_MODEL_NAME)
+    # nomic-embed-text-v1.5 özel model kodu gerektiriyor
+    return SentenceTransformer(EMBEDDING_MODEL_NAME, trust_remote_code=True)
 
 embedder = load_embedder()
 
@@ -53,7 +54,7 @@ def query_foundry(system_prompt: str, user_prompt: str, temperature: float = 0.0
             {"role": "user", "content": user_prompt}
         ],
         "temperature": temperature,
-        "max_tokens": 1024
+        "max_tokens": 512
     }
     
     try:
@@ -91,7 +92,8 @@ def compute_carbon_trend_summary() -> str:
     return "\n".join(lines)
 
 def search_context_hybrid(query: str):
-    query_vector = embedder.encode(query)
+    # nomic-embed-text-v1.5: sorgu için 'search_query:' prefix (ingest: 'search_document:' ile asimetrik eşleşme)
+    query_vector = embedder.encode(f"search_query: {query}")
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("SELECT id, year, title, content, embedding FROM documents")
@@ -101,7 +103,13 @@ def search_context_hybrid(query: str):
     if not rows:
         return [], 0.0
 
-    keywords = [w.lower() for w in query.replace("?", "").replace(",", "").split() if len(w) > 3]
+    def normalize_str(s: str) -> str:
+        import unicodedata
+        return ''.join(c for c in unicodedata.normalize('NFD', s.lower()) if unicodedata.category(c) != 'Mn')
+
+    stopwords = {"which", "what", "where", "when", "that", "this", "from", "into", "over", "with", "across", "like", "does", "have", "been"}
+    clean_q = re.sub(r'[^a-zA-Z0-9\s]', ' ', query)
+    keywords = [normalize_str(w) for w in clean_q.split() if len(w) > 2 and w.lower() not in stopwords]
 
     scores = []
     for r in rows:
@@ -111,9 +119,9 @@ def search_context_hybrid(query: str):
         norm_d = np.linalg.norm(doc_vector)
         sim = 0.0 if (norm_q == 0 or norm_d == 0) else float(np.dot(query_vector, doc_vector) / (norm_q * norm_d))
         
-        content_lower = content.lower()
-        match_count = sum(1 for kw in keywords if kw in content_lower)
-        hybrid_score = sim + (0.05 * match_count)
+        norm_content = normalize_str(content)
+        match_count = sum(1 for kw in keywords if kw in norm_content)
+        hybrid_score = sim + (0.10 * match_count)
         
         scores.append({"id": c_id, "year": year, "title": title, "content": content, "score": hybrid_score})
 
@@ -203,7 +211,9 @@ if user_query := st.chat_input("Ask a question regarding Microsoft sustainabilit
                             ans = "I cannot find information regarding this in the provided Microsoft Environmental Sustainability reports."
                         else:
                             verified_metrics_str = "\n".join([
-                                f"- Entity: {m.entity}, Type: {m.metric_type}, Value: {m.value:,.0f} {m.unit}, Scope: {m.temporal_scope}, Cumulative: {m.is_cumulative}"
+                                f"- Entity: {m.entity}, Type: {m.metric_type}, "
+                                f"Value: {m.string_value if m.string_value else f'{m.value:,.0f} {m.unit}'}, "
+                                f"Scope: {m.temporal_scope}, Cumulative: {m.is_cumulative}"
                                 for m in resolution["metrics"]
                             ])
                             calc_details = verified_metrics_str
