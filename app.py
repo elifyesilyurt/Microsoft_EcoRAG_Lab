@@ -231,9 +231,21 @@ def search_context_hybrid(query: str):
     def normalize_str(s: str) -> str:
         return ''.join(c for c in unicodedata.normalize('NFD', s.lower()) if unicodedata.category(c) != 'Mn')
 
-    stopwords = {"which", "what", "where", "when", "that", "this", "from", "into", "over", "with", "across", "like", "does", "have", "been", "according"}
+    stopwords = {"which", "what", "where", "when", "that", "this", "from", "into", "over", "with", "across", "like", "does", "have", "been", "according", "nelerdir", "nedir", "neler", "hangi", "hangisi", "kadar", "olan", "icin", "göre", "gore"}
     clean_q = re.sub(r'[^a-zA-Z0-9\s]', ' ', query)
-    keywords = [normalize_str(w) for w in clean_q.split() if len(w) > 2 and w.lower() not in stopwords]
+    raw_keywords = [normalize_str(w) for w in clean_q.split() if len(w) > 2 and w.lower() not in stopwords]
+
+    tr_to_en = {
+        "surdurulebilirlik": "sustainability", "rapor": "report", "raporu": "report", "raporunda": "report",
+        "emisyon": "emissions", "karbon": "carbon", "su": "water", "atik": "waste",
+        "basliklar": "highlights", "one": "key", "cikan": "pillars", "ozet": "summary", "genel": "overview",
+        "hedef": "goal", "hedefler": "targets", "enerji": "energy", "elektrik": "electricity",
+        "veri": "datacenter", "merkezi": "datacenter", "merkezleri": "datacenters", "yenileme": "replenishment"
+    }
+    keywords = list(raw_keywords)
+    for kw in raw_keywords:
+        if kw in tr_to_en:
+            keywords.append(tr_to_en[kw])
 
     scores = []
     for r in rows:
@@ -1956,9 +1968,7 @@ with tab_chat:
                                 plan = QueryExtractionPlan(**json.loads(cleaned))
                                 resolution = DeterministicResolver.validate_and_filter(plan, query_to_run)
 
-                                if resolution["status"] == "NOT_FOUND":
-                                    stream_gen = stream_static_text(not_found_msg)
-                                else:
+                                if resolution["status"] == "MATCH" and resolution["metrics"]:
                                     verified_metrics_str = "\n".join([
                                         f"- Entity: {m.entity}, Type: {m.metric_type}, "
                                         f"Value: {m.string_value if m.string_value else f'{m.value:,.0f} {m.unit}'}, "
@@ -1968,6 +1978,19 @@ with tab_chat:
                                     calc_details = verified_metrics_str
                                     synthesis_prompt = f"Verified Metrics:\n{verified_metrics_str}\n\nQuestion: {query_to_run}"
                                     stream_gen = query_foundry_stream(f_prompt, synthesis_prompt, temperature=0.0)
+                                else:
+                                    # Tematik / Genel Özet Sorusu (Highlights, Overview, Pillars) -> Doğrudan Bağlamdan Sentezle
+                                    context_str = "\n\n".join(context_chunks)
+                                    summary_system = (
+                                        "Sen uzman bir Sürdürülebilirlik Analistisin. Yalnızca verilen resmi rapor bağlamını kullanarak soruyu akıcı, maddeler halinde ve profesyonel Türkçe ile doğrudan yanıtla. Rapordaki hedefleri, temel başlıkları ve verileri net belirt."
+                                        if target_lang == "tr"
+                                        else "You are a senior Sustainability Analyst. Structure the key report highlights and findings clearly in bullet points using ONLY the provided report context in fluent English."
+                                    )
+                                    stream_gen = query_foundry_stream(
+                                        summary_system,
+                                        f"Context:\n{context_str}\n\nQuestion: {query_to_run}",
+                                        temperature=0.0
+                                    )
                             except Exception:
                                 context_str = "\n\n".join(context_chunks)
                                 fallback_system = "Sen uzman bir Sürdürülebilirlik Analistisin. Yalnızca verilen bağlamı kullanarak akıcı Türkçe ile doğrudan yanıtla." if target_lang == "tr" else "You are a precise Sustainability Analyst. Answer directly using ONLY context in fluent English."
