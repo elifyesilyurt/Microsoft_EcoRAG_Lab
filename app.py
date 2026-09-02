@@ -2324,10 +2324,10 @@ with tab_system:
                 - **Embedding Boyutu:** `768 Boyutlu Yoğun Vektör`
                 - **Vektör Prefix:** Asimetrik (`search_document:` / `search_query:`)
                 - **Veritabanı Motoru:** `SQLite 3 (WAL Modu)`
-                - **Toplam İndeks Parçası:** `1050 Chunk (3 Doküman)`
-                  - `2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf` (241 Chunk)
-                  - `Microsoft_2024_Sustainability_Report.pdf` (400 Chunk)
-                  - `Microsoft_2025_Sustainability_Report.pdf` (409 Chunk)
+                - **Toplam İndeks Parçası:** `1044 Chunk (3 Doküman)`
+                  - `2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf` (239 Chunk)
+                  - `Microsoft_2025_Sustainability_Report.pdf` (407 Chunk)
+                  - `Microsoft_2024_Sustainability_Report.pdf` (398 Chunk)
                 """)
             else:
                 st.markdown("""
@@ -2372,13 +2372,69 @@ with tab_system:
 
     with st.container(border=True):
         st.markdown(f"#### :material/account_tree: **{T['sys_flow_title']}**")
+        
+        # 🌟 Konuşma Metniyle Birebir Uyumlu Görsel Mimari & İş Akış Kartı
+        if is_tr:
+            st.html("""
+            <div style="background: rgba(15, 23, 42, 0.03); border: 1px solid rgba(148, 163, 184, 0.25); border-radius: 12px; padding: 18px; margin-top: 6px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; align-items: stretch;">
+                    <div style="background: rgba(14, 165, 233, 0.08); border: 1.5px solid #0284c7; border-radius: 10px; padding: 14px;">
+                        <div style="font-size: 13px; font-weight: 800; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px;">Bileşen 1: Hibrit Arama</div>
+                        <div style="font-weight: 700; font-size: 15px; margin: 4px 0;">nomic-embed-text-v1.5</div>
+                        <div style="font-size: 12.5px; opacity: 0.85;">768 boyutlu asimetrik vektör arama + Unicode NFD normalizasyonlu Lexical Boost katmanı.</div>
+                    </div>
+                    <div style="background: rgba(16, 185, 129, 0.08); border: 1.5px solid #059669; border-radius: 10px; padding: 14px;">
+                        <div style="font-size: 13px; font-weight: 800; color: #059669; text-transform: uppercase; letter-spacing: 0.5px;">Bileşen 2: PAL Motoru</div>
+                        <div style="font-weight: 700; font-size: 15px; margin: 4px 0;">Program-Aided Language</div>
+                        <div style="font-size: 12.5px; opacity: 0.85;">Hesaplamaları LLM tahminine bırakmadan Python DataFrame'leri üzerinden deterministik çözer (%100 Matematik).</div>
+                    </div>
+                    <div style="background: rgba(168, 85, 247, 0.08); border: 1.5px solid #7c3aed; border-radius: 10px; padding: 14px;">
+                        <div style="font-size: 13px; font-weight: 800; color: #7c3aed; text-transform: uppercase; letter-spacing: 0.5px;">Bileşen 3: Doğrulama & Menşe</div>
+                        <div style="font-weight: 700; font-size: 15px; margin: 4px 0;">Pydantic & Provenance</div>
+                        <div style="font-size: 12.5px; opacity: 0.85;">Zaman aralığı, birim uyumluluğu kontrolü ve sayfa düzeyinde şeffaf PDF kaynak eşleme.</div>
+                    </div>
+                    <div style="background: rgba(245, 158, 11, 0.08); border: 1.5px solid #d97706; border-radius: 10px; padding: 14px;">
+                        <div style="font-size: 13px; font-weight: 800; color: #d97706; text-transform: uppercase; letter-spacing: 0.5px;">Bileşen 4: Yerel Üretim</div>
+                        <div style="font-weight: 700; font-size: 15px; margin: 4px 0;">phi-4-mini @ Foundry Local</div>
+                        <div style="font-size: 12.5px; opacity: 0.85;">Cihaz içinde %100 gizlilikle çalışan, sıfır halüsinasyon garantili akışlı yönetici sentezi.</div>
+                    </div>
+                </div>
+            </div>
+            """)
+        else:
+            st.html("""
+            <div style="background: rgba(15, 23, 42, 0.03); border: 1px solid rgba(148, 163, 184, 0.25); border-radius: 12px; padding: 18px; margin-top: 6px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; align-items: stretch;">
+                    <div style="background: rgba(14, 165, 233, 0.08); border: 1.5px solid #0284c7; border-radius: 10px; padding: 14px;">
+                        <div style="font-size: 13px; font-weight: 800; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px;">Component 1: Hybrid Search</div>
+                        <div style="font-weight: 700; font-size: 15px; margin: 4px 0;">nomic-embed-text-v1.5</div>
+                        <div style="font-size: 12.5px; opacity: 0.85;">768-dim dense asymmetric vector search + Unicode NFD Lexical Boost layer.</div>
+                    </div>
+                    <div style="background: rgba(168, 85, 247, 0.08); border: 1.5px solid #7c3aed; border-radius: 10px; padding: 14px;">
+                        <div style="font-size: 13px; font-weight: 800; color: #7c3aed; text-transform: uppercase; letter-spacing: 0.5px;">Component 2: PAL Engine</div>
+                        <div style="font-weight: 700; font-size: 15px; margin: 4px 0;">Program-Aided Language</div>
+                        <div style="font-size: 12.5px; opacity: 0.85;">Eliminates LLM math guessing; solves complex arithmetic deterministically via typed Python DataFrames.</div>
+                    </div>
+                    <div style="background: rgba(16, 185, 129, 0.08); border: 1.5px solid #059669; border-radius: 10px; padding: 14px;">
+                        <div style="font-size: 13px; font-weight: 800; color: #059669; text-transform: uppercase; letter-spacing: 0.5px;">Component 3: Verification & Provenance</div>
+                        <div style="font-weight: 700; font-size: 15px; margin: 4px 0;">Pydantic & Source Anchoring</div>
+                        <div style="font-size: 12.5px; opacity: 0.85;">Strict temporal scope, unit assertion, and page-level transparent PDF provenance.</div>
+                    </div>
+                    <div style="background: rgba(245, 158, 11, 0.08); border: 1.5px solid #d97706; border-radius: 10px; padding: 14px;">
+                        <div style="font-size: 13px; font-weight: 800; color: #d97706; text-transform: uppercase; letter-spacing: 0.5px;">Component 4: On-Device SLM</div>
+                        <div style="font-weight: 700; font-size: 15px; margin: 4px 0;">phi-4-mini @ Foundry Local</div>
+                        <div style="font-size: 12.5px; opacity: 0.85;">Runs 100% on-device with zero cloud latency and zero hallucination risk.</div>
+                    </div>
+                </div>
+            </div>
+            """)
+
         st.code("""
-[User Query] ──► Query Routing ──┬──► (Quantitative/PAL) ──► PAL Engine (esg_tables.py) ────────┐
-                                 └──► (Text/Policy)       ──► Hybrid Retrieval (Nomic 1.5)      │
-                                                                   │                            │
-                                                                   ▼                            ▼
-                                                            Pydantic Assertion ──► phi-4-mini Synthesis
-                                                                                        │
-                                                                                        ▼
-                                                                               [Verified Response]
+[Kullanıcı Sorgusu / User Query] 
+        │
+        ├──► [PAL Yönlendirici] ─────────► [PAL Motoru (esg_tables.py)] ────┐
+        │                                  (Deterministik Matematik / %100 Doğruluk) │
+        │                                                                             ▼
+        └──► [Hibrit Vektör Arama] ──────► [Pydantic Doğrulama & Menşe] ────► [phi-4-mini Sentezi]
+             (nomic-embed-text-v1.5)       (Sayfa No + Benzerlik Skoru)      (Doğrulanmış Çıktı)
         """, language="text")
