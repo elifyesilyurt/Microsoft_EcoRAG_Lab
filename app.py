@@ -292,9 +292,10 @@ with st.sidebar:
     L = "tr" if is_tr else "en"
     T = TEXTS[L]
 
-    # 🎨 Dinamik & Kullanıcı Dostu Tema Seçici (Segmented Control)
+    # 🎨 Dinamik & Kullanıcı Dostu Tema Seçici (4 Farklı Palet)
     theme_meta = [
         {"id": "pink", "label_tr": "🌸 Pudra Pembe", "label_en": "🌸 Blush Rose"},
+        {"id": "white", "label_tr": "⚪ Saf Beyaz (Açık)", "label_en": "⚪ Pure Light (White)"},
         {"id": "blue", "label_tr": "🌊 Buzul Mavisi (Açık)", "label_en": "🌊 Arctic Azure (Light)"},
         {"id": "dark", "label_tr": "🌿 Gece Zümrüdü (Koyu)", "label_en": "🌿 Midnight Emerald (Dark)"}
     ]
@@ -331,7 +332,7 @@ with st.sidebar:
         st.rerun()
 
 # ══════════════════════════════════════════════════════════════════════════════
-# DİNAMİK TEMA ENJEKSİYONU (3 FARKLI PALET - TAM KONTRAST & EKSİKSİZ BİLEŞEN UYUMU)
+# DİNAMİK TEMA ENJEKSİYONU (4 FARKLI PALET - TAM KONTRAST & EKSİKSİZ BİLEŞEN UYUMU)
 # ══════════════════════════════════════════════════════════════════════════════
 if current_theme_id == "dark":
     st.html("""
@@ -471,6 +472,286 @@ if current_theme_id == "dark":
     }
     .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span { color: #ffffff !important; }
     .stApp small, .stApp .stCaption, .stApp caption, .stApp div[data-testid="stCaptionContainer"] { color: #8b949e !important; }
+    </style>
+    """)
+elif current_theme_id == "white":
+    st.html("""
+    <style>
+    /* ⚪ Pure Light (Saf Beyaz & Açık Mod) */
+    :root, .stApp {
+        --background-color: #ffffff !important;
+        --secondary-background-color: #f6f8fa !important;
+        --text-color: #111827 !important;
+        --primary-color: #0969da !important;
+    }
+    .stApp {
+        background-color: #ffffff !important;
+    }
+    header[data-testid="stHeader"] {
+        background-color: #ffffff !important;
+    }
+    .stApp, 
+    .stApp p, 
+    .stApp span, 
+    .stApp li, 
+    .stApp ul, 
+    .stApp ol, 
+    .stApp li *, 
+    .stApp h1, 
+    .stApp h2, 
+    .stApp h3, 
+    .stApp h4, 
+    .stApp h5, 
+    .stApp h6, 
+    .stApp label, 
+    .stApp strong,
+    .stApp em,
+    .stApp blockquote,
+    .stApp td,
+    .stApp th,
+    div[data-testid="stMarkdownContainer"] p,
+    div[data-testid="stMarkdownContainer"] li,
+    div[data-testid="stMarkdownContainer"] ul,
+    div[data-testid="stMarkdownContainer"] ol,
+    div[data-testid="stMarkdownContainer"] li *,
+    div[data-testid="stChatMessage"] * {
+        color: #111827 !important; /* Çok net siyah/koyu antrasit metin */
+    }
+    section[data-testid="stSidebar"] {
+        background-color: #f6f8fa !important;
+        border-right: 1px solid #d0d7de !important;
+    }
+    section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] h3 {
+        color: #111827 !important;
+    }
+    /* 🔘 Universal Sub-element Border Reset */
+    [data-testid*="stPills"] *,
+    [data-testid*="stSegmentedControl"] *,
+    [data-baseweb="tag"] *,
+    .stTabs * {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    /* 🔘 Pills (Hızlı Sorular - Saf Beyaz & Açık Gri) */
+    div[data-testid="stPills"] button,
+    div[data-testid="stPills"] [data-baseweb="tag"],
+    div[role="radiogroup"] button {
+        background-color: #f3f4f6 !important;
+        color: #1f2937 !important;
+        border: 1.5px solid #d1d5db !important;
+        border-radius: 20px !important;
+        padding: 6px 14px !important;
+        font-weight: 600 !important;
+    }
+    div[data-testid="stPills"] button:hover,
+    div[data-testid="stPills"] [data-baseweb="tag"]:hover,
+    div[role="radiogroup"] button:hover {
+        background-color: #e5e7eb !important;
+        color: #111827 !important;
+        border-color: #0969da !important;
+    }
+    div[data-testid="stPills"] [aria-pressed="true"],
+    div[data-testid="stPills"] [aria-selected="true"],
+    div[data-testid="stPills"] [aria-checked="true"],
+    div[role="radiogroup"] [aria-checked="true"] {
+        background-color: #0969da !important;
+        color: #ffffff !important;
+        border: 2px solid #054da7 !important;
+    }
+    div[data-testid="stPills"] span,
+    div[data-testid="stPills"] p,
+    div[data-testid="stPills"] div {
+        background-color: transparent !important;
+        color: inherit !important;
+    }
+
+    /* 🎛️ Segmented Control (Dil & Tema Seçici) */
+    div[data-testid="stSegmentedControl"] > div,
+    div[data-testid="stSegmentedControl"] [data-baseweb="button-group"] {
+        background-color: #f3f4f6 !important;
+        border: 1.5px solid #d1d5db !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
+    }
+    div[data-testid="stSegmentedControl"] button {
+        background-color: transparent !important;
+        color: #1f2937 !important;
+        font-weight: 600 !important;
+        border: none !important;
+    }
+    div[data-testid="stSegmentedControl"] button[aria-checked="true"],
+    div[data-testid="stSegmentedControl"] button[aria-pressed="true"] {
+        background-color: #0969da !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        border: none !important;
+    }
+
+    /* 💬 Chat Input & Bottom Bar */
+    [data-testid="stBottom"],
+    [data-testid="stBottom"] > div,
+    [data-testid="stBottomBlockContainer"],
+    [data-testid="stChatInputContainer"],
+    [data-testid="stChatInput"],
+    [data-testid="stChatInput"] > div,
+    [data-testid="stChatInput"] > div > div {
+        background-color: transparent !important;
+        border: none !important;
+    }
+    [data-testid="stChatInput"] {
+        background-color: #ffffff !important;
+        border: 2px solid #d0d7de !important;
+        border-radius: 14px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+    }
+    [data-testid="stChatInput"] textarea,
+    [data-testid="stChatInput"] textarea * {
+        background-color: transparent !important;
+        color: #111827 !important;
+        font-size: 15px !important;
+    }
+    [data-testid="stChatInput"] textarea::placeholder {
+        color: #6b7280 !important;
+    }
+    [data-testid="stChatInput"] button {
+        background-color: #f3f4f6 !important;
+        color: #0969da !important;
+        border-radius: 8px !important;
+    }
+
+    /* Code Badges & Code Blocks */
+    div[data-testid="stCode"], div[data-testid="stCodeBlock"], pre {
+        background-color: #f6f8fa !important;
+        border: 1.5px solid #d0d7de !important;
+        border-radius: 12px !important;
+        padding: 10px !important;
+    }
+    div[data-testid="stCode"] code, div[data-testid="stCodeBlock"] code, pre code {
+        background-color: transparent !important;
+        color: #111827 !important;
+        border: none !important;
+        font-weight: 500 !important;
+    }
+    code {
+        background-color: #f3f4f6 !important;
+        color: #0969da !important;
+        border: 1px solid #d1d5db !important;
+        border-radius: 6px;
+        padding: 2px 6px;
+        font-weight: 600;
+    }
+
+    /* Button */
+    .stButton > button {
+        background-color: #ffffff !important;
+        color: #111827 !important;
+        border: 1.5px solid #d0d7de !important;
+        font-weight: 600 !important;
+    }
+    .stButton > button:hover {
+        background-color: #f3f4f6 !important;
+        border-color: #0969da !important;
+    }
+
+    /* Selectbox */
+    div[data-baseweb="select"] > div {
+        background-color: #ffffff !important;
+        color: #111827 !important;
+        border: 1.5px solid #d0d7de !important;
+    }
+    div[data-baseweb="select"] span {
+        color: #111827 !important;
+    }
+
+    /* Metrics, Cards, Expanders */
+    div[data-testid="stMetricValue"] {
+        color: #0969da !important;
+        font-weight: 700;
+    }
+    div[data-testid="stMetricLabel"] {
+        color: #4b5563 !important;
+        font-weight: 600;
+    }
+    div[data-testid="stMetric"] {
+        background-color: #ffffff !important;
+        border: 1.5px solid #d0d7de !important;
+        border-radius: 10px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        padding: 12px;
+    }
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        background-color: #ffffff !important;
+        border: 1.5px solid #d0d7de !important;
+        border-radius: 10px !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    div[data-testid="stChatMessage"] {
+        background-color: #ffffff !important;
+        border: 1.5px solid #d0d7de !important;
+        color: #111827 !important;
+    }
+    div[data-testid="stChatMessage"] p, div[data-testid="stChatMessage"] span {
+        color: #111827 !important;
+    }
+    div[data-testid="stExpander"] {
+        background-color: #ffffff !important;
+        border: 1.5px solid #d0d7de !important;
+    }
+    div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] summary {
+        color: #111827 !important;
+    }
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+    }
+    .stTabs [data-baseweb="tab"] {
+        color: #374151 !important;
+        background-color: #f3f4f6 !important;
+        border: 1.5px solid #d1d5db !important;
+        border-radius: 6px;
+        padding: 8px 16px;
+        font-weight: 600;
+    }
+    .stTabs [data-baseweb="tab"] p, .stTabs [data-baseweb="tab"] span {
+        color: #374151 !important;
+    }
+    .stTabs [aria-selected="true"] {
+        background-color: #0969da !important;
+        color: #ffffff !important;
+        font-weight: 700;
+        border: 1.5px solid #054da7 !important;
+    }
+    .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span {
+        color: #ffffff !important;
+    }
+
+    /* 📊 DataFrames & Tables */
+    div[data-testid="stDataFrame"],
+    div[data-testid="stTable"],
+    .stDataFrame,
+    table {
+        background-color: #ffffff !important;
+        border: 1.5px solid #d0d7de !important;
+        border-radius: 10px !important;
+    }
+    table thead tr th, th {
+        background-color: #f6f8fa !important;
+        color: #111827 !important;
+        font-weight: 700 !important;
+        border-bottom: 2px solid #d0d7de !important;
+    }
+    table tbody tr td, td {
+        background-color: #ffffff !important;
+        color: #111827 !important;
+        border-bottom: 1px solid #f0f3f6 !important;
+    }
+    table tbody tr:nth-child(even) td {
+        background-color: #f6f8fa !important;
+    }
+    .stApp small, .stApp .stCaption, .stApp caption, .stApp div[data-testid="stCaptionContainer"] {
+        color: #6b7280 !important;
+    }
     </style>
     """)
 elif current_theme_id == "blue":
