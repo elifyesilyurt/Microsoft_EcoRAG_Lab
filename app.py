@@ -278,14 +278,32 @@ TEXTS = {
 # SIDEBAR (KENAR ÇUBUĞU)
 # ══════════════════════════════════════════════════════════════════════════════
 with st.sidebar:
-    st.markdown("### :material/eco: **EcoRAG Lab**")
-    st.caption("Deterministic Sustainability Analysis")
+    curr_theme = st.session_state.get("theme_id", "pink")
+    if curr_theme == "dark":
+        t_head = "#ffffff"
+        t_sub = "#8b949e"
+        t_body = "#e6edf3"
+    elif curr_theme == "pink":
+        t_head = "#4a0e1e"
+        t_sub = "#6b3343"
+        t_body = "#2d1b22"
+    elif curr_theme == "blue":
+        t_head = "#0c4a6e"
+        t_sub = "#475569"
+        t_body = "#0f172a"
+    else:  # white
+        t_head = "#0f172a"
+        t_sub = "#475569"
+        t_body = "#0f172a"
+
+    st.markdown(f"<h3 style='color: {t_head}; margin-bottom: 2px; font-weight: 800;'>🌱 EcoRAG Lab</h3>", unsafe_allow_html=True)
+    st.markdown(f"<div style='color: {t_sub}; font-size: 12px; margin-bottom: 14px; font-weight: 500;'>Deterministic Sustainability Analysis</div>", unsafe_allow_html=True)
 
     # 1. 🌐 Kompakt Dil Seçici (st.pills - 🇬🇧 EN & 🇹🇷 TR)
     if "is_turkish" not in st.session_state:
         st.session_state.is_turkish = True
 
-    st.markdown("<div style='font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; opacity: 0.65; margin-bottom: 6px;'>LANGUAGE / DİL</div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: {t_head}; margin-bottom: 6px;'>LANGUAGE / DİL</div>", unsafe_allow_html=True)
 
     lang_opts = ["🇬🇧 EN", "🇹🇷 TR"]
     curr_lang = "🇹🇷 TR" if st.session_state.is_turkish else "🇬🇧 EN"
@@ -305,7 +323,7 @@ with st.sidebar:
     T = TEXTS[L]
 
     # 2. 🎨 Temalar İçin Yatay Kapsüller (st.pills)
-    st.markdown(f"<div style='font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; opacity: 0.65; margin-top: 14px; margin-bottom: 6px;'>{T['theme_label'].upper()}</div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: {t_head}; margin-top: 14px; margin-bottom: 6px;'>{T['theme_label'].upper()}</div>", unsafe_allow_html=True)
 
     theme_meta = [
         {"id": "pink", "label_tr": "🌸 Toz Pembe", "label_en": "🌸 Blush Rose"},
@@ -335,15 +353,15 @@ with st.sidebar:
 
     st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
 
-    # 3. 🛠️ Sistem Durumu Konteyneri (Rahatlatılmış Dikey Hizalama)
+    # 3. 🛠️ Sistem Durumu Konteyneri (Rahatlatılmış Dikey Hizalama & Net Kontrast)
     with st.container(border=True):
-        st.markdown(f"<div style='font-size: 13px; font-weight: 700; margin-bottom: 6px;'>{T['status_box_title']}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='font-size: 13px; font-weight: 800; color: {t_head}; margin-bottom: 6px;'>{T['status_box_title']}</div>", unsafe_allow_html=True)
         st.badge(T["status_badge"], icon=":material/check_circle:", color="green")
         st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
-        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'><span style='opacity: 0.75; font-size: 13px;'>{T['status_model']}</span><code>{MODEL_NAME}</code></div>", unsafe_allow_html=True)
-        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'><span style='opacity: 0.75; font-size: 13px;'>{T['status_embed']}</span><code>nomic-v1.5</code></div>", unsafe_allow_html=True)
-        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'><span style='opacity: 0.75; font-size: 13px;'>{T['status_index']}</span><code>982 Chunks</code></div>", unsafe_allow_html=True)
-        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center;'><span style='opacity: 0.75; font-size: 13px;'>{T['status_engine']}</span><code>PAL + IR</code></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'><span style='color: {t_sub}; font-size: 13px; font-weight: 600;'>{T['status_model']}</span><code>{MODEL_NAME}</code></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'><span style='color: {t_sub}; font-size: 13px; font-weight: 600;'>{T['status_embed']}</span><code>nomic-v1.5</code></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'><span style='color: {t_sub}; font-size: 13px; font-weight: 600;'>{T['status_index']}</span><code>982 Chunks</code></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center;'><span style='color: {t_sub}; font-size: 13px; font-weight: 600;'>{T['status_engine']}</span><code>PAL + IR</code></div>", unsafe_allow_html=True)
 
     st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
     if st.button(T["reset_btn"], icon=":material/delete:", width="stretch"):
