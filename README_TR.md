@@ -21,32 +21,50 @@
 
 ## 📸 Görsel Tanıtım & Kullanıcı Arayüzü
 
-### 1. Akıllı Asistan & PAL Deterministik Hesaplama
-Otomatik dil algılamalı (TR/EN) gerçek zamanlı token akışı, deterministik matematik hesaplama rozeti ve yapısal yönetici özeti.
-![Akıllı Asistan ve PAL Hesaplama](images/chat_response_pal.png)
+### 1. Akıllı Asistan & PAL Deterministik Hesaplama (Türkçe & İngilizce)
+Otomatik dil algılamalı (TR/EN) gerçek zamanlı token akışı, deterministik matematik hesaplama rozeti ve farklı Fluent temalarda yapısal yönetici özeti.
+
+<div align="center">
+
+| Türkçe Asistan & 2026 PAL Çıkarımı (Fluent Azure Teması) | İngilizce Asistan & PAL Hesaplama (Toz Pembe Teması) |
+|---|---|
+| ![Türkçe Asistan ve PAL Çıkarımı](images/chat_response_pal_tr.png) | ![İngilizce Asistan ve PAL Hesaplama](images/chat_response_pal.png) |
+
+</div>
 
 ---
 
-### 2. Doğrulanmış Yapısal Temsil & Sayfa Düzeyinde Veri Menşei (Provenance)
+### 2. Sıfır Halüsinasyon & Güvenlik Kalkanı (Alan Dışı Güvenli Reddetme)
+Model; ESG ve sürdürülebilirlik kapsamı dışındaki sorular (*örneğin sunucu işlemci saat hızı, bütçe veya genel kültür soruları*) sorulduğunda kesinlikle veri uydurmaz, kurumsal ve güvenli bir dille konuyu reddeder.
+
+![Sıfır Halüsinasyon Güvenli Reddetme](images/zero_hallucination_safe_rejection.png)
+
+---
+
+### 3. Doğrulanmış Yapısal Temsil & Sayfa Düzeyinde Veri Menşei (Provenance)
 Her yanıt; ilgili PDF kaynak dosyası, sayfa numarası, benzerlik skoru, gecikme süresi ve Pydantic tarafından doğrulanmış varlık eşleştirmeleriyle birlikte sunulur.
+
 ![Veri Menşei ve Doğrulama](images/data_provenance_verified.png)
 
 ---
 
-### 3. Microsoft Kurumsal ESG Bilanço Paneli
+### 4. Microsoft Kurumsal ESG Bilanço Paneli
 Doğrulanmış Scope 1, 2, 3 sera gazı emisyonları, yıllık değişim oranları ve canlı sistem durumu KPI kartları.
+
 ![Kurumsal ESG Bilançosu](images/esg_dashboard_kpi.png)
 
 ---
 
-### 4. Ayrıntılı Karbon Uzaklaştırma, Su ve Sıfır Atık Tabloları
+### 5. Ayrıntılı Karbon Uzaklaştırma, Su ve Sıfır Atık Tabloları
 Mühendislik tabanlı ve doğa tabanlı karbon uzaklaştırma teknolojileri, bölgesel su yenileme hedefleri ve UL 2799 Sıfır Atık sertifikasyon detayları.
+
 ![ESG Tabloları Dağılımı](images/esg_tables_breakdown.png)
 
 ---
 
-### 5. Altyapı Parametreleri & 50 Soruluk Benchmark Değerlendirme Raporu
+### 6. Altyapı Parametreleri & 50 Soruluk Benchmark Değerlendirme Raporu
 Farklı zorluk seviyelerinde ve kullanıcı tiplerinde sistem performansını ölçen kapsamlı sistem tanılama ve otomatik üretim benchmark paneli.
+
 ![Sistem ve Benchmark Raporu](images/system_benchmark_report.png)
 
 ---

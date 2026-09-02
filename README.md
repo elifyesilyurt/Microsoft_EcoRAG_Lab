@@ -21,32 +21,50 @@
 
 ## 📸 Visual Showcase & User Interface
 
-### 1. Smart Assistant & PAL Deterministic Calculation
-Real-time streaming chat with automatic language detection (TR/EN), deterministic math execution badge, and structured executive synthesis.
-![Smart Assistant & PAL Calculation](images/chat_response_pal.png)
+### 1. Smart Assistant & PAL Deterministic Calculation (English & Turkish)
+Real-time streaming chat with automatic language detection (TR/EN), deterministic math execution badge, and structured executive synthesis across multiple Fluent themes.
+
+<div align="center">
+
+| English Assistant & PAL Calculation (Blush Rose Theme) | Turkish Assistant & 2026 PAL Extraction (Fluent Azure Theme) |
+|---|---|
+| ![Smart Assistant & PAL Calculation](images/chat_response_pal.png) | ![Turkish Assistant & 2026 PAL Extraction](images/chat_response_pal_tr.png) |
+
+</div>
 
 ---
 
-### 2. Verified Structured Representation & Provenance
+### 2. Zero-Hallucination Guardrail (Safe Out-of-Domain Rejection)
+When asked non-ESG or out-of-domain questions (*e.g., server processor clock speeds or financial salaries*), the system strictly refuses to hallucinate, providing a verified, compliant safe rejection.
+
+![Zero-Hallucination Safe Rejection](images/zero_hallucination_safe_rejection.png)
+
+---
+
+### 3. Verified Structured Representation & Provenance
 Every response is anchored to exact source PDF files with page numbers, similarity scores, latency breakdown, and Pydantic-validated entity mappings.
+
 ![Data Provenance & Verification](images/data_provenance_verified.png)
 
 ---
 
-### 3. Microsoft Corporate ESG Balance Dashboard
+### 4. Microsoft Corporate ESG Balance Dashboard
 Interactive dashboard displaying verified Scope 1, 2, 3 greenhouse gas emissions, YoY deltas, and live status metrics.
+
 ![Corporate ESG Dashboard](images/esg_dashboard_kpi.png)
 
 ---
 
-### 4. Granular Carbon Removal, Water & Zero Waste Tables
+### 5. Granular Carbon Removal, Water & Zero Waste Tables
 Detailed breakdown of engineered vs. nature-based carbon removals, regional water replenishment targets, and UL 2799 Zero Waste certifications.
+
 ![ESG Tables Breakdown](images/esg_tables_breakdown.png)
 
 ---
 
-### 5. Infrastructure Parameters & 50-Question Benchmark Report
+### 6. Infrastructure Parameters & 50-Question Benchmark Report
 Comprehensive system diagnostics and automated benchmark suite evaluating performance across multiple difficulty tiers and user personas.
+
 ![System & Benchmark Report](images/system_benchmark_report.png)
 
 ---
