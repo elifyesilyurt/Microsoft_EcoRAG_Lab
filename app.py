@@ -317,49 +317,153 @@ with st.sidebar:
         st.rerun()
 
 # ══════════════════════════════════════════════════════════════════════════════
-# DİNAMİK TEMA ENJEKSİYONU (3 FARKLI PALET)
+# DİNAMİK TEMA ENJEKSİYONU (3 FARKLI PALET - TAM KONTRAST GARANTİLİ)
 # ══════════════════════════════════════════════════════════════════════════════
 if "Eco Emerald" in theme_choice:
     st.html("""
     <style>
-    /* Eco Emerald Dark Theme */
+    /* 🌿 Eco Emerald Dark Theme */
+    .stApp, .stApp p, .stApp span, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6, .stApp label, .stApp div[data-testid="stMarkdownContainer"] p {
+        color: #e6edf3 !important;
+    }
     .stApp {
-        background-color: #0d1117;
-        color: #e6edf3;
+        background-color: #0d1117 !important;
+    }
+    section[data-testid="stSidebar"], section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label {
+        background-color: #161b22 !important;
+        color: #e6edf3 !important;
+        border-right: 1px solid #30363d !important;
+    }
+    div[data-testid="stMetricValue"] {
+        color: #58a6ff !important;
+    }
+    div[data-testid="stMetricLabel"] {
+        color: #8b949e !important;
+    }
+    div[data-testid="stMetric"] {
+        background-color: #161b22 !important;
+        border: 1px solid #30363d !important;
+        border-radius: 10px;
+    }
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        background-color: #161b22 !important;
+        border: 1px solid #30363d !important;
+        border-radius: 10px !important;
+    }
+    div[data-testid="stChatMessage"] {
+        background-color: #161b22 !important;
+        border: 1px solid #30363d !important;
+    }
+    div[data-testid="stChatMessage"] p, div[data-testid="stChatMessage"] span {
+        color: #e6edf3 !important;
+    }
+    div[data-testid="stExpander"] {
+        background-color: #161b22 !important;
+        border: 1px solid #30363d !important;
+    }
+    div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] summary {
+        color: #e6edf3 !important;
     }
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
     }
     .stTabs [data-baseweb="tab"] {
+        color: #8b949e !important;
+        background-color: #21262d !important;
         border-radius: 6px;
         padding: 8px 16px;
     }
+    .stTabs [data-baseweb="tab"] p, .stTabs [data-baseweb="tab"] span {
+        color: #8b949e !important;
+    }
     .stTabs [aria-selected="true"] {
-        background-color: #1f6feb22 !important;
-        color: #58a6ff !important;
+        background-color: #238636 !important;
+        color: #ffffff !important;
         font-weight: 600;
+    }
+    .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span {
+        color: #ffffff !important;
+    }
+    .stApp small, .stApp .stCaption, .stApp caption, .stApp div[data-testid="stCaptionContainer"] {
+        color: #8b949e !important;
     }
     </style>
     """)
 elif "Fluent Azure" in theme_choice:
     st.html("""
     <style>
-    /* Fluent Azure Light Theme */
+    /* 💼 Fluent Azure Light Theme */
+    .stApp, .stApp p, .stApp span, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6, .stApp label, .stApp div[data-testid="stMarkdownContainer"] p {
+        color: #111827 !important; /* Çok net koyu metin */
+    }
     .stApp {
-        background-color: #f8f9fa;
-        color: #1f2328;
+        background-color: #f8fafc !important;
+    }
+    section[data-testid="stSidebar"], section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label {
+        background-color: #f1f5f9 !important;
+        color: #0f172a !important;
+        border-right: 1px solid #cbd5e1 !important;
+    }
+    div[data-testid="stMetricValue"] {
+        color: #0f172a !important;
+        font-weight: 700;
+    }
+    div[data-testid="stMetricLabel"] {
+        color: #334155 !important;
+        font-weight: 600;
+    }
+    div[data-testid="stMetric"] {
+        background-color: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 10px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        padding: 12px;
+    }
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        background-color: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 10px !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    div[data-testid="stChatMessage"] {
+        background-color: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #111827 !important;
+    }
+    div[data-testid="stChatMessage"] p, div[data-testid="stChatMessage"] span {
+        color: #111827 !important;
+    }
+    div[data-testid="stExpander"] {
+        background-color: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+    }
+    div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] summary {
+        color: #0f172a !important;
     }
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
     }
     .stTabs [data-baseweb="tab"] {
+        color: #334155 !important;
+        background-color: #e2e8f0 !important;
+        border: 1px solid #cbd5e1 !important;
         border-radius: 6px;
         padding: 8px 16px;
     }
+    .stTabs [data-baseweb="tab"] p, .stTabs [data-baseweb="tab"] span {
+        color: #334155 !important;
+    }
     .stTabs [aria-selected="true"] {
-        background-color: #0078d415 !important;
-        color: #0078d4 !important;
-        font-weight: 600;
+        background-color: #0078d4 !important;
+        color: #ffffff !important;
+        font-weight: 700;
+        border: 1px solid #005a9e !important;
+    }
+    .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span {
+        color: #ffffff !important;
+    }
+    .stApp small, .stApp .stCaption, .stApp caption, .stApp div[data-testid="stCaptionContainer"] {
+        color: #475569 !important;
     }
     </style>
     """)
@@ -367,14 +471,54 @@ else:
     # 🌸 Toz Pembe Pastel (Blush Rose Theme)
     st.html("""
     <style>
-    /* Toz Pembe Pastel / Blush Rose Theme */
-    .stApp {
-        background: linear-gradient(180deg, #fdf6f7 0%, #faedf0 100%);
-        color: #3e2d33;
+    /* 🌸 Toz Pembe Pastel / Blush Rose Theme */
+    .stApp, .stApp p, .stApp span, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6, .stApp label, .stApp div[data-testid="stMarkdownContainer"] p {
+        color: #2d1b22 !important; /* Net okunur koyu mürdüm-antrasit */
     }
-    section[data-testid="stSidebar"] {
-        background-color: #f7e6e9 !important;
-        border-right: 1px solid #ebd0d6 !important;
+    .stApp {
+        background: linear-gradient(180deg, #fdf6f7 0%, #f7e8ec 100%) !important;
+    }
+    section[data-testid="stSidebar"], section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label {
+        background-color: #f7e2e6 !important;
+        color: #2d1b22 !important;
+        border-right: 1px solid #e8bcc5 !important;
+    }
+    div[data-testid="stMetricValue"] {
+        color: #831843 !important; /* Derin gül kurusu rengi */
+        font-weight: 700;
+    }
+    div[data-testid="stMetricLabel"] {
+        color: #502838 !important;
+        font-weight: 600;
+    }
+    div[data-testid="stMetric"] {
+        background-color: #ffffff !important;
+        border: 1px solid #e8bcc5 !important;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(184, 93, 117, 0.08);
+        padding: 14px;
+    }
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        background-color: #fffffffa !important;
+        border: 1px solid #e8bcc5 !important;
+        border-radius: 12px !important;
+        box-shadow: 0 2px 6px rgba(184, 93, 117, 0.05);
+    }
+    div[data-testid="stChatMessage"] {
+        background-color: #fffffffa !important;
+        border: 1px solid #ebd0d6 !important;
+        color: #2d1b22 !important;
+    }
+    div[data-testid="stChatMessage"] p, div[data-testid="stChatMessage"] span {
+        color: #2d1b22 !important;
+    }
+    div[data-testid="stExpander"] {
+        background-color: #fffffffa !important;
+        border: 1px solid #e8bcc5 !important;
+        border-radius: 8px !important;
+    }
+    div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] summary {
+        color: #2d1b22 !important;
     }
     .stTabs [data-baseweb="tab-list"] {
         gap: 10px;
@@ -382,40 +526,26 @@ else:
     .stTabs [data-baseweb="tab"] {
         border-radius: 8px;
         padding: 8px 18px;
-        background-color: #f3dce1;
-        color: #6a4953;
-        border: 1px solid #ebd0d6;
+        background-color: #eed6dc !important;
+        color: #4a2c35 !important;
+        border: 1px solid #e8bcc5 !important;
+        font-weight: 500;
         transition: all 0.2s ease;
     }
+    .stTabs [data-baseweb="tab"] p, .stTabs [data-baseweb="tab"] span {
+        color: #4a2c35 !important;
+    }
     .stTabs [aria-selected="true"] {
-        background-color: #e8b8c3 !important;
-        color: #5c1e30 !important;
-        font-weight: 700;
-        border: 1px solid #d99ca9 !important;
-        border-bottom: 3px solid #b85d75 !important;
+        background-color: #be185d !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        border: 1px solid #9d174d !important;
     }
-    div[data-testid="stMetric"] {
-        background-color: #ffffff !important;
-        border-radius: 12px;
-        border: 1px solid #ebd0d6;
-        box-shadow: 0 2px 8px rgba(184, 93, 117, 0.06);
-        padding: 14px;
+    .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span {
+        color: #ffffff !important;
     }
-    [data-testid="stVerticalBlockBorderWrapper"] {
-        background-color: #ffffffea !important;
-        border-radius: 12px !important;
-        border: 1px solid #ebd0d6 !important;
-        box-shadow: 0 2px 6px rgba(184, 93, 117, 0.04);
-    }
-    div[data-testid="stExpander"] {
-        background-color: #ffffffcc !important;
-        border: 1px solid #ebd0d6 !important;
-        border-radius: 8px !important;
-    }
-    .stChatMessage {
-        background-color: #ffffffcc !important;
-        border-radius: 12px !important;
-        border: 1px solid #f0d8dd !important;
+    .stApp small, .stApp .stCaption, .stApp caption, .stApp div[data-testid="stCaptionContainer"] {
+        color: #6b404e !important;
     }
     </style>
     """)
