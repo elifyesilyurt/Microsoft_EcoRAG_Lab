@@ -354,7 +354,7 @@ if current_theme_id == "dark":
         --background-color: #0d1117 !important;
         --secondary-background-color: #161b22 !important;
         --text-color: #e6edf3 !important;
-        --primary-color: #3fb950 !important;
+        --primary-color: #f0f6fc !important;
     }
     .stApp {
         background-color: #0d1117 !important;
@@ -391,16 +391,17 @@ if current_theme_id == "dark":
     }
     div[data-testid="stPills"] button:hover {
         background-color: #30363d !important;
-        color: #7ee787 !important;
-        border-color: #3fb950 !important;
+        color: #ffffff !important;
+        border-color: #8b949e !important;
     }
     div[data-testid="stPills"] [aria-pressed="true"], div[data-testid="stPills"] [aria-selected="true"], div[data-testid="stPills"] [aria-checked="true"] {
-        background-color: #238636 !important;
-        color: #ffffff !important;
-        border: 2px solid #3fb950 !important;
+        background-color: #f0f6fc !important;
+        color: #0d1117 !important;
+        font-weight: 700 !important;
+        border: 2px solid #ffffff !important;
     }
-    div[data-testid="stPills"] button[aria-pressed="true"] span {
-        color: #ffffff !important;
+    div[data-testid="stPills"] [aria-pressed="true"] span, div[data-testid="stPills"] [aria-selected="true"] span, div[data-testid="stPills"] [aria-checked="true"] span {
+        color: #0d1117 !important;
     }
     /* Segmented Control (Dil & Tema Seçici) */
     div[data-testid="stSegmentedControl"] > div,
@@ -417,13 +418,13 @@ if current_theme_id == "dark":
         border: none !important;
     }
     div[data-testid="stSegmentedControl"] button[aria-checked="true"], div[data-testid="stSegmentedControl"] button[aria-pressed="true"] {
-        background-color: #238636 !important;
-        color: #ffffff !important;
+        background-color: #f0f6fc !important;
+        color: #0d1117 !important;
         font-weight: 700 !important;
         border: none !important;
     }
     div[data-testid="stSegmentedControl"] button[aria-checked="true"] p, div[data-testid="stSegmentedControl"] button[aria-checked="true"] span {
-        color: #ffffff !important;
+        color: #0d1117 !important;
     }
     /* Chat Input */
     [data-testid="stBottom"], [data-testid="stBottom"] > div, [data-testid="stBottomBlockContainer"], [data-testid="stChatInputContainer"] {
@@ -443,13 +444,13 @@ if current_theme_id == "dark":
         color: #8b949e !important;
     }
     div[data-testid="stChatInput"] button {
-        color: #7ee787 !important;
+        color: #f0f6fc !important;
     }
     /* Code Badges */
     code {
-        background-color: #1f3b28 !important;
-        color: #7ee787 !important;
-        border: 1px solid #238636 !important;
+        background-color: #21262d !important;
+        color: #f0f6fc !important;
+        border: 1px solid #484f58 !important;
         border-radius: 4px;
         padding: 2px 6px;
         font-weight: 600;
@@ -463,8 +464,8 @@ if current_theme_id == "dark":
     }
     .stButton > button:hover {
         background-color: #30363d !important;
-        border-color: #3fb950 !important;
-        color: #7ee787 !important;
+        border-color: #8b949e !important;
+        color: #ffffff !important;
     }
     /* Selectbox */
     div[data-baseweb="select"] > div {
@@ -476,7 +477,7 @@ if current_theme_id == "dark":
         color: #e6edf3 !important;
     }
     /* Metrics, Cards, Expanders */
-    div[data-testid="stMetricValue"] { color: #7ee787 !important; }
+    div[data-testid="stMetricValue"] { color: #f0f6fc !important; font-weight: 700; }
     div[data-testid="stMetricLabel"] { color: #8b949e !important; }
     div[data-testid="stMetric"] {
         background-color: #161b22 !important;
@@ -511,25 +512,25 @@ if current_theme_id == "dark":
     }
     .stTabs [data-baseweb="tab"] p, .stTabs [data-baseweb="tab"] span { color: #8b949e !important; }
     .stTabs [aria-selected="true"] {
-        background-color: #238636 !important;
-        color: #ffffff !important;
-        font-weight: 700;
-        border: 2px solid #3fb950 !important;
-        border-bottom: 3px solid #7ee787 !important;
+        background-color: #f0f6fc !important;
+        color: #0d1117 !important;
+        font-weight: 700 !important;
+        border: 2px solid #ffffff !important;
+        border-bottom: 3px solid #ffffff !important;
     }
-    .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span { color: #ffffff !important; }
+    .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span { color: #0d1117 !important; font-weight: 700 !important; }
     .stApp small, .stApp .stCaption, .stApp caption, .stApp div[data-testid="stCaptionContainer"] { color: #8b949e !important; }
     </style>
     """)
 elif current_theme_id == "white":
     st.html("""
     <style>
-    /* ⚪ Pure Light (Saf Beyaz & Tatlı Pastel Yeşil Aksanlı Açık Mod) */
+    /* ⚪ Pure Light (Saf Beyaz & Asil Siyah Vurgulu Açık Mod) */
     :root, .stApp {
         --background-color: #ffffff !important;
-        --secondary-background-color: #f0fdf4 !important;
-        --text-color: #111827 !important;
-        --primary-color: #16a34a !important;
+        --secondary-background-color: #f8fafc !important;
+        --text-color: #0f172a !important;
+        --primary-color: #0f172a !important;
     }
     .stApp {
         background-color: #ffffff !important;
@@ -562,14 +563,14 @@ elif current_theme_id == "white":
     div[data-testid="stMarkdownContainer"] ol,
     div[data-testid="stMarkdownContainer"] li *,
     div[data-testid="stChatMessage"] * {
-        color: #111827 !important; /* Çok net siyah/koyu antrasit metin */
+        color: #0f172a !important; /* Çok net siyah/koyu antrasit metin */
     }
     section[data-testid="stSidebar"] {
-        background-color: #f6f8fa !important;
-        border-right: 1px solid #d0d7de !important;
+        background-color: #f8fafc !important;
+        border-right: 1px solid #e2e8f0 !important;
     }
     section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] h3 {
-        color: #111827 !important;
+        color: #0f172a !important;
     }
     /* 🔘 Universal Sub-element Border Reset */
     [data-testid*="stPills"] *,
@@ -581,13 +582,13 @@ elif current_theme_id == "white":
         box-shadow: none !important;
     }
 
-    /* 🔘 Pills (Hızlı Sorular - Tatlı Pastel Adaçayı Yeşili) */
+    /* 🔘 Pills (Hızlı Sorular - Siyah Seçili Durum) */
     div[data-testid="stPills"] button,
     div[data-testid="stPills"] [data-baseweb="tag"],
     div[role="radiogroup"] button {
-        background-color: #f0fdf4 !important;
-        color: #064e3b !important;
-        border: 1.5px solid #bbf7d0 !important;
+        background-color: #f1f5f9 !important;
+        color: #334155 !important;
+        border: 1.5px solid #cbd5e1 !important;
         border-radius: 20px !important;
         padding: 6px 14px !important;
         font-weight: 600 !important;
@@ -595,45 +596,48 @@ elif current_theme_id == "white":
     div[data-testid="stPills"] button:hover,
     div[data-testid="stPills"] [data-baseweb="tag"]:hover,
     div[role="radiogroup"] button:hover {
-        background-color: #dcfce7 !important;
-        color: #042f2e !important;
-        border-color: #22c55e !important;
+        background-color: #e2e8f0 !important;
+        color: #0f172a !important;
+        border-color: #64748b !important;
     }
     div[data-testid="stPills"] [aria-pressed="true"],
     div[data-testid="stPills"] [aria-selected="true"],
     div[data-testid="stPills"] [aria-checked="true"],
     div[role="radiogroup"] [aria-checked="true"] {
-        background-color: #dcfce7 !important;
-        color: #064e3b !important;
-        border: 2px solid #22c55e !important;
+        background-color: #0f172a !important;
+        color: #ffffff !important;
+        border: 2px solid #000000 !important;
     }
-    div[data-testid="stPills"] span,
-    div[data-testid="stPills"] p,
-    div[data-testid="stPills"] div {
-        background-color: transparent !important;
-        color: inherit !important;
+    div[data-testid="stPills"] [aria-pressed="true"] span,
+    div[data-testid="stPills"] [aria-selected="true"] span,
+    div[data-testid="stPills"] [aria-checked="true"] span {
+        color: #ffffff !important;
     }
 
-    /* 🎛️ Segmented Control (Dil & Tema Seçici - Tatlı Pastel Nane Yeşili) */
+    /* 🎛️ Segmented Control (Dil & Tema Seçici) */
     div[data-testid="stSegmentedControl"] > div,
     div[data-testid="stSegmentedControl"] [data-baseweb="button-group"] {
-        background-color: #f0fdf4 !important;
-        border: 1.5px solid #bbf7d0 !important;
+        background-color: #f1f5f9 !important;
+        border: 1.5px solid #cbd5e1 !important;
         border-radius: 8px !important;
         overflow: hidden !important;
     }
     div[data-testid="stSegmentedControl"] button {
         background-color: transparent !important;
-        color: #064e3b !important;
+        color: #334155 !important;
         font-weight: 600 !important;
         border: none !important;
     }
     div[data-testid="stSegmentedControl"] button[aria-checked="true"],
     div[data-testid="stSegmentedControl"] button[aria-pressed="true"] {
-        background-color: #22c55e !important; /* Tatlı pastel nane yeşili */
+        background-color: #0f172a !important;
         color: #ffffff !important;
         font-weight: 700 !important;
         border: none !important;
+    }
+    div[data-testid="stSegmentedControl"] button[aria-checked="true"] p,
+    div[data-testid="stSegmentedControl"] button[aria-checked="true"] span {
+        color: #ffffff !important;
     }
 
     /* 💬 Chat Input & Bottom Bar */
@@ -649,42 +653,42 @@ elif current_theme_id == "white":
     }
     [data-testid="stChatInput"] {
         background-color: #ffffff !important;
-        border: 2px solid #86efac !important;
+        border: 2px solid #cbd5e1 !important;
         border-radius: 14px !important;
-        box-shadow: 0 2px 8px rgba(34, 197, 94, 0.08) !important;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06) !important;
     }
     [data-testid="stChatInput"] textarea,
     [data-testid="stChatInput"] textarea * {
         background-color: transparent !important;
-        color: #111827 !important;
+        color: #0f172a !important;
         font-size: 15px !important;
     }
     [data-testid="stChatInput"] textarea::placeholder {
-        color: #6b7280 !important;
+        color: #94a3b8 !important;
     }
     [data-testid="stChatInput"] button {
-        background-color: #f0fdf4 !important;
-        color: #16a34a !important;
+        background-color: #0f172a !important;
+        color: #ffffff !important;
         border-radius: 8px !important;
     }
 
     /* Code Badges & Code Blocks */
     div[data-testid="stCode"], div[data-testid="stCodeBlock"], pre {
-        background-color: #f6f8fa !important;
-        border: 1.5px solid #bbf7d0 !important;
+        background-color: #f8fafc !important;
+        border: 1.5px solid #cbd5e1 !important;
         border-radius: 12px !important;
         padding: 10px !important;
     }
     div[data-testid="stCode"] code, div[data-testid="stCodeBlock"] code, pre code {
         background-color: transparent !important;
-        color: #111827 !important;
+        color: #0f172a !important;
         border: none !important;
         font-weight: 500 !important;
     }
     code {
-        background-color: #f0fdf4 !important;
-        color: #16a34a !important;
-        border: 1px solid #bbf7d0 !important;
+        background-color: #f1f5f9 !important;
+        color: #0f172a !important;
+        border: 1px solid #cbd5e1 !important;
         border-radius: 6px;
         padding: 2px 6px;
         font-weight: 600;
@@ -693,87 +697,88 @@ elif current_theme_id == "white":
     /* Button */
     .stButton > button {
         background-color: #ffffff !important;
-        color: #111827 !important;
-        border: 1.5px solid #d0d7de !important;
+        color: #0f172a !important;
+        border: 1.5px solid #cbd5e1 !important;
         font-weight: 600 !important;
     }
     .stButton > button:hover {
-        background-color: #f0fdf4 !important;
-        border-color: #22c55e !important;
-        color: #064e3b !important;
+        background-color: #f1f5f9 !important;
+        border-color: #0f172a !important;
+        color: #0f172a !important;
     }
 
     /* Selectbox */
     div[data-baseweb="select"] > div {
         background-color: #ffffff !important;
-        color: #111827 !important;
-        border: 1.5px solid #d0d7de !important;
+        color: #0f172a !important;
+        border: 1.5px solid #cbd5e1 !important;
     }
     div[data-baseweb="select"] span {
-        color: #111827 !important;
+        color: #0f172a !important;
     }
 
     /* Metrics, Cards, Expanders */
     div[data-testid="stMetricValue"] {
-        color: #16a34a !important;
+        color: #0f172a !important;
         font-weight: 700;
     }
     div[data-testid="stMetricLabel"] {
-        color: #374151 !important;
+        color: #64748b !important;
         font-weight: 600;
     }
     div[data-testid="stMetric"] {
         background-color: #ffffff !important;
-        border: 1.5px solid #d0d7de !important;
+        border: 1.5px solid #e2e8f0 !important;
         border-radius: 10px;
         box-shadow: 0 1px 4px rgba(0,0,0,0.04);
         padding: 12px;
     }
     [data-testid="stVerticalBlockBorderWrapper"] {
         background-color: #ffffff !important;
-        border: 1.5px solid #d0d7de !important;
+        border: 1.5px solid #e2e8f0 !important;
         border-radius: 10px !important;
         box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     }
     div[data-testid="stChatMessage"] {
         background-color: #ffffff !important;
-        border: 1.5px solid #d0d7de !important;
-        color: #111827 !important;
+        border: 1.5px solid #e2e8f0 !important;
+        color: #0f172a !important;
     }
     div[data-testid="stChatMessage"] p, div[data-testid="stChatMessage"] span {
-        color: #111827 !important;
+        color: #0f172a !important;
     }
     div[data-testid="stExpander"] {
         background-color: #ffffff !important;
-        border: 1.5px solid #d0d7de !important;
+        border: 1.5px solid #e2e8f0 !important;
     }
     div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] summary {
-        color: #111827 !important;
+        color: #0f172a !important;
     }
-    /* Sekmeler (Tabs - Tatlı Pastel Adaçayı Yeşili) */
+    /* Sekmeler (Tabs - Asil Siyah & Saf Beyaz) */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
     }
     .stTabs [data-baseweb="tab"] {
-        color: #064e3b !important;
-        background-color: #f0fdf4 !important;
-        border: 1.5px solid #bbf7d0 !important;
+        color: #475569 !important;
+        background-color: #f1f5f9 !important;
+        border: 1.5px solid #cbd5e1 !important;
         border-radius: 6px;
         padding: 8px 16px;
         font-weight: 600;
     }
     .stTabs [data-baseweb="tab"] p, .stTabs [data-baseweb="tab"] span {
-        color: #064e3b !important;
+        color: #475569 !important;
     }
     .stTabs [aria-selected="true"] {
-        background-color: #dcfce7 !important;
-        color: #064e3b !important;
-        font-weight: 700;
-        border: 2px solid #86efac !important;
-        border-bottom: 3px solid #22c55e !important;
+        background-color: #0f172a !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        border: 2px solid #0f172a !important;
+        border-bottom: 3px solid #000000 !important;
     }
     .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span {
-        color: #064e3b !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
     }
 
     /* 📊 DataFrames & Tables */
@@ -782,25 +787,25 @@ elif current_theme_id == "white":
     .stDataFrame,
     table {
         background-color: #ffffff !important;
-        border: 1.5px solid #bbf7d0 !important;
+        border: 1.5px solid #cbd5e1 !important;
         border-radius: 10px !important;
     }
     table thead tr th, th {
-        background-color: #f0fdf4 !important;
-        color: #064e3b !important;
+        background-color: #f1f5f9 !important;
+        color: #0f172a !important;
         font-weight: 700 !important;
-        border-bottom: 2px solid #86efac !important;
+        border-bottom: 2px solid #cbd5e1 !important;
     }
     table tbody tr td, td {
         background-color: #ffffff !important;
-        color: #111827 !important;
-        border-bottom: 1px solid #f0fdf4 !important;
+        color: #0f172a !important;
+        border-bottom: 1px solid #f1f5f9 !important;
     }
     table tbody tr:nth-child(even) td {
-        background-color: #f9fafb !important;
+        background-color: #f8fafc !important;
     }
     .stApp small, .stApp .stCaption, .stApp caption, .stApp div[data-testid="stCaptionContainer"] {
-        color: #4b5563 !important;
+        color: #64748b !important;
     }
     </style>
     """)
