@@ -529,7 +529,19 @@ elif "Fluent Azure" in theme_choice:
     div[data-testid="stChatInput"] button {
         color: #0078d4 !important;
     }
-    /* Code Badges */
+    /* Code Badges & Code Blocks */
+    div[data-testid="stCode"], div[data-testid="stCodeBlock"], pre {
+        background-color: #f1f5f9 !important;
+        border: 2px solid #cbd5e1 !important;
+        border-radius: 12px !important;
+        padding: 10px !important;
+    }
+    div[data-testid="stCode"] code, div[data-testid="stCodeBlock"] code, pre code {
+        background-color: transparent !important;
+        color: #0f172a !important;
+        border: none !important;
+        font-weight: 500 !important;
+    }
     code {
         background-color: #e2e8f0 !important;
         color: #0078d4 !important;
@@ -693,7 +705,23 @@ else:
     div[data-testid="stChatInput"] button {
         color: #be185d !important;
     }
-    /* Code Badges */
+    /* Code Badges & Code Blocks */
+    div[data-testid="stCode"], div[data-testid="stCodeBlock"], pre {
+        background-color: #faedf0 !important;
+        border: 2px solid #d99ca9 !important; /* Bir tık koyu toz pembe çerçeve */
+        border-radius: 12px !important;
+        padding: 10px !important;
+    }
+    div[data-testid="stCode"] code, div[data-testid="stCodeBlock"] code, pre code {
+        background-color: transparent !important;
+        color: #501d2d !important; /* Net okunur koyu mürdüm */
+        border: none !important;
+        font-weight: 500 !important;
+    }
+    div[data-testid="stCode"] button, div[data-testid="stCodeBlock"] button {
+        color: #831843 !important;
+        background-color: transparent !important;
+    }
     code {
         background-color: #fadce2 !important;
         color: #9d174d !important;
