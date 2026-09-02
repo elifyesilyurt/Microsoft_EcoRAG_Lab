@@ -13,7 +13,7 @@
 
 *Built on Microsoft Foundry Local (`phi-4-mini`) · Covering 2024, 2025 & 2026 Environmental Sustainability Reports (1050 Chunks)*
 
-[English Documentation](#english-documentation) | [Türkçe Dokümantasyon](#türkçe-dokümantasyon)
+[🇬🇧 English Documentation](README.md) | [🇹🇷 Türkçe Dokümantasyon](README_TR.md)
 
 </div>
 
@@ -51,9 +51,7 @@ Comprehensive system diagnostics and automated benchmark suite evaluating perfor
 
 ---
 
-## English Documentation
-
-### 1. Core Architecture & Innovations
+## 🏗️ 1. Core Architecture & Innovations
 
 ```
 +-----------------------------------------------------------------------------------+
@@ -92,13 +90,13 @@ Comprehensive system diagnostics and automated benchmark suite evaluating perfor
                                     +------------------------------+
 ```
 
-#### Key Technical Capabilities:
+### Key Technical Capabilities:
 1. **100% On-Device Privacy & Zero Cloud Dependency:** Powered by `phi-4-mini` running locally via Microsoft Foundry Local on dynamic ports. No proprietary data ever leaves the local machine.
 2. **Program-Aided Language (PAL) Quantitative Engine (`esg_tables.py`):** Complex arithmetic (e.g. Scope 3 deltas, CAGR, percentage distributions, volumetric water target achievements) is computed by typed Python DataFrames rather than LLM token guessing.
 3. **Asymmetric Dense + Lexical Hybrid Search:**
-   - Embedding: `nomic-ai/nomic-embed-text-v1.5` (768-dim, 8192 token window).
-   - Asymmetric prefixes: `search_document:` for chunk indexing, `search_query:` for query encoding.
-   - Unicode NFD lexical normalization boosting exact entity matches (e.g., FIDO Tech, UL 2799, HVO).
+   - **Embedding:** `nomic-ai/nomic-embed-text-v1.5` (768-dim, 8192 token window).
+   - **Asymmetric prefixes:** `search_document:` for chunk indexing, `search_query:` for query encoding.
+   - **Unicode NFD lexical normalization:** Boosting exact entity matches (*FIDO Tech, UL 2799, HVO, etc.*).
 4. **Layout-Aware PDF Ingestion & Visual Tagging (`ingest_all_reports.py`):**
    - Tables extracted as both Markdown matrices and row-centric key-value pairs.
    - Unextractable visual infographics automatically tagged with `[VISUAL REFERENCE]` to avoid false hallucination.
@@ -106,7 +104,7 @@ Comprehensive system diagnostics and automated benchmark suite evaluating perfor
 
 ---
 
-### 2. Multi-Year Report Scope (1050 Chunks)
+## 📚 2. Multi-Year Report Scope (1050 Chunks)
 
 The system indexes **3 official Microsoft Environmental Sustainability Reports**:
 
@@ -119,13 +117,13 @@ The system indexes **3 official Microsoft Environmental Sustainability Reports**
 
 ---
 
-### 3. Quick Start & Installation
+## 🚀 3. Quick Start & Installation
 
-#### Prerequisites
+### Prerequisites
 - Python 3.9+
 - Microsoft Foundry Local CLI (`foundry model run phi-4-mini`)
 
-#### Setup
+### Setup
 ```bash
 # 1. Clone repository
 git clone https://github.com/elifyesilyurt/Foundry-Local-Lab.git
@@ -148,7 +146,7 @@ Open **http://localhost:8501** in your browser.
 
 ---
 
-### 4. Production Benchmark Suite (50 Questions)
+## 📊 4. Production Benchmark Suite (v2.1 - 50 Questions)
 
 The system includes an automated 50-question benchmark suite evaluating 5 difficulty tiers, 4 user personas, and 4 sustainability scenarios:
 
@@ -166,7 +164,7 @@ python run_benchmarks.py --scenario carbon
 python run_benchmarks.py --user-type analyst
 ```
 
-#### Benchmark Results Matrix
+### Benchmark Results Matrix
 | Category | Questions | Pass Rate | Hallucination Rate | Key Strengths |
 |---|---|---|---|---|
 | 🟢 **Category 1: Easy / Direct Factual** | 10 | **90%** (9/10) | **0%** | Precise single-turn factual extraction |
@@ -178,7 +176,7 @@ python run_benchmarks.py --user-type analyst
 
 ---
 
-### 5. Repository Structure
+## 📁 5. Repository Structure
 
 ```
 ├── app.py                     # Streamlit web application & multi-tab UI
@@ -193,83 +191,20 @@ python run_benchmarks.py --user-type analyst
 │   └── Microsoft_2024_Sustainability_Report.pdf
 ├── images/                    # UI screenshots & architectural diagrams
 ├── requirements.txt           # Python dependencies
+├── README.md                  # English primary documentation (This file)
+├── README_TR.md               # Turkish primary documentation
 └── AGENTS.md                  # Development instructions & system rules
 ```
 
 ---
 
-## Türkçe Dokümantasyon
+## 🌐 Language Navigation / Dil Seçimi
 
-<details>
-<summary><strong>Türkçe Detaylı Dokümantasyon (Genişletmek için Tıklayınız)</strong></summary>
-
-<br>
-
-### 1. Genel Bakış ve Proje Amacı
-
-**Microsoft EcoRAG Lab**; Microsoft'un 2024, 2025 ve 2026 Çevresel Sürdürülebilirlik Raporlarını tamamen yerel donanımda (on-device) indeksleyen, **sıfır halüsinasyon** ve **%100 matematiksel doğruluk** garantisi sunan kurumsal bir ESG yapay zeka analiz motorudur.
-
-Standart büyük dil modellerinin (LLM) en büyük zaafı olan sayısal uydurma ve halüsinasyon sorunları; **Program-Aided Language (PAL)** motoru, **Pydantic tip güvenliği** ve **Asimetrik Hibrit Vektör Arama** mimarisi ile çözülmüştür.
+- 🇹🇷 **Türkçe Dokümantasyon:** Tüm mimari detayları, görsel tanıtımı ve açıklamaları Türkçe okumak için **[README_TR.md](README_TR.md)** sayfasını ziyaret ediniz.
+- 🇬🇧 **English Documentation:** You are currently viewing the English documentation.
 
 ---
 
-### 2. Temel Mimari Bileşenleri
-
-1. **Foundry Local ile %100 Yerel Çıkarım:** `phi-4-mini` modeli tamamen yerel olarak çalıştırılır. Hiçbir kurumsal veri buluta iletilmez, API maliyeti oluşturmaz ve tam gizlilik sağlar.
-2. **Deterministik PAL Motoru (`esg_tables.py`):** Scope 1/2/3 emisyon farkları, karbon uzaklaştırma teknolojileri, su tamamlama oranları ve atık kurtarma tonajları Python DataFrame'leri üzerinden deterministik hesaplanır; model yalnızca metin sentezi yapar.
-3. **Hibrit Arama & Asimetrik Vektörleme:** `nomic-embed-text-v1.5` ile dokümanlar `search_document:`, kullanıcı sorguları `search_query:` önekiyle 768 boyutlu yoğun vektörlere dönüştürülür. Anahtar kelime eşleşmesi ile birleştirilerek hibrit skor üretilir.
-4. **Pydantic Doğrulama Katmanı (`extraction_pipeline.py`):** Modelin ürettiği çıkarımlar katı şemalara tabi tutulur. Zaman aralığı (FY20-FY25) ve birim uyumsuzlukları anında elenir.
-5. **Sayfa Düzeyinde Veri Menşei (Provenance):** Her cevabın altında ilgili rapor adı, sayfa numarası, benzerlik skoru ve yanıt süresi şeffaf olarak listelenir.
-
----
-
-### 3. Kullanıcı Arayüzü Özellikleri
-
-- **Gerçek Zamanlı Yanıt Akışı (Streaming):** Token bazlı akıcı sohbet deneyimi.
-- **Otomatik Dil Tespiti:** Türkçe veya İngilizce sorulan soruları otomatik algılayarak aynı dilde yanıt verme.
-- **4 Kurumsal Fluent Tema:** Blush Rose, Fluent Azure, Eco Emerald ve Pure Light paletleri.
-- **Canlı ESG Bilançosu:** Scope 1-2-3, Karbon Uzaklaştırma, Su ve Sıfır Atık tablolarını içeren interaktif gösterge paneli.
-
----
-
-### 4. Kurulum ve Çalıştırma
-
-```bash
-# Sanal ortamı kurun ve aktif edin
-python -m venv .venv
-source .venv/bin/activate
-
-# Bağımlılıkları yükleyin
-pip install -r requirements.txt
-
-# Streamlit uygulamasını başlatın
-streamlit run app.py --server.port 8501
-```
-
----
-
-### 5. 50 Soruluk Üretim Benchmark Testi
-
-```bash
-# 50 sorunun tamamını çalıştır
-python run_benchmarks.py
-
-# Zorluk derecesine göre filtrele (easy, medium, hard, trend, negative)
-python run_benchmarks.py --difficulty hard
-
-# Senaryoya göre filtrele (carbon, water, energy, waste)
-python run_benchmarks.py --scenario carbon
-```
-
-**Test Başarı Özeti:**
-- Sayısal ve PAL Hesaplamalarında: **%100 Doğruluk** (10/10)
-- Alan Dışı Sorularda (Negatif Kontrol): **%100 Sıfır Halüsinasyon** (8/8)
-- 3 Yıllık Trend Sorularında: **%90 Doğruluk** (9/10)
-
-</details>
-
----
-
-## License
+## 📄 License
 
 MIT License — See [LICENSE](LICENSE) for details.
