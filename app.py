@@ -317,29 +317,109 @@ with st.sidebar:
         st.rerun()
 
 # ══════════════════════════════════════════════════════════════════════════════
-# DİNAMİK TEMA ENJEKSİYONU (3 FARKLI PALET - TAM KONTRAST GARANTİLİ)
+# DİNAMİK TEMA ENJEKSİYONU (3 FARKLI PALET - TAM KONTRAST & EKSİKSİZ BİLEŞEN UYUMU)
 # ══════════════════════════════════════════════════════════════════════════════
 if "Eco Emerald" in theme_choice:
     st.html("""
     <style>
     /* 🌿 Eco Emerald Dark Theme */
-    .stApp, .stApp p, .stApp span, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6, .stApp label, .stApp div[data-testid="stMarkdownContainer"] p {
-        color: #e6edf3 !important;
-    }
     .stApp {
         background-color: #0d1117 !important;
     }
-    section[data-testid="stSidebar"], section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label {
-        background-color: #161b22 !important;
+    header[data-testid="stHeader"] {
+        background-color: #0d1117 !important;
+    }
+    .stApp, .stApp p, .stApp span, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6, .stApp label, .stApp div[data-testid="stMarkdownContainer"] p {
         color: #e6edf3 !important;
+    }
+    section[data-testid="stSidebar"] {
+        background-color: #161b22 !important;
         border-right: 1px solid #30363d !important;
     }
-    div[data-testid="stMetricValue"] {
+    section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] h3 {
+        color: #e6edf3 !important;
+    }
+    /* Pills (Hızlı Sorular) */
+    div[data-testid="stPills"] button, div[data-testid="stPills"] [data-baseweb="tag"], div[data-testid="stPills"] span {
+        background-color: #21262d !important;
+        color: #e6edf3 !important;
+        border: 1px solid #30363d !important;
+        font-weight: 500 !important;
+    }
+    div[data-testid="stPills"] button:hover {
+        background-color: #30363d !important;
         color: #58a6ff !important;
     }
-    div[data-testid="stMetricLabel"] {
+    div[data-testid="stPills"] button[aria-pressed="true"], div[data-testid="stPills"] [aria-selected="true"] {
+        background-color: #238636 !important;
+        color: #ffffff !important;
+        border-color: #2ea043 !important;
+    }
+    div[data-testid="stPills"] button[aria-pressed="true"] span {
+        color: #ffffff !important;
+    }
+    /* Segmented Control (Dil Seçici) */
+    div[data-testid="stSegmentedControl"] button {
+        background-color: #21262d !important;
+        color: #e6edf3 !important;
+        border: 1px solid #30363d !important;
+        font-weight: 500 !important;
+    }
+    div[data-testid="stSegmentedControl"] button[aria-checked="true"], div[data-testid="stSegmentedControl"] button[aria-pressed="true"] {
+        background-color: #238636 !important;
+        color: #ffffff !important;
+    }
+    div[data-testid="stSegmentedControl"] button[aria-checked="true"] p, div[data-testid="stSegmentedControl"] button[aria-checked="true"] span {
+        color: #ffffff !important;
+    }
+    /* Chat Input */
+    div[data-testid="stChatInput"] {
+        background-color: #161b22 !important;
+        border: 1px solid #30363d !important;
+        border-radius: 12px !important;
+    }
+    div[data-testid="stChatInput"] textarea {
+        background-color: transparent !important;
+        color: #e6edf3 !important;
+    }
+    div[data-testid="stChatInput"] textarea::placeholder {
         color: #8b949e !important;
     }
+    div[data-testid="stChatInput"] button {
+        color: #58a6ff !important;
+    }
+    /* Code Badges */
+    code {
+        background-color: #21262d !important;
+        color: #58a6ff !important;
+        border: 1px solid #30363d !important;
+        border-radius: 4px;
+        padding: 2px 6px;
+        font-weight: 600;
+    }
+    /* Button */
+    .stButton > button {
+        background-color: #21262d !important;
+        color: #e6edf3 !important;
+        border: 1px solid #30363d !important;
+        font-weight: 600 !important;
+    }
+    .stButton > button:hover {
+        background-color: #30363d !important;
+        border-color: #8b949e !important;
+    }
+    /* Selectbox */
+    div[data-baseweb="select"] > div {
+        background-color: #161b22 !important;
+        color: #e6edf3 !important;
+        border: 1px solid #30363d !important;
+    }
+    div[data-baseweb="select"] span {
+        color: #e6edf3 !important;
+    }
+    /* Metrics, Cards, Expanders */
+    div[data-testid="stMetricValue"] { color: #58a6ff !important; }
+    div[data-testid="stMetricLabel"] { color: #8b949e !important; }
     div[data-testid="stMetric"] {
         background-color: #161b22 !important;
         border: 1px solid #30363d !important;
@@ -354,16 +434,12 @@ if "Eco Emerald" in theme_choice:
         background-color: #161b22 !important;
         border: 1px solid #30363d !important;
     }
-    div[data-testid="stChatMessage"] p, div[data-testid="stChatMessage"] span {
-        color: #e6edf3 !important;
-    }
+    div[data-testid="stChatMessage"] p, div[data-testid="stChatMessage"] span { color: #e6edf3 !important; }
     div[data-testid="stExpander"] {
         background-color: #161b22 !important;
         border: 1px solid #30363d !important;
     }
-    div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] summary {
-        color: #e6edf3 !important;
-    }
+    div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] summary { color: #e6edf3 !important; }
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
     }
@@ -373,37 +449,116 @@ if "Eco Emerald" in theme_choice:
         border-radius: 6px;
         padding: 8px 16px;
     }
-    .stTabs [data-baseweb="tab"] p, .stTabs [data-baseweb="tab"] span {
-        color: #8b949e !important;
-    }
+    .stTabs [data-baseweb="tab"] p, .stTabs [data-baseweb="tab"] span { color: #8b949e !important; }
     .stTabs [aria-selected="true"] {
         background-color: #238636 !important;
         color: #ffffff !important;
         font-weight: 600;
     }
-    .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span {
-        color: #ffffff !important;
-    }
-    .stApp small, .stApp .stCaption, .stApp caption, .stApp div[data-testid="stCaptionContainer"] {
-        color: #8b949e !important;
-    }
+    .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span { color: #ffffff !important; }
+    .stApp small, .stApp .stCaption, .stApp caption, .stApp div[data-testid="stCaptionContainer"] { color: #8b949e !important; }
     </style>
     """)
 elif "Fluent Azure" in theme_choice:
     st.html("""
     <style>
     /* 💼 Fluent Azure Light Theme */
-    .stApp, .stApp p, .stApp span, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6, .stApp label, .stApp div[data-testid="stMarkdownContainer"] p {
-        color: #111827 !important; /* Çok net koyu metin */
-    }
     .stApp {
         background-color: #f8fafc !important;
     }
-    section[data-testid="stSidebar"], section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label {
+    header[data-testid="stHeader"] {
+        background-color: #f8fafc !important;
+    }
+    .stApp, .stApp p, .stApp span, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6, .stApp label, .stApp div[data-testid="stMarkdownContainer"] p {
+        color: #0f172a !important; /* Çok net koyu metin */
+    }
+    section[data-testid="stSidebar"] {
         background-color: #f1f5f9 !important;
-        color: #0f172a !important;
         border-right: 1px solid #cbd5e1 !important;
     }
+    section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] h3 {
+        color: #0f172a !important;
+    }
+    /* Pills (Hızlı Sorular) */
+    div[data-testid="stPills"] button, div[data-testid="stPills"] [data-baseweb="tag"], div[data-testid="stPills"] span {
+        background-color: #e2e8f0 !important;
+        color: #0f172a !important;
+        border: 1px solid #cbd5e1 !important;
+        font-weight: 600 !important;
+    }
+    div[data-testid="stPills"] button:hover {
+        background-color: #cbd5e1 !important;
+        color: #000000 !important;
+    }
+    div[data-testid="stPills"] button[aria-pressed="true"], div[data-testid="stPills"] [aria-selected="true"] {
+        background-color: #0078d4 !important;
+        color: #ffffff !important;
+        border-color: #005a9e !important;
+    }
+    div[data-testid="stPills"] button[aria-pressed="true"] span {
+        color: #ffffff !important;
+    }
+    /* Segmented Control (Dil Seçici) */
+    div[data-testid="stSegmentedControl"] button {
+        background-color: #e2e8f0 !important;
+        color: #0f172a !important;
+        border: 1px solid #cbd5e1 !important;
+        font-weight: 600 !important;
+    }
+    div[data-testid="stSegmentedControl"] button[aria-checked="true"], div[data-testid="stSegmentedControl"] button[aria-pressed="true"] {
+        background-color: #0078d4 !important;
+        color: #ffffff !important;
+    }
+    div[data-testid="stSegmentedControl"] button[aria-checked="true"] p, div[data-testid="stSegmentedControl"] button[aria-checked="true"] span {
+        color: #ffffff !important;
+    }
+    /* Chat Input */
+    div[data-testid="stChatInput"] {
+        background-color: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 12px !important;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05) !important;
+    }
+    div[data-testid="stChatInput"] textarea {
+        background-color: transparent !important;
+        color: #0f172a !important;
+    }
+    div[data-testid="stChatInput"] textarea::placeholder {
+        color: #64748b !important;
+    }
+    div[data-testid="stChatInput"] button {
+        color: #0078d4 !important;
+    }
+    /* Code Badges */
+    code {
+        background-color: #e2e8f0 !important;
+        color: #0078d4 !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 4px;
+        padding: 2px 6px;
+        font-weight: 600;
+    }
+    /* Button */
+    .stButton > button {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+        border: 1px solid #cbd5e1 !important;
+        font-weight: 600 !important;
+    }
+    .stButton > button:hover {
+        background-color: #e2e8f0 !important;
+        border-color: #94a3b8 !important;
+    }
+    /* Selectbox */
+    div[data-baseweb="select"] > div {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+        border: 1px solid #cbd5e1 !important;
+    }
+    div[data-baseweb="select"] span {
+        color: #0f172a !important;
+    }
+    /* Metrics, Cards, Expanders */
     div[data-testid="stMetricValue"] {
         color: #0f172a !important;
         font-weight: 700;
@@ -428,10 +583,10 @@ elif "Fluent Azure" in theme_choice:
     div[data-testid="stChatMessage"] {
         background-color: #ffffff !important;
         border: 1px solid #cbd5e1 !important;
-        color: #111827 !important;
+        color: #0f172a !important;
     }
     div[data-testid="stChatMessage"] p, div[data-testid="stChatMessage"] span {
-        color: #111827 !important;
+        color: #0f172a !important;
     }
     div[data-testid="stExpander"] {
         background-color: #ffffff !important;
@@ -472,17 +627,102 @@ else:
     st.html("""
     <style>
     /* 🌸 Toz Pembe Pastel / Blush Rose Theme */
-    .stApp, .stApp p, .stApp span, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6, .stApp label, .stApp div[data-testid="stMarkdownContainer"] p {
-        color: #2d1b22 !important; /* Net okunur koyu mürdüm-antrasit */
-    }
     .stApp {
         background: linear-gradient(180deg, #fdf6f7 0%, #f7e8ec 100%) !important;
     }
-    section[data-testid="stSidebar"], section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label {
+    header[data-testid="stHeader"] {
+        background-color: #fdf6f7 !important;
+    }
+    .stApp, .stApp p, .stApp span, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6, .stApp label, .stApp div[data-testid="stMarkdownContainer"] p {
+        color: #2d1b22 !important; /* Net okunur koyu mürdüm-antrasit */
+    }
+    section[data-testid="stSidebar"] {
         background-color: #f7e2e6 !important;
-        color: #2d1b22 !important;
         border-right: 1px solid #e8bcc5 !important;
     }
+    section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] h3 {
+        color: #2d1b22 !important;
+    }
+    /* Pills (Hızlı Sorular) */
+    div[data-testid="stPills"] button, div[data-testid="stPills"] [data-baseweb="tag"], div[data-testid="stPills"] span {
+        background-color: #fceef1 !important;
+        color: #501d2d !important;
+        border: 1px solid #e8bcc5 !important;
+        font-weight: 600 !important;
+    }
+    div[data-testid="stPills"] button:hover {
+        background-color: #fadce2 !important;
+        color: #2d1b22 !important;
+    }
+    div[data-testid="stPills"] button[aria-pressed="true"], div[data-testid="stPills"] [aria-selected="true"] {
+        background-color: #be185d !important;
+        color: #ffffff !important;
+        border-color: #9d174d !important;
+    }
+    div[data-testid="stPills"] button[aria-pressed="true"] span {
+        color: #ffffff !important;
+    }
+    /* Segmented Control (Dil Seçici) */
+    div[data-testid="stSegmentedControl"] button {
+        background-color: #fceef1 !important;
+        color: #501d2d !important;
+        border: 1px solid #e8bcc5 !important;
+        font-weight: 600 !important;
+    }
+    div[data-testid="stSegmentedControl"] button[aria-checked="true"], div[data-testid="stSegmentedControl"] button[aria-pressed="true"] {
+        background-color: #be185d !important;
+        color: #ffffff !important;
+    }
+    div[data-testid="stSegmentedControl"] button[aria-checked="true"] p, div[data-testid="stSegmentedControl"] button[aria-checked="true"] span {
+        color: #ffffff !important;
+    }
+    /* Chat Input */
+    div[data-testid="stChatInput"] {
+        background-color: #ffffff !important;
+        border: 1px solid #e8bcc5 !important;
+        border-radius: 12px !important;
+        box-shadow: 0 2px 8px rgba(184, 93, 117, 0.08) !important;
+    }
+    div[data-testid="stChatInput"] textarea {
+        background-color: transparent !important;
+        color: #2d1b22 !important;
+    }
+    div[data-testid="stChatInput"] textarea::placeholder {
+        color: #83184399 !important;
+    }
+    div[data-testid="stChatInput"] button {
+        color: #be185d !important;
+    }
+    /* Code Badges */
+    code {
+        background-color: #fadce2 !important;
+        color: #9d174d !important;
+        border: 1px solid #e8bcc5 !important;
+        border-radius: 4px;
+        padding: 2px 6px;
+        font-weight: 600;
+    }
+    /* Button */
+    .stButton > button {
+        background-color: #ffffff !important;
+        color: #501d2d !important;
+        border: 1px solid #e8bcc5 !important;
+        font-weight: 600 !important;
+    }
+    .stButton > button:hover {
+        background-color: #fadce2 !important;
+        border-color: #be185d !important;
+    }
+    /* Selectbox */
+    div[data-baseweb="select"] > div {
+        background-color: #ffffff !important;
+        color: #2d1b22 !important;
+        border: 1px solid #e8bcc5 !important;
+    }
+    div[data-baseweb="select"] span {
+        color: #2d1b22 !important;
+    }
+    /* Metrics, Cards, Expanders */
     div[data-testid="stMetricValue"] {
         color: #831843 !important; /* Derin gül kurusu rengi */
         font-weight: 700;
