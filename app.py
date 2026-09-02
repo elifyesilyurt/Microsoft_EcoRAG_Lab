@@ -281,41 +281,53 @@ with st.sidebar:
     st.markdown("### :material/eco: **EcoRAG Lab**")
     st.caption("Deterministic Sustainability Analysis")
 
-    # Yatay Dil Açma/Kapama Düğmesi (Sol: English EN, Sağ: Türkçe TR)
-    lang_choice = st.segmented_control(
+    # 1. 🌐 Yatay Dil Anahtarı (st.toggle)
+    # Kapalı (False) = 🇬🇧 English, Açık (True) = 🇹🇷 Türkçe
+    if "is_turkish" not in st.session_state:
+        st.session_state.is_turkish = True
+
+    toggle_val = st.toggle(
         "Language / Dil",
-        options=["English (EN)", "Türkçe (TR)"],
-        default="Türkçe (TR)",
-        key="lang_choice"
+        value=st.session_state.is_turkish,
+        key="lang_toggle"
     )
-    is_tr = (lang_choice == "Türkçe (TR)")
+    st.session_state.is_turkish = toggle_val
+    is_tr = st.session_state.is_turkish
+
+    if is_tr:
+        st.caption("🇹🇷 **Türkçe (TR)** aktif")
+    else:
+        st.caption("🇬🇧 **English (EN)** active")
+
     L = "tr" if is_tr else "en"
     T = TEXTS[L]
 
-    # 🎨 Dinamik & Kullanıcı Dostu Tema Seçici (4 Farklı Palet)
+    # 2. 🎨 Temalar İçin Yatay Kapsüller (st.pills)
+    st.markdown(f"**{T['theme_label']}**")
     theme_meta = [
-        {"id": "pink", "label_tr": "🌸 Pudra Pembe", "label_en": "🌸 Blush Rose"},
-        {"id": "white", "label_tr": "⚪ Saf Beyaz (Açık)", "label_en": "⚪ Pure Light (White)"},
-        {"id": "blue", "label_tr": "🌊 Buzul Mavisi (Açık)", "label_en": "🌊 Arctic Azure (Light)"},
-        {"id": "dark", "label_tr": "🌿 Gece Zümrüdü (Koyu)", "label_en": "🌿 Midnight Emerald (Dark)"}
+        {"id": "pink", "label_tr": "🌸 Toz Pembe", "label_en": "🌸 Blush Rose"},
+        {"id": "blue", "label_tr": "💼 Fluent Azure", "label_en": "💼 Fluent Azure"},
+        {"id": "dark", "label_tr": "🌿 Eco Emerald", "label_en": "🌿 Eco Emerald"},
+        {"id": "white", "label_tr": "⚪ Saf Beyaz", "label_en": "⚪ Pure Light"}
     ]
     if "theme_id" not in st.session_state:
         st.session_state.theme_id = "pink"
 
-    theme_display_options = [m["label_tr"] if is_tr else m["label_en"] for m in theme_meta]
+    theme_options = [m["label_tr"] if is_tr else m["label_en"] for m in theme_meta]
     id_to_label = {m["id"]: (m["label_tr"] if is_tr else m["label_en"]) for m in theme_meta}
     label_to_id = {(m["label_tr"] if is_tr else m["label_en"]): m["id"] for m in theme_meta}
 
-    current_label = id_to_label.get(st.session_state.theme_id, theme_display_options[0])
+    current_label = id_to_label.get(st.session_state.theme_id, theme_options[0])
 
-    selected_theme_label = st.segmented_control(
+    selected_pill = st.pills(
         T["theme_label"],
-        options=theme_display_options,
+        options=theme_options,
         default=current_label,
-        key="theme_segmented_control"
+        key="sidebar_theme_pills",
+        label_visibility="collapsed"
     )
-    if selected_theme_label:
-        st.session_state.theme_id = label_to_id.get(selected_theme_label, "pink")
+    if selected_pill:
+        st.session_state.theme_id = label_to_id.get(selected_pill, "pink")
     current_theme_id = st.session_state.theme_id
 
     with st.container(border=True):
