@@ -296,8 +296,8 @@ with st.sidebar:
         t_sub = "#475569"
         t_body = "#0f172a"
 
-    st.markdown(f"<h3 style='color: {t_head}; margin-bottom: 2px; font-weight: 800;'>🌱 EcoRAG Lab</h3>", unsafe_allow_html=True)
-    st.markdown(f"<div style='color: {t_sub}; font-size: 12px; margin-bottom: 14px; font-weight: 500;'>Deterministic Sustainability Analysis</div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='margin-top: -28px; margin-bottom: 2px;'><span style='font-size: 25px; font-weight: 900; color: {t_head}; display: flex; align-items: center; gap: 8px; letter-spacing: -0.5px;'>🌱 EcoRAG Lab</span></div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='color: {t_sub}; font-size: 13px; margin-bottom: 18px; font-weight: 500;'>Deterministic Sustainability Analysis</div>", unsafe_allow_html=True)
 
     # 1. 🌐 Kompakt Dil Seçici (st.pills - 🇬🇧 EN & 🇹🇷 TR)
     if "is_turkish" not in st.session_state:
@@ -640,6 +640,10 @@ elif current_theme_id == "white":
         color: #0f172a !important;
         border-color: #64748b !important;
     }
+    .stApp div[data-testid="stPills"] [aria-pressed="true"],
+    .stApp div[data-testid="stPills"] [aria-selected="true"],
+    .stApp div[data-testid="stPills"] [aria-checked="true"],
+    .stApp div[role="radiogroup"] [aria-checked="true"],
     div[data-testid="stPills"] [aria-pressed="true"],
     div[data-testid="stPills"] [aria-selected="true"],
     div[data-testid="stPills"] [aria-checked="true"],
@@ -648,10 +652,20 @@ elif current_theme_id == "white":
         color: #ffffff !important;
         border: 2px solid #000000 !important;
     }
+    .stApp div[data-testid="stPills"] [aria-pressed="true"] *,
+    .stApp div[data-testid="stPills"] [aria-selected="true"] *,
+    .stApp div[data-testid="stPills"] [aria-checked="true"] *,
+    .stApp div[role="radiogroup"] [aria-checked="true"] *,
+    div[data-testid="stPills"] [aria-pressed="true"] *,
+    div[data-testid="stPills"] [aria-selected="true"] *,
+    div[data-testid="stPills"] [aria-checked="true"] *,
     div[data-testid="stPills"] [aria-pressed="true"] span,
     div[data-testid="stPills"] [aria-selected="true"] span,
-    div[data-testid="stPills"] [aria-checked="true"] span {
+    div[data-testid="stPills"] [aria-checked="true"] span,
+    div[data-testid="stPills"] [aria-pressed="true"] p,
+    div[data-testid="stPills"] [aria-pressed="true"] div {
         color: #ffffff !important;
+        font-weight: 700 !important;
     }
 
     /* 🎛️ Segmented Control (Dil & Tema Seçici) */
@@ -936,6 +950,9 @@ elif current_theme_id == "blue":
         color: #032b43 !important;
         border-color: #0078d4 !important;
     }
+    .stApp div[data-testid="stPills"] [aria-pressed="true"],
+    .stApp div[data-testid="stPills"] [aria-selected="true"],
+    .stApp div[data-testid="stPills"] [aria-checked="true"],
     div[data-testid="stPills"] [aria-pressed="true"],
     div[data-testid="stPills"] [aria-selected="true"],
     div[data-testid="stPills"] [aria-checked="true"],
@@ -944,11 +961,12 @@ elif current_theme_id == "blue":
         color: #ffffff !important;
         border: 2px solid #005a9e !important;
     }
-    div[data-testid="stPills"] span,
-    div[data-testid="stPills"] p,
-    div[data-testid="stPills"] div {
-        background-color: transparent !important;
-        color: inherit !important;
+    .stApp div[data-testid="stPills"] [aria-pressed="true"] *,
+    .stApp div[data-testid="stPills"] [aria-selected="true"] *,
+    .stApp div[data-testid="stPills"] [aria-checked="true"] *,
+    div[data-testid="stPills"] [aria-pressed="true"] * {
+        color: #ffffff !important;
+        font-weight: 700 !important;
     }
 
     /* 🎛️ Segmented Control (Dil Seçici - Açık Mavi & Koyu Mavi) */
@@ -1223,6 +1241,9 @@ else:
         color: #2d050f !important;
         border-color: #b85d75 !important;
     }
+    .stApp div[data-testid="stPills"] [aria-pressed="true"],
+    .stApp div[data-testid="stPills"] [aria-selected="true"],
+    .stApp div[data-testid="stPills"] [aria-checked="true"],
     div[data-testid="stPills"] [aria-pressed="true"],
     div[data-testid="stPills"] [aria-selected="true"],
     div[data-testid="stPills"] [aria-checked="true"],
@@ -1231,10 +1252,13 @@ else:
         color: #2d050f !important;
         border: 2px solid #b85d75 !important;
     }
-    div[data-testid="stPills"] span,
-    div[data-testid="stPills"] p,
-    div[data-testid="stPills"] div {
-        background-color: transparent !important;
+    .stApp div[data-testid="stPills"] [aria-pressed="true"] *,
+    .stApp div[data-testid="stPills"] [aria-selected="true"] *,
+    .stApp div[data-testid="stPills"] [aria-checked="true"] *,
+    div[data-testid="stPills"] [aria-pressed="true"] * {
+        color: #2d050f !important;
+        font-weight: 700 !important;
+    }
         color: inherit !important;
     }
 
