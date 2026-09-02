@@ -298,7 +298,7 @@ with st.sidebar:
         options=[
             "🌿 Eco Emerald (Koyu / Dark)",
             "💼 Fluent Azure (Açık / Light)",
-            "🌸 Pastel Sage & Sand (Pastel Soft)"
+            "🌸 Toz Pembe Pastel (Blush Rose)"
         ],
         index=0
     )
@@ -364,34 +364,58 @@ elif "Fluent Azure" in theme_choice:
     </style>
     """)
 else:
-    # 🌸 Pastel Sage & Sand (Soft Muted Pastel Palette)
+    # 🌸 Toz Pembe Pastel (Blush Rose Theme)
     st.html("""
     <style>
-    /* Pastel Sage & Sand Theme */
+    /* Toz Pembe Pastel / Blush Rose Theme */
     .stApp {
-        background-color: #f4f6f4;
-        color: #2d3748;
+        background: linear-gradient(180deg, #fdf6f7 0%, #faedf0 100%);
+        color: #3e2d33;
+    }
+    section[data-testid="stSidebar"] {
+        background-color: #f7e6e9 !important;
+        border-right: 1px solid #ebd0d6 !important;
     }
     .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
+        gap: 10px;
     }
     .stTabs [data-baseweb="tab"] {
         border-radius: 8px;
-        padding: 8px 16px;
-        background-color: #e9efe9;
-        color: #4a5568;
+        padding: 8px 18px;
+        background-color: #f3dce1;
+        color: #6a4953;
+        border: 1px solid #ebd0d6;
+        transition: all 0.2s ease;
     }
     .stTabs [aria-selected="true"] {
-        background-color: #d1e2d2 !important;
-        color: #2b6cb0 !important;
-        font-weight: 600;
-        border-bottom: 2px solid #68d391;
+        background-color: #e8b8c3 !important;
+        color: #5c1e30 !important;
+        font-weight: 700;
+        border: 1px solid #d99ca9 !important;
+        border-bottom: 3px solid #b85d75 !important;
     }
     div[data-testid="stMetric"] {
         background-color: #ffffff !important;
-        border-radius: 10px;
-        border: 1px solid #e2e8f0;
-        padding: 12px;
+        border-radius: 12px;
+        border: 1px solid #ebd0d6;
+        box-shadow: 0 2px 8px rgba(184, 93, 117, 0.06);
+        padding: 14px;
+    }
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        background-color: #ffffffea !important;
+        border-radius: 12px !important;
+        border: 1px solid #ebd0d6 !important;
+        box-shadow: 0 2px 6px rgba(184, 93, 117, 0.04);
+    }
+    div[data-testid="stExpander"] {
+        background-color: #ffffffcc !important;
+        border: 1px solid #ebd0d6 !important;
+        border-radius: 8px !important;
+    }
+    .stChatMessage {
+        background-color: #ffffffcc !important;
+        border-radius: 12px !important;
+        border: 1px solid #f0d8dd !important;
     }
     </style>
     """)
