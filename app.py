@@ -689,22 +689,48 @@ else:
     [data-testid*="stPills"] [aria-checked="true"] * {
         color: #2d050f !important;
     }
-    /* Segmented Control (Dil Seçici) */
-    div[data-testid="stSegmentedControl"] button,
-    div[data-testid="stSegmentedControl"] button * {
-        background-color: #fceef1 !important;
-        color: #501d2d !important;
-        border: 1px solid #e8bcc5 !important;
+    /* 🎛️ Segmented Control (Dil Seçici - Tam Toz Pembe Kontrol) */
+    [data-testid*="stSegmentedControl"],
+    [data-testid*="stSegmentedControl"] > div,
+    [data-testid*="stSegmentedControl"] [data-baseweb="button-group"],
+    [data-testid*="stSegmentedControl"] [role="radiogroup"] {
+        background-color: transparent !important;
+        border: none !important;
+    }
+    [data-testid*="stSegmentedControl"] button,
+    [data-testid*="stSegmentedControl"] [role="radio"],
+    [data-testid*="stSegmentedControl"] [data-baseweb="button-group"] button {
+        background-color: #f7dbe1 !important; /* Sayfa zemininden bir tık koyu, tatlı ve açık bir toz pembe (#f7dbe1) */
+        color: #4a0e1e !important; /* Açık pembe üzerinde kristal netliğinde okunan koyu mürdüm/bordo (#4a0e1e) */
+        border: 1.5px solid #d99ca9 !important; /* 1.5px solid #d99ca9 zarif gül kurusu çerçeve */
         font-weight: 600 !important;
     }
-    div[data-testid="stSegmentedControl"] button[aria-checked="true"],
-    div[data-testid="stSegmentedControl"] button[aria-pressed="true"] {
-        background-color: #f0c3cb !important;
+    [data-testid*="stSegmentedControl"] button *,
+    [data-testid*="stSegmentedControl"] [role="radio"] * {
         color: #4a0e1e !important;
-        border: 2px solid #d99ca9 !important;
+        background-color: transparent !important;
     }
-    div[data-testid="stSegmentedControl"] button[aria-checked="true"] * {
+    [data-testid*="stSegmentedControl"] button:hover,
+    [data-testid*="stSegmentedControl"] [role="radio"]:hover {
+        background-color: #ebd0d6 !important;
+        border-color: #b85d75 !important;
+        color: #2d050f !important;
+    }
+    [data-testid*="stSegmentedControl"] [aria-checked="true"],
+    [data-testid*="stSegmentedControl"] [aria-selected="true"],
+    [data-testid*="stSegmentedControl"] [aria-pressed="true"],
+    [data-testid*="stSegmentedControl"] button[aria-checked="true"],
+    [data-testid*="stSegmentedControl"] [data-checked="true"] {
+        background-color: #f0c3cb !important; /* Seçili Durum: #f0c3cb zemin */
         color: #4a0e1e !important;
+        border: 2px solid #b85d75 !important; /* 2px solid #b85d75 belirgin pembe çerçeve */
+        font-weight: 700 !important;
+    }
+    [data-testid*="stSegmentedControl"] [aria-checked="true"] *,
+    [data-testid*="stSegmentedControl"] [aria-selected="true"] *,
+    [data-testid*="stSegmentedControl"] [aria-pressed="true"] * {
+        color: #4a0e1e !important;
+        font-weight: 700 !important;
     }
     /* 💬 Chat Input & Bottom Bar (Siyahlığı Tamamen Kaldırır) */
     [data-testid="stBottom"],
