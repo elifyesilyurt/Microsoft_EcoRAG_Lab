@@ -281,23 +281,30 @@ with st.sidebar:
     st.markdown("### :material/eco: **EcoRAG Lab**")
     st.caption("Deterministic Sustainability Analysis")
 
-    # 1. 🌐 Yatay Dil Anahtarı (st.toggle)
-    # Kapalı (False) = 🇬🇧 English, Açık (True) = 🇹🇷 Türkçe
+    # 1. 🌐 Yatay Dil Anahtarı (🇬🇧 EN [TOGGLE] 🇹🇷 TR)
     if "is_turkish" not in st.session_state:
         st.session_state.is_turkish = True
 
-    toggle_val = st.toggle(
-        "Language / Dil",
-        value=st.session_state.is_turkish,
-        key="lang_toggle"
-    )
+    is_tr_current = st.session_state.is_turkish
+    st.markdown(f"**{'Dil / Language' if is_tr_current else 'Language / Dil'}**")
+
+    col_en, col_toggle, col_tr = st.columns([1.1, 1.2, 1.1], vertical_alignment="center")
+    with col_en:
+        en_opacity = "1.0; font-weight: 700;" if not is_tr_current else "0.5; font-weight: 500;"
+        st.markdown(f"<div style='text-align: right; font-size: 14px; opacity: {en_opacity}'>🇬🇧 EN</div>", unsafe_allow_html=True)
+    with col_toggle:
+        toggle_val = st.toggle(
+            "Language Toggle",
+            value=st.session_state.is_turkish,
+            key="lang_toggle",
+            label_visibility="collapsed"
+        )
+    with col_tr:
+        tr_opacity = "1.0; font-weight: 700;" if toggle_val else "0.5; font-weight: 500;"
+        st.markdown(f"<div style='text-align: left; font-size: 14px; opacity: {tr_opacity}'>🇹🇷 TR</div>", unsafe_allow_html=True)
+
     st.session_state.is_turkish = toggle_val
     is_tr = st.session_state.is_turkish
-
-    if is_tr:
-        st.caption("🇹🇷 **Türkçe (TR)** aktif")
-    else:
-        st.caption("🇬🇧 **English (EN)** active")
 
     L = "tr" if is_tr else "en"
     T = TEXTS[L]
