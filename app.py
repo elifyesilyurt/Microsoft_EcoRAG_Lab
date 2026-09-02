@@ -281,66 +281,32 @@ with st.sidebar:
     st.markdown("### :material/eco: **EcoRAG Lab**")
     st.caption("Deterministic Sustainability Analysis")
 
-    # 1. 🌐 Yatay Dil Anahtarı (Büyük Bayraklar & Altında Kısaltmalar)
+    # 1. 🌐 Kompakt Dil Seçici (st.pills - 🇬🇧 EN & 🇹🇷 TR)
     if "is_turkish" not in st.session_state:
         st.session_state.is_turkish = True
 
-    curr_theme = st.session_state.get("theme_id", "pink")
-    if curr_theme == "dark":
-        active_color = "#ffffff"
-        inactive_color = "#8b949e"
-    elif curr_theme == "pink":
-        active_color = "#4a0e1e"
-        inactive_color = "#a36676"
-    elif curr_theme == "blue":
-        active_color = "#0c4a6e"
-        inactive_color = "#64748b"
-    else:  # white
-        active_color = "#0f172a"
-        inactive_color = "#94a3b8"
+    st.markdown("<div style='font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; opacity: 0.65; margin-bottom: 6px;'>LANGUAGE / DİL</div>", unsafe_allow_html=True)
 
-    is_tr_current = st.session_state.is_turkish
-    st.markdown(f"**{'Dil / Language' if is_tr_current else 'Language / Dil'}**")
+    lang_opts = ["🇬🇧 EN", "🇹🇷 TR"]
+    curr_lang = "🇹🇷 TR" if st.session_state.is_turkish else "🇬🇧 EN"
 
-    col_en, col_toggle, col_tr = st.columns([1, 1, 1], vertical_alignment="center")
-    with col_en:
-        en_color = active_color if not is_tr_current else inactive_color
-        en_weight = "800" if not is_tr_current else "500"
-        en_op = "1.0" if not is_tr_current else "0.5"
-        st.markdown(
-            f"<div style='text-align: center; line-height: 1.1; margin-right: -4px;'>"
-            f"<span style='font-size: 26px; display: inline-block;'>🇬🇧</span><br/>"
-            f"<span style='font-size: 13px; font-weight: {en_weight}; color: {en_color} !important; opacity: {en_op};'>EN</span>"
-            f"</div>",
-            unsafe_allow_html=True
-        )
-    with col_toggle:
-        toggle_val = st.toggle(
-            "Language Toggle",
-            value=st.session_state.is_turkish,
-            key="lang_toggle",
-            label_visibility="collapsed"
-        )
-    with col_tr:
-        tr_color = active_color if toggle_val else inactive_color
-        tr_weight = "800" if toggle_val else "500"
-        tr_op = "1.0" if toggle_val else "0.5"
-        st.markdown(
-            f"<div style='text-align: center; line-height: 1.1; margin-left: -4px;'>"
-            f"<span style='font-size: 26px; display: inline-block;'>🇹🇷</span><br/>"
-            f"<span style='font-size: 13px; font-weight: {tr_weight}; color: {tr_color} !important; opacity: {tr_op};'>TR</span>"
-            f"</div>",
-            unsafe_allow_html=True
-        )
-
-    st.session_state.is_turkish = toggle_val
+    selected_lang = st.pills(
+        "Language",
+        options=lang_opts,
+        default=curr_lang,
+        key="sidebar_lang_pills",
+        label_visibility="collapsed"
+    )
+    if selected_lang:
+        st.session_state.is_turkish = (selected_lang == "🇹🇷 TR")
     is_tr = st.session_state.is_turkish
 
     L = "tr" if is_tr else "en"
     T = TEXTS[L]
 
     # 2. 🎨 Temalar İçin Yatay Kapsüller (st.pills)
-    st.markdown(f"**{T['theme_label']}**")
+    st.markdown(f"<div style='font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; opacity: 0.65; margin-top: 14px; margin-bottom: 6px;'>{T['theme_label'].upper()}</div>", unsafe_allow_html=True)
+
     theme_meta = [
         {"id": "pink", "label_tr": "🌸 Toz Pembe", "label_en": "🌸 Blush Rose"},
         {"id": "blue", "label_tr": "💼 Fluent Azure", "label_en": "💼 Fluent Azure"},
@@ -367,14 +333,19 @@ with st.sidebar:
         st.session_state.theme_id = label_to_id.get(selected_pill, "pink")
     current_theme_id = st.session_state.theme_id
 
-    with st.container(border=True):
-        st.markdown(f"**{T['status_box_title']}**")
-        st.badge(T["status_badge"], icon=":material/check_circle:", color="green")
-        st.markdown(f"**{T['status_model']}:** `{MODEL_NAME}`")
-        st.markdown(f"**{T['status_embed']}:** `nomic-v1.5 (768d)`")
-        st.markdown(f"**{T['status_index']}:** `982 Chunks (3 PDF)`")
-        st.markdown(f"**{T['status_engine']}:** `PAL + Asymmetric IR`")
+    st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
 
+    # 3. 🛠️ Sistem Durumu Konteyneri (Rahatlatılmış Dikey Hizalama)
+    with st.container(border=True):
+        st.markdown(f"<div style='font-size: 13px; font-weight: 700; margin-bottom: 6px;'>{T['status_box_title']}</div>", unsafe_allow_html=True)
+        st.badge(T["status_badge"], icon=":material/check_circle:", color="green")
+        st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'><span style='opacity: 0.75; font-size: 13px;'>{T['status_model']}</span><code>{MODEL_NAME}</code></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'><span style='opacity: 0.75; font-size: 13px;'>{T['status_embed']}</span><code>nomic-v1.5</code></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'><span style='opacity: 0.75; font-size: 13px;'>{T['status_index']}</span><code>982 Chunks</code></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center;'><span style='opacity: 0.75; font-size: 13px;'>{T['status_engine']}</span><code>PAL + IR</code></div>", unsafe_allow_html=True)
+
+    st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
     if st.button(T["reset_btn"], icon=":material/delete:", width="stretch"):
         st.session_state.messages = []
         gc.collect()
