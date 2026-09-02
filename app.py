@@ -292,16 +292,26 @@ with st.sidebar:
     L = "tr" if is_tr else "en"
     T = TEXTS[L]
 
-    # Tema Seçici (3 Tema Seçeneği: Eco Emerald, Fluent Azure, Pastel Sage)
+    # Tema Seçici - State'i Dil Değişse Bile Asla Sıfırlanmaz
+    theme_options = [
+        "🌸 Toz Pembe Pastel (Blush Rose)",
+        "💼 Fluent Azure (Açık / Light)",
+        "🌿 Eco Emerald (Koyu / Dark)"
+    ]
+    if "current_theme" not in st.session_state:
+        st.session_state.current_theme = "🌸 Toz Pembe Pastel (Blush Rose)"
+
+    current_idx = 0
+    if st.session_state.current_theme in theme_options:
+        current_idx = theme_options.index(st.session_state.current_theme)
+
     theme_choice = st.selectbox(
         T["theme_label"],
-        options=[
-            "🌿 Eco Emerald (Koyu / Dark)",
-            "💼 Fluent Azure (Açık / Light)",
-            "🌸 Toz Pembe Pastel (Blush Rose)"
-        ],
-        index=0
+        options=theme_options,
+        index=current_idx,
+        key="theme_selector_dropdown"
     )
+    st.session_state.current_theme = theme_choice
 
     with st.container(border=True):
         st.markdown(f"**{T['status_box_title']}**")
