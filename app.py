@@ -459,9 +459,18 @@ if current_theme_id == "dark":
         color: #0d1117 !important;
     }
     /* Chat Input */
-    [data-testid="stBottom"], [data-testid="stBottom"] > div, [data-testid="stBottomBlockContainer"], [data-testid="stChatInputContainer"] {
-        background-color: transparent !important;
+    [data-testid="stBottom"], [data-testid="stBottom"] > div, [data-testid="stBottomBlockContainer"] {
+        position: fixed !important;
+        bottom: 0px !important;
+        left: 0px !important;
+        right: 0px !important;
+        z-index: 9999 !important;
+        background-color: #0d1117 !important;
         border: none !important;
+        padding: 10px 20px 20px 20px !important;
+    }
+    .main .block-container {
+        padding-bottom: 130px !important;
     }
     div[data-testid="stChatInput"] {
         background-color: #161b22 !important;
@@ -750,13 +759,18 @@ elif current_theme_id == "white":
     /* 💬 Chat Input & Bottom Bar */
     [data-testid="stBottom"],
     [data-testid="stBottom"] > div,
-    [data-testid="stBottomBlockContainer"],
-    [data-testid="stChatInputContainer"],
-    [data-testid="stChatInput"],
-    [data-testid="stChatInput"] > div,
-    [data-testid="stChatInput"] > div > div {
-        background-color: transparent !important;
+    [data-testid="stBottomBlockContainer"] {
+        position: fixed !important;
+        bottom: 0px !important;
+        left: 0px !important;
+        right: 0px !important;
+        z-index: 9999 !important;
+        background-color: #ffffff !important;
         border: none !important;
+        padding: 10px 20px 20px 20px !important;
+    }
+    .main .block-container {
+        padding-bottom: 130px !important;
     }
     [data-testid="stChatInput"] {
         background-color: #ffffff !important;
@@ -1048,6 +1062,30 @@ elif current_theme_id == "blue":
         color: #032b43 !important;
         border-color: #0078d4 !important;
     }
+    
+    /* 💬 Chat Input & Bottom Bar */
+    [data-testid="stBottom"],
+    [data-testid="stBottom"] > div,
+    [data-testid="stBottomBlockContainer"] {
+        position: fixed !important;
+        bottom: 0px !important;
+        left: 0px !important;
+        right: 0px !important;
+        z-index: 9999 !important;
+        background-color: #f8fafc !important;
+        border: none !important;
+        padding: 10px 20px 20px 20px !important;
+    }
+    .main .block-container {
+        padding-bottom: 130px !important;
+    }
+    [data-testid="stChatInput"] {
+        background-color: #ffffff !important;
+        border: 2px solid #93c5fd !important;
+        border-radius: 14px !important;
+        box-shadow: 0 2px 8px rgba(0, 120, 212, 0.08) !important;
+    }
+
     .stApp div[data-testid="stPills"] [aria-pressed="true"],
     .stApp div[data-testid="stPills"] [aria-selected="true"],
     .stApp div[data-testid="stPills"] [aria-checked="true"],
@@ -1720,151 +1758,134 @@ with tab_chat:
     if selected_pill and selected_pill in pill_query_map:
         active_query = pill_query_map[selected_pill]
 
-    # Geçmiş Mesajları Çiz
-    for msg in st.session_state.messages:
-        with st.chat_message(msg["role"]):
-            if msg["role"] == "assistant" and "route" in msg:
-                if msg["route"] == "pal":
-                    st.markdown(f":green-badge[{T['badge_pal']}]")
-                else:
-                    st.markdown(f":blue-badge[{T['badge_rag']}]")
+    # Mesajlar Konteyneri
+    messages_container = st.container()
+    with messages_container:
+        for msg in st.session_state.messages:
+            with st.chat_message(msg["role"]):
+                if msg["role"] == "assistant" and "route" in msg:
+                    if msg["route"] == "pal":
+                        st.markdown(f":green-badge[{T['badge_pal']}]")
+                    else:
+                        st.markdown(f":blue-badge[{T['badge_rag']}]")
 
-            st.markdown(msg["content"])
+                st.markdown(msg["content"])
 
-            if "calc_details" in msg and msg["calc_details"]:
-                with st.expander(T["verified_output_label"], icon=":material/verified:"):
-                    st.text(msg["calc_details"])
-            if "provenance" in msg and msg["provenance"]:
-                prov_title = T["provenance_label"].format(
-                    count=len(msg["provenance"]),
-                    score=msg.get("max_score", 0),
-                    latency=msg.get("latency", 0)
-                )
-                with st.expander(prov_title, icon=":material/library_books:"):
-                    for p in msg["provenance"]:
-                        st.markdown(f"**{p['title']}** (Score / Skor: {p['score']:.4f})")
-                        st.text(p["content"][:300] + "...")
+                if "calc_details" in msg and msg["calc_details"]:
+                    with st.expander(T["verified_output_label"], icon=":material/verified:"):
+                        st.text(msg["calc_details"])
+                if "provenance" in msg and msg["provenance"]:
+                    prov_title = T["provenance_label"].format(
+                        count=len(msg["provenance"]),
+                        score=msg.get("max_score", 0),
+                        latency=msg.get("latency", 0)
+                    )
+                    with st.expander(prov_title, icon=":material/library_books:"):
+                        for p in msg["provenance"]:
+                            st.markdown(f"**{p['title']}** (Score / Skor: {p['score']:.4f})")
+                            st.text(p["content"][:300] + "...")
 
-    # Kullanıcı Girdisi (chat_input veya pill)
+    # Kullanıcı Girdisi (chat_input veya pill) - En Altta
     user_input = st.chat_input(T["chat_placeholder"])
     query_to_run = user_input or active_query
 
     if query_to_run:
         if not st.session_state.messages or st.session_state.messages[-1]["content"] != query_to_run:
             st.session_state.messages.append({"role": "user", "content": query_to_run})
-            with st.chat_message("user"):
-                st.markdown(query_to_run)
+            with messages_container:
+                with st.chat_message("user"):
+                    st.markdown(query_to_run)
 
-            start_time = time.time()
-            with st.spinner(T["spinner_text"]):
-                try:
-                    q_lower = query_to_run.lower()
-                    is_math_scope = ("trend" in q_lower or "compare" in q_lower or "difference" in q_lower) and ("scope" in q_lower)
-                    is_carbon_removal = ("carbon removal" in q_lower or "table 3" in q_lower) and ("technology" in q_lower or "breakdown" in q_lower)
-                    is_zero_waste_cert = ("zero waste" in q_lower) and ("certification" in q_lower or "standard" in q_lower or "validate" in q_lower)
+                start_time = time.time()
+                with st.spinner(T["spinner_text"]):
+                    try:
+                        q_lower = query_to_run.lower()
+                        is_math_scope = ("trend" in q_lower or "compare" in q_lower or "difference" in q_lower) and ("scope" in q_lower)
+                        is_carbon_removal = ("carbon removal" in q_lower or "table 3" in q_lower) and ("technology" in q_lower or "breakdown" in q_lower)
+                        is_zero_waste_cert = ("zero waste" in q_lower) and ("certification" in q_lower or "standard" in q_lower or "validate" in q_lower)
 
-                    calc_details = None
-                    chunks = []
-                    max_score = 0.0
-                    route_type = "rag"
+                        calc_details = None
+                        chunks = []
+                        max_score = 0.0
+                        route_type = "rag"
 
-                    if is_math_scope:
-                        route_type = "pal"
-                        calc_details = compute_carbon_trend_summary()
-                        synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
-                        ans = query_foundry(SYNTHESIS_PROMPT, synthesis_input, temperature=0.0)
-                        chunks, max_score = search_context_hybrid(query_to_run)
-                    elif is_carbon_removal:
-                        route_type = "pal"
-                        calc_details = (
-                            "Carbon Removal Summary (2025 Report, p.21):\n"
-                            + get_carbon_removal_df().to_string(index=False)
-                            + "\n\nTechnology Type Breakdown:\n"
-                            + get_carbon_removal_by_type_df().to_string(index=False)
-                        )
-                        synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
-                        ans = query_foundry(SYNTHESIS_PROMPT, synthesis_input, temperature=0.0)
-                        chunks, max_score = search_context_hybrid(query_to_run)
-                    elif is_zero_waste_cert:
-                        route_type = "pal"
-                        calc_details = (
-                            "Zero Waste Certifications (2024 Report, p.36):\n"
-                            + get_zero_waste_certifications_df().to_string(index=False)
-                        )
-                        synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
-                        ans = query_foundry(SYNTHESIS_PROMPT, synthesis_input, temperature=0.0)
-                        chunks, max_score = search_context_hybrid(query_to_run)
-                    else:
-                        chunks, max_score = search_context_hybrid(query_to_run)
-                        if not chunks or max_score < MIN_SCORE_FLOOR:
-                            ans = T["not_found_msg"]
-                        else:
-                            context_chunks = [c["content"] for c in chunks]
-                            extract_prompt = format_extraction_prompt(query_to_run, context_chunks)
-                            raw_json = query_foundry(EXTRACTION_SYSTEM_PROMPT, extract_prompt, temperature=0.0)
-
-                            try:
-                                cleaned = re.search(r"\{.*\}", raw_json, re.DOTALL).group(0)
-                                plan = QueryExtractionPlan(**json.loads(cleaned))
-                                resolution = DeterministicResolver.validate_and_filter(plan, query_to_run)
-
-                                if resolution["status"] == "NOT_FOUND":
-                                    ans = T["not_found_msg"]
-                                else:
-                                    verified_metrics_str = "\n".join([
-                                        f"- Entity: {m.entity}, Type: {m.metric_type}, "
-                                        f"Value: {m.string_value if m.string_value else f'{m.value:,.0f} {m.unit}'}, "
-                                        f"Scope: {m.temporal_scope}, Cumulative: {m.is_cumulative}"
-                                        for m in resolution["metrics"]
-                                    ])
-                                    calc_details = verified_metrics_str
-                                    synthesis_prompt = f"Verified Metrics:\n{verified_metrics_str}\n\nQuestion: {query_to_run}"
-                                    ans = query_foundry(FACTUAL_SYNTHESIS_PROMPT, synthesis_prompt, temperature=0.0)
-                            except Exception:
-                                context_str = "\n\n".join(context_chunks)
-                                ans = query_foundry(
-                                    "You are a precise Sustainability Analyst. Answer directly using ONLY context. If context has [VISUAL REFERENCE], state graphical data cannot be extracted from text.",
-                                    f"Context:\n{context_str}\n\nQuestion: {query_to_run}",
-                                    temperature=0.0
-                                )
-
-                    latency = time.time() - start_time
-
-                    with st.chat_message("assistant"):
-                        if route_type == "pal":
-                            st.markdown(f":green-badge[{T['badge_pal']}]")
-                        else:
-                            st.markdown(f":blue-badge[{T['badge_rag']}]")
-
-                        st.markdown(ans)
-                        if calc_details:
-                            with st.expander(T["verified_output_label"], icon=":material/verified:"):
-                                st.text(calc_details)
-                        if chunks:
-                            prov_title = T["provenance_label"].format(
-                                count=len(chunks),
-                                score=max_score,
-                                latency=latency
+                        if is_math_scope:
+                            route_type = "pal"
+                            calc_details = compute_carbon_trend_summary()
+                            synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
+                            ans = query_foundry(SYNTHESIS_PROMPT, synthesis_input, temperature=0.0)
+                            chunks, max_score = search_context_hybrid(query_to_run)
+                        elif is_carbon_removal:
+                            route_type = "pal"
+                            calc_details = (
+                                "Carbon Removal Summary (2025 Report, p.21):\n"
+                                + get_carbon_removal_df().to_string(index=False)
+                                + "\n\nTechnology Type Breakdown:\n"
+                                + get_carbon_removal_by_type_df().to_string(index=False)
                             )
-                            with st.expander(prov_title, icon=":material/library_books:"):
-                                for p in chunks:
-                                    st.markdown(f"**{p['title']}** (Score / Skor: {p['score']:.4f})")
-                                    st.text(p["content"][:300] + "...")
+                            synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
+                            ans = query_foundry(SYNTHESIS_PROMPT, synthesis_input, temperature=0.0)
+                            chunks, max_score = search_context_hybrid(query_to_run)
+                        elif is_zero_waste_cert:
+                            route_type = "pal"
+                            calc_details = (
+                                "Zero Waste Certifications (2024 Report, p.36):\n"
+                                + get_zero_waste_certifications_df().to_string(index=False)
+                            )
+                            synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
+                            ans = query_foundry(SYNTHESIS_PROMPT, synthesis_input, temperature=0.0)
+                            chunks, max_score = search_context_hybrid(query_to_run)
+                        else:
+                            chunks, max_score = search_context_hybrid(query_to_run)
+                            if not chunks or max_score < MIN_SCORE_FLOOR:
+                                ans = T["not_found_msg"]
+                            else:
+                                context_chunks = [c["content"] for c in chunks]
+                                extract_prompt = format_extraction_prompt(query_to_run, context_chunks)
+                                raw_json = query_foundry(EXTRACTION_SYSTEM_PROMPT, extract_prompt, temperature=0.0)
 
-                    st.session_state.messages.append({
-                        "role": "assistant",
-                        "content": ans,
-                        "route": route_type,
-                        "calc_details": calc_details,
-                        "provenance": chunks,
-                        "max_score": max_score,
-                        "latency": latency
-                    })
-                    gc.collect()
+                                try:
+                                    cleaned = re.search(r"\{.*\}", raw_json, re.DOTALL).group(0)
+                                    plan = QueryExtractionPlan(**json.loads(cleaned))
+                                    resolution = DeterministicResolver.validate_and_filter(plan, query_to_run)
 
-                except Exception as e:
-                    st.error(f"Error / Hata: {e}")
-                    gc.collect()
+                                    if resolution["status"] == "NOT_FOUND":
+                                        ans = T["not_found_msg"]
+                                    else:
+                                        verified_metrics_str = "\n".join([
+                                            f"- Entity: {m.entity}, Type: {m.metric_type}, "
+                                            f"Value: {m.string_value if m.string_value else f'{m.value:,.0f} {m.unit}'}, "
+                                            f"Scope: {m.temporal_scope}, Cumulative: {m.is_cumulative}"
+                                            for m in resolution["metrics"]
+                                        ])
+                                        calc_details = verified_metrics_str
+                                        synthesis_prompt = f"Verified Metrics:\n{verified_metrics_str}\n\nQuestion: {query_to_run}"
+                                        ans = query_foundry(FACTUAL_SYNTHESIS_PROMPT, synthesis_prompt, temperature=0.0)
+                                except Exception:
+                                    context_str = "\n\n".join(context_chunks)
+                                    ans = query_foundry(
+                                        "You are a precise Sustainability Analyst. Answer directly using ONLY context. If context has [VISUAL REFERENCE], state graphical data cannot be extracted from text.",
+                                        f"Context:\n{context_str}\n\nQuestion: {query_to_run}",
+                                        temperature=0.0
+                                    )
+
+                        latency = time.time() - start_time
+
+                        st.session_state.messages.append({
+                            "role": "assistant",
+                            "content": ans,
+                            "route": route_type,
+                            "calc_details": calc_details,
+                            "provenance": chunks,
+                            "max_score": max_score,
+                            "latency": latency
+                        })
+                        gc.collect()
+                        st.rerun()
+
+                    except Exception as e:
+                        st.error(f"Error / Hata: {e}")
+                        gc.collect()
 
 # ══════════════════════════════════════════════════════════════════════════════
 # SEKME 2: ESG BİLANÇO PANELİ (DASHBOARD)
