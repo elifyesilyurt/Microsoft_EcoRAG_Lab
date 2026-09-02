@@ -11,7 +11,7 @@
 
 **Üretim Standardında, Sıfır Halüsinasyonlu ve Tamamen Cihaz Üzerinde Çalışan Deterministik Sürdürülebilirlik & ESG Analiz Motoru**
 
-*Microsoft Foundry Local (`phi-4-mini`) Üzerinde Geliştirildi · 2024, 2025 ve 2026 Çevresel Sürdürülebilirlik Raporlarını Kapsar (1050 Chunk)*
+*Microsoft Foundry Local (`phi-4-mini`) Üzerinde Geliştirildi · 2024, 2025 ve 2026 Çevresel Sürdürülebilirlik Raporlarını Kapsar (1044 Chunk)*
 
 [🇬🇧 English Documentation](README.md) | [🇹🇷 Türkçe Dokümantasyon](README_TR.md)
 
@@ -122,15 +122,15 @@ Farklı zorluk seviyelerinde ve kullanıcı tiplerinde sistem performansını ö
 
 ---
 
-## 📚 2. Çok Yıllı Rapor Veri Kapsamı (1050 Chunk)
+## 📚 2. Çok Yıllı Rapor Veri Kapsamı (1044 Chunk)
 
 Sistem, Microsoft'un resmi **3 Çevresel Sürdürülebilirlik Raporunu** eksiksiz indeksler:
 
 | Doküman Adı | Sayfa Sayısı | Parça (Chunk) | Temel Kapsam Alanları |
 |---|---|---|---|
-| `2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf` | 66 | **241 Parça** | 2026 taahhütleri, bölgesel veri merkezi enerjisi, AI altyapısı & tedarik zinciri |
+| `2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf` | 66 | **239 Parça** | 2026 taahhütleri, bölgesel veri merkezi enerjisi, AI altyapısı & tedarik zinciri |
 | `Microsoft_2025_Sustainability_Report.pdf` | 90 | **409 Parça** | FY25 Scope 1/2/3 tabloları, Karbon Tablo 3, Su Tablo 1, Enerji muhasebesi |
-| `Microsoft_2024_Sustainability_Report.pdf` | 88 | **400 Parça** | FY20 baz yıl karşılaştırmaları, FY23 geçmiş verileri, UL 2799 Sıfır Atık tesisleri |
+| `Microsoft_2024_Sustainability_Report.pdf` | 88 | **398 Parça** | FY20 baz yıl karşılaştırmaları, FY23 geçmiş verileri, UL 2799 Sıfır Atık tesisleri |
 | **Toplam Üretim İndeksi** | **244 Sayfa** | **1.050 Parça** | **SQLite WAL Vektör Veritabanı (`rag_storage.db`)** |
 
 ---

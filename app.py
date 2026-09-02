@@ -627,9 +627,15 @@ with st.sidebar:
         st.markdown(f"<div class='sidebar-box-title' style='margin-bottom: 6px;'>{T['status_box_title']}</div>", unsafe_allow_html=True)
         st.badge(T["status_badge"], icon=":material/check_circle:", color="green")
         st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
-        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'><span class='sidebar-metric-label'>{T['status_model']}</span><code>{MODEL_NAME}</code></div>", unsafe_allow_html=True)
-        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'><span class='sidebar-metric-label'>{T['status_embed']}</span><code>nomic-v1.5</code></div>", unsafe_allow_html=True)
-        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'><span class='sidebar-metric-label'>{T['status_index']}</span><code>982 Chunks</code></div>", unsafe_allow_html=True)
+        try:
+            conn_chk = sqlite3.connect(DB_PATH)
+            c_chk = conn_chk.cursor()
+            c_chk.execute("SELECT COUNT(*) FROM documents")
+            total_chunks_db = c_chk.fetchone()[0]
+            conn_chk.close()
+        except Exception:
+            total_chunks_db = 1044
+        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'><span class='sidebar-metric-label'>{T['status_index']}</span><code>{total_chunks_db} Chunks</code></div>", unsafe_allow_html=True)
         st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center;'><span class='sidebar-metric-label'>{T['status_engine']}</span><code>PAL + IR</code></div>", unsafe_allow_html=True)
 
     st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
@@ -1976,7 +1982,7 @@ with tab_chat:
             "Zero Waste Veri Merkezleri (UL Standardı)",
             "Karbon Uzaklaştırma Portföyü",
             "2026 Sürdürülebilirlik Raporu: Ambalaj & Plastik",
-            "2026 Bölgesel Tüketim (Hollanda/Madrid)",
+            "2026 Bölgesel İnovasyonlar (Hollanda & Madrid)",
             "Ağ Gecikme Süresi (Alan Dışı Test)",
             "Sunucu CPU Saat Hızı (Alan Dışı Test)",
             "2023 FIFA Dünya Kupası (Alan Dışı Test)"
@@ -1988,7 +1994,7 @@ with tab_chat:
             "Zero Waste Datacenters (UL Standard)",
             "Carbon Removal Portfolio",
             "2026 Sustainability Report: Packaging & Plastic",
-            "2026 Regional Consumption (Netherlands/Madrid)",
+            "2026 Regional Innovations (Netherlands & Madrid)",
             "Network Latency (Out-of-Domain Test)",
             "Server CPU Clock Speed (Out-of-Domain Test)",
             "2023 FIFA World Cup (Out-of-Domain Test)"
@@ -2007,7 +2013,7 @@ with tab_chat:
         "Zero Waste Veri Merkezleri (UL Standardı)": "Microsoft, Sıfır Atık veri merkezlerini doğrulamak için hangi harici sertifikasyonu kullanıyor ve 2024 raporuna göre FY23'te bu standart altında kaç veri merkezi sertifikalandırıldı?",
         "Karbon Uzaklaştırma Portföyü": "2025 raporundaki Karbon Tablosu 3'e göre sözleşmeye bağlanan toplam karbon uzaklaştırma hacmi ve teknoloji türlerine göre dağılımı nedir?",
         "2026 Sürdürülebilirlik Raporu: Ambalaj & Plastik": "2026 Microsoft Çevresel Sürdürülebilirlik Raporuna göre, 2025/2026 takvim yılı sonunda ulaşılan tek kullanımlık plastik ambalaj oranı nedir ve hangi standartlar kullanılmaktadır?",
-        "2026 Bölgesel Tüketim (Hollanda/Madrid)": "2026 Microsoft Çevresel Sürdürülebilirlik Raporunda Hollanda ve Madrid gibi bölgeler için bildirilen veri merkezi su ve elektrik tüketim metrikleri nelerdir?",
+        "2026 Bölgesel İnovasyonlar (Hollanda & Madrid)": "2026 Microsoft Çevresel Sürdürülebilirlik Raporunda Amsterdam (Hollanda) ve Madrid (İspanya) veri merkezi bölgeleri için bildirilen ekolojik restorasyon ve düşük emisyonlu jeneratör projeleri nelerdir?",
         "Ağ Gecikme Süresi (Alan Dışı Test)": "2024 yılında Quincy veri merkezi ile San Antonio Azure uç noktası arasındaki ortalama gidiş-dönüş ağ gecikme süresi milisaniye cinsinden ne kadardı?",
         "Sunucu CPU Saat Hızı (Alan Dışı Test)": "Boydton veri merkezindeki sunucularda kullanılan özel işlemcilerin GHz cinsinden tam saat hızı ve önbellek boyutu nedir?",
         "2023 FIFA Dünya Kupası (Alan Dışı Test)": "2023 FIFA Kadınlar Dünya Kupasını kim kazandı ve final skoru ne oldu?",
@@ -2017,7 +2023,7 @@ with tab_chat:
         "Zero Waste Datacenters (UL Standard)": "Which external certification does Microsoft use to validate its Zero Waste datacenters, and how many datacenters were certified under this standard in FY23 according to the 2024 report?",
         "Carbon Removal Portfolio": "What is the total contracted carbon removal volume and its breakdown by technology type according to Carbon Table 3 in the 2025 report?",
         "2026 Sustainability Report: Packaging & Plastic": "According to the 2026 Microsoft Environmental Sustainability Report, what is the single-use plastic packaging percentage achieved at the end of calendar year 2025/2026 and what third-party frameworks are used?",
-        "2026 Regional Consumption (Netherlands/Madrid)": "What are the datacenter water and electricity metrics for regions like the Netherlands and Madrid reported in the 2026 Microsoft Environmental Sustainability Report?",
+        "2026 Regional Innovations (Netherlands & Madrid)": "According to the 2026 Microsoft Environmental Sustainability Report, what local ecological restoration and low-emission generator projects are deployed at Amsterdam (Netherlands) and Madrid (Spain) datacenter sites?",
         "Network Latency (Out-of-Domain Test)": "What was the average round-trip network latency between the Quincy datacenter and the San Antonio Azure edge site in milliseconds during 2024?",
         "Server CPU Clock Speed (Out-of-Domain Test)": "What is the exact clock speed in GHz and cache size of the custom processors used inside the servers at the Boydton datacenter?",
         "2023 FIFA World Cup (Out-of-Domain Test)": "Who won the FIFA Women's World Cup in 2023, and what was the final score?"
@@ -2344,10 +2350,10 @@ with tab_system:
                 - **Embedding Dimensions:** `768-dim Dense Vector`
                 - **Vector Prefix:** Asymmetric (`search_document:` / `search_query:`)
                 - **Database Engine:** `SQLite 3 (WAL Mode)`
-                - **Total Indexed Chunks:** `1050 Chunks (3 Documents)`
-                  - `2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf` (241 Chunks)
-                  - `Microsoft_2024_Sustainability_Report.pdf` (400 Chunks)
-                  - `Microsoft_2025_Sustainability_Report.pdf` (409 Chunks)
+                - **Total Indexed Chunks:** `1044 Chunks (3 Documents)`
+                  - `2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf` (239 Chunks)
+                  - `Microsoft_2025_Sustainability_Report.pdf` (407 Chunks)
+                  - `Microsoft_2024_Sustainability_Report.pdf` (398 Chunks)
                 """)
 
     with col_arch2:

@@ -11,7 +11,7 @@
 
 **Production-Grade, Zero-Hallucination On-Device Sustainability RAG & Deterministic ESG Engine**
 
-*Built on Microsoft Foundry Local (`phi-4-mini`) · Covering 2024, 2025 & 2026 Environmental Sustainability Reports (1050 Chunks)*
+*Built on Microsoft Foundry Local (`phi-4-mini`) · Covering 2024, 2025 & 2026 Environmental Sustainability Reports (1044 Chunks)*
 
 [🇬🇧 English Documentation](README.md) | [🇹🇷 Türkçe Dokümantasyon](README_TR.md)
 
@@ -122,16 +122,16 @@ Comprehensive system diagnostics and automated benchmark suite evaluating perfor
 
 ---
 
-## 📚 2. Multi-Year Report Scope (1050 Chunks)
+## 📚 2. Multi-Year Report Scope (1044 Chunks)
 
 The system indexes **3 official Microsoft Environmental Sustainability Reports**:
 
 | Document Name | Pages | Chunks | Key Coverage Areas |
 |---|---|---|---|
-| `2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf` | 66 | **241 Chunks** | 2026 commitments, regional datacenter energy, AI infrastructure & supply chain |
-| `Microsoft_2025_Sustainability_Report.pdf` | 90 | **409 Chunks** | FY25 Scope 1/2/3 tables, Carbon Removal Table 3, Water Table 1, Energy accounting |
-| `Microsoft_2024_Sustainability_Report.pdf` | 88 | **400 Chunks** | FY20 baseline comparisons, FY23 historical data, UL 2799 Zero Waste certifications |
-| **Total Production Index** | **244 Pages** | **1,050 Chunks** | **SQLite WAL Vector Database (`rag_storage.db`)** |
+| `2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf` | 66 | **239 Chunks** | 2026 commitments, regional datacenter energy, AI infrastructure & supply chain |
+| `Microsoft_2025_Sustainability_Report.pdf` | 90 | **407 Chunks** | FY25 Scope 1/2/3 tables, Carbon Removal Table 3, Water Table 1, Energy accounting |
+| `Microsoft_2024_Sustainability_Report.pdf` | 88 | **398 Chunks** | FY20 baseline comparisons, FY23 historical data, UL 2799 Zero Waste certifications |
+| **Total Production Index** | **244 Pages** | **1,044 Chunks** | **SQLite WAL Vector Database (`rag_storage.db`)** |
 
 ---
 

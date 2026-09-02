@@ -212,27 +212,14 @@ def recursive_character_splitter(
 
 def format_chunk_with_metadata(
     doc_title: str, year: str, page_num: int, content: str,
-    is_table: bool = False, visual_tag: Optional[str] = None
+    is_table: bool = False
 ) -> str:
     """
     Her chunk'ın başına doküman adı, rapor yılı, sayfa numarası ve içerik tipi ekler.
-    Görsel içerikli chunk'lara ek [VISUAL *] uyarı etiketi enjekte eder.
     """
-    if visual_tag:
-        tag = f"[VISUAL ONLY — REFER TO PAL]"
-    elif is_table:
-        tag = "[STRUCTURED TABLE]"
-    else:
-        tag = "[TEXT NARRATIVE]"
-
+    tag = "[STRUCTURED TABLE]" if is_table else "[TEXT NARRATIVE]"
     header = f"--- Document: {doc_title} (Report Year: {year}, Page: {page_num}) | Type: {tag} ---\n"
-    chunk = header + content.strip()
-
-    # Grafik referanslı chunk'lara satır içi uyarı ekle
-    if visual_tag and visual_tag != "VISUAL_ONLY_PAGE":
-        chunk = inject_visual_tag(chunk, visual_tag)
-
-    return chunk
+    return header + content.strip()
 
 
 def table_to_structured_reprs(table: List[List[Any]], min_length: int = MIN_CHUNK_LENGTH) -> List[str]:
@@ -293,50 +280,20 @@ def extract_year_from_filename(filename: str) -> str:
 def process_pdf(pdf_path: str) -> List[Dict[str, Any]]:
     """
     PDF dosyasını okuyup tabloları ve metinleri optimize edilmiş chunk havuzuna dönüştürür.
-    Navigasyon temizliği, görsel etiketleme ve placeholder enjeksiyonu bu fonksiyon tarafından yönetilir.
+    Navigasyon temizliği ve yapısal formatlama bu fonksiyon tarafından yönetilir.
     """
     doc_title = os.path.basename(pdf_path)
     year = extract_year_from_filename(doc_title)
     chunks: List[Dict[str, Any]] = []
 
-    visual_only_count = 0
-    visual_ref_count = 0
+    table_count = 0
     nav_cleaned_count = 0
 
     print(f"\n[INGEST] İşleniyor: {doc_title} (Rapor Yılı: {year})...")
     with pdfplumber.open(pdf_path) as pdf:
         total_pages = len(pdf.pages)
         for page_idx, page in enumerate(pdf.pages, start=1):
-
-            # ── Sayfa görsel-ağırlıklı mı kontrol et ────────────────────────
-            page_images = page.images
             raw_text = page.extract_text() or ""
-            word_count = len(raw_text.split())
-            is_visual_heavy_page = (
-                len(page_images) >= VISUAL_PAGE_IMG_THRESHOLD
-                and word_count < VISUAL_PAGE_WORD_THRESHOLD
-            )
-
-            if is_visual_heavy_page:
-                # Görsel-only sayfa → PAL motoruna yönlendiren placeholder chunk
-                placeholder = (
-                    f"Bu sayfa ağırlıklı olarak grafik ve görsel içermektedir. "
-                    f"Sayısal veriler metin olarak çıkarılamamıştır. "
-                    f"Scope emisyonları, karbon uzaklaştırma portföyü ve su metrikleri "
-                    f"için deterministik PAL motorunu (esg_tables.py) kullanın."
-                )
-                formatted = format_chunk_with_metadata(
-                    doc_title, year, page_idx, placeholder,
-                    is_table=False, visual_tag="VISUAL_ONLY_PAGE"
-                )
-                chunks.append({
-                    "year": year,
-                    "title": f"{doc_title} (p.{page_idx})",
-                    "content": formatted,
-                    "type": "visual_placeholder"
-                })
-                visual_only_count += 1
-                continue  # Bu sayfanın tablo/metin işlemesini atla
 
             # ── 1. Yapısal Tablo Çıkarımı ────────────────────────────────────
             tables = page.extract_tables()
@@ -352,14 +309,14 @@ def process_pdf(pdf_path: str) -> List[Dict[str, Any]]:
                         "content": formatted,
                         "type": "table"
                     })
+                    table_count += 1
 
-            # ── 2. Metin Çıkarımı + Navigasyon Temizliği + Görsel Etiketleme ─
+            # ── 2. Metin Çıkarımı + Navigasyon Temizliği ─────────────────────
             if raw_text:
-                # Önce navigasyon/header/footer kalıntılarını temizle
                 cleaned = remove_nav_artifacts(raw_text)
                 original_len = len(raw_text)
                 if len(cleaned) < original_len * 0.85:
-                    nav_cleaned_count += 1  # Önemli miktarda temizleme yapıldı
+                    nav_cleaned_count += 1
 
                 text_chunks = recursive_character_splitter(
                     cleaned,
@@ -369,25 +326,19 @@ def process_pdf(pdf_path: str) -> List[Dict[str, Any]]:
                 )
 
                 for t_chunk in text_chunks:
-                    # Görsel içerik sınıflandırması
-                    vtag = classify_visual_content(t_chunk)
                     formatted = format_chunk_with_metadata(
-                        doc_title, year, page_idx, t_chunk,
-                        is_table=False, visual_tag=vtag
+                        doc_title, year, page_idx, t_chunk, is_table=False
                     )
                     chunks.append({
                         "year": year,
                         "title": f"{doc_title} (p.{page_idx})",
                         "content": formatted,
-                        "type": "visual_ref" if vtag else "text"
+                        "type": "text"
                     })
-                    if vtag:
-                        visual_ref_count += 1
 
     print(
         f"  -> {doc_title}: {total_pages} sayfadan {len(chunks)} chunk üretildi "
-        f"[görsel-only: {visual_only_count}, grafik-ref etiketli: {visual_ref_count}, "
-        f"nav-temizlenen sayfa: {nav_cleaned_count}]"
+        f"[tablo: {table_count}, nav-temizlenen sayfa: {nav_cleaned_count}]"
     )
     return chunks
 
