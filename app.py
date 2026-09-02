@@ -92,6 +92,46 @@ def detect_query_language(query: str, default_lang: str = "tr") -> str:
 
     return default_lang
 
+def is_esg_query(query: str) -> bool:
+    if not query:
+        return False
+    q = query.lower()
+    
+    # Doğrudan ESG / Çevre dışı soru kalıpları
+    out_of_domain_patterns = [
+        "ne zaman kuruldu", "kurucusu kim", "kuruculari", "kim kurdu", "hisse fiyati", 
+        "hisse senedi", "borsa degeri", "piyasa degeri", "gelir tablosu", "net kar",
+        "ceo kim", "satadya", "satya nadella", "bill gates", "paul allen",
+        "windows 11", "windows 10", "xbox", "office 365", "playstation", "fifa",
+        "cpu saat", "saat hizi", "ghz", "onbellek", "gecikme suresi", "ping", "latency",
+        "when was microsoft founded", "who founded microsoft", "stock price", "market cap",
+        "who is the ceo", "quarterly revenue", "net profit", "operating income"
+    ]
+    if any(p in q for p in out_of_domain_patterns):
+        return False
+
+    esg_keywords = {
+        "karbon", "carbon", "emisyon", "emission", "emissions", "ghg", "sera", "gazi", "gazı",
+        "scope", "scope 1", "scope 2", "scope 3", "net zero", "net sıfır", "net sifir",
+        "su", "water", "yenileme", "replenish", "replenishment", "cekim", "çekim", "withdrawal",
+        "havza", "watershed", "atik", "atık", "waste", "sifir atik", "sıfır atık", "zero waste",
+        "cop", "çöp", "landfill", "geri donusum", "geri dönüşüm", "recycle", "recycling",
+        "plastik", "plastic", "ambalaj", "packaging", "döngüsel", "dongusel", "circular",
+        "enerji", "energy", "elektrik", "electricity", "yenilenebilir", "renewable", "mwh", "kwh",
+        "ppa", "rec", "veri merkezi", "datacenter", "datacenters", "bulut", "cloud",
+        "surdurulebilirlik", "sürdürülebilirlik", "sustainability", "cevre", "çevre", "environmental",
+        "esg", "iklim", "climate", "biyoçesitlilik", "biyoçeşitlilik", "biodiversity",
+        "ekosistem", "ecosystem", "orman", "forest", "agac", "ağaç",
+        "fido", "ul", "ul 2799", "dac", "beccs", "biyokutle", "biyokütle", "biomass",
+        "2024", "2025", "2026", "fy20", "fy23", "fy24", "fy25", "fy26", "rapor", "raporu", "report",
+        "target", "hedef", "hedefler", "pillar", "taahhut", "taahhüt", "commitment",
+        "hollanda", "madrid", "quincy", "boydton", "queretaro", "phoenix", "london"
+    }
+    
+    if any(k in q for k in esg_keywords):
+        return True
+    return False
+
 # ══════════════════════════════════════════════════════════════════════════════
 # SAYFA YAPILANDIRMASI
 # ══════════════════════════════════════════════════════════════════════════════
@@ -170,15 +210,23 @@ def query_foundry_stream(system_prompt: str, user_prompt: str, temperature: floa
                                     chunk = json.loads(data_str)
                                     delta = chunk["choices"][0]["delta"].get("content", "")
                                     if delta:
-                                        # Repetition loop guard (sonsuz döngü engelleme)
+                                        # Universal sliding n-gram repetition detector (sonsuz döngü engelleme)
                                         for w in delta.split():
                                             recent_words.append(w.lower())
-                                        if len(recent_words) >= 12:
-                                            p1 = recent_words[-4:]
-                                            p2 = recent_words[-8:-4]
-                                            p3 = recent_words[-12:-8]
-                                            if p1 == p2 == p3:
-                                                break
+                                        
+                                        is_loop = False
+                                        total_w = len(recent_words)
+                                        for n in range(2, 16):
+                                            if total_w >= 2 * n:
+                                                if recent_words[-n:] == recent_words[-2*n:-n]:
+                                                    if n >= 3:
+                                                        is_loop = True
+                                                        break
+                                                    elif total_w >= 3 * n and recent_words[-n:] == recent_words[-3*n:-2*n]:
+                                                        is_loop = True
+                                                        break
+                                        if is_loop:
+                                            break
                                         yield delta
                                 except Exception:
                                     pass
@@ -2078,13 +2126,16 @@ with tab_chat:
                         chunks, max_score = search_context_hybrid(query_to_run)
                         stream_gen = stream_static_text(calc_details)
                     else:
-                        chunks, max_score = search_context_hybrid(query_to_run)
-                        if not chunks or max_score < MIN_SCORE_FLOOR:
+                        if not is_esg_query(query_to_run):
                             stream_gen = stream_static_text(not_found_msg)
                         else:
-                            context_chunks = [c["content"] for c in chunks]
-                            extract_prompt = format_extraction_prompt(query_to_run, context_chunks)
-                            raw_json = query_foundry(EXTRACTION_SYSTEM_PROMPT, extract_prompt, temperature=0.0)
+                            chunks, max_score = search_context_hybrid(query_to_run)
+                            if not chunks or max_score < MIN_SCORE_FLOOR:
+                                stream_gen = stream_static_text(not_found_msg)
+                            else:
+                                context_chunks = [c["content"] for c in chunks]
+                                extract_prompt = format_extraction_prompt(query_to_run, context_chunks)
+                                raw_json = query_foundry(EXTRACTION_SYSTEM_PROMPT, extract_prompt, temperature=0.0)
 
                             try:
                                 cleaned = re.search(r"\{.*\}", raw_json, re.DOTALL).group(0)
