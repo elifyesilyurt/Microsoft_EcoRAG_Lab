@@ -292,26 +292,30 @@ with st.sidebar:
     L = "tr" if is_tr else "en"
     T = TEXTS[L]
 
-    # Tema Seçici - State'i Dil Değişse Bile Asla Sıfırlanmaz
-    theme_options = [
-        "🌸 Toz Pembe Pastel (Blush Rose)",
-        "💼 Fluent Azure (Açık / Light)",
-        "🌿 Eco Emerald (Koyu / Dark)"
+    # 🎨 Dinamik & Kullanıcı Dostu Tema Seçici (Segmented Control)
+    theme_meta = [
+        {"id": "pink", "label_tr": "🌸 Pudra Pembe", "label_en": "🌸 Blush Rose"},
+        {"id": "blue", "label_tr": "🌊 Buzul Mavisi (Açık)", "label_en": "🌊 Arctic Azure (Light)"},
+        {"id": "dark", "label_tr": "🌿 Gece Zümrüdü (Koyu)", "label_en": "🌿 Midnight Emerald (Dark)"}
     ]
-    if "current_theme" not in st.session_state:
-        st.session_state.current_theme = "🌸 Toz Pembe Pastel (Blush Rose)"
+    if "theme_id" not in st.session_state:
+        st.session_state.theme_id = "pink"
 
-    current_idx = 0
-    if st.session_state.current_theme in theme_options:
-        current_idx = theme_options.index(st.session_state.current_theme)
+    theme_display_options = [m["label_tr"] if is_tr else m["label_en"] for m in theme_meta]
+    id_to_label = {m["id"]: (m["label_tr"] if is_tr else m["label_en"]) for m in theme_meta}
+    label_to_id = {(m["label_tr"] if is_tr else m["label_en"]): m["id"] for m in theme_meta}
 
-    theme_choice = st.selectbox(
+    current_label = id_to_label.get(st.session_state.theme_id, theme_display_options[0])
+
+    selected_theme_label = st.segmented_control(
         T["theme_label"],
-        options=theme_options,
-        index=current_idx,
-        key="theme_selector_dropdown"
+        options=theme_display_options,
+        default=current_label,
+        key="theme_segmented_control"
     )
-    st.session_state.current_theme = theme_choice
+    if selected_theme_label:
+        st.session_state.theme_id = label_to_id.get(selected_theme_label, "pink")
+    current_theme_id = st.session_state.theme_id
 
     with st.container(border=True):
         st.markdown(f"**{T['status_box_title']}**")
@@ -329,10 +333,10 @@ with st.sidebar:
 # ══════════════════════════════════════════════════════════════════════════════
 # DİNAMİK TEMA ENJEKSİYONU (3 FARKLI PALET - TAM KONTRAST & EKSİKSİZ BİLEŞEN UYUMU)
 # ══════════════════════════════════════════════════════════════════════════════
-if "Eco Emerald" in theme_choice:
+if current_theme_id == "dark":
     st.html("""
     <style>
-    /* 🌿 Eco Emerald Dark Theme */
+    /* 🌿 Midnight Emerald Dark Theme */
     .stApp {
         background-color: #0d1117 !important;
     }
@@ -469,10 +473,10 @@ if "Eco Emerald" in theme_choice:
     .stApp small, .stApp .stCaption, .stApp caption, .stApp div[data-testid="stCaptionContainer"] { color: #8b949e !important; }
     </style>
     """)
-elif "Fluent Azure" in theme_choice:
+elif current_theme_id == "blue":
     st.html("""
     <style>
-    /* 💼 Fluent Azure Light Theme */
+    /* 🌊 Arctic Azure Light Theme */
     :root, .stApp {
         --background-color: #f8fafc !important;
         --secondary-background-color: #e1effe !important;
