@@ -281,17 +281,39 @@ with st.sidebar:
     st.markdown("### :material/eco: **EcoRAG Lab**")
     st.caption("Deterministic Sustainability Analysis")
 
-    # 1. 🌐 Yatay Dil Anahtarı (🇬🇧 EN [TOGGLE] 🇹🇷 TR)
+    # 1. 🌐 Yatay Dil Anahtarı (Büyük Bayraklar & Altında Kısaltmalar)
     if "is_turkish" not in st.session_state:
         st.session_state.is_turkish = True
+
+    curr_theme = st.session_state.get("theme_id", "pink")
+    if curr_theme == "dark":
+        active_color = "#ffffff"
+        inactive_color = "#8b949e"
+    elif curr_theme == "pink":
+        active_color = "#4a0e1e"
+        inactive_color = "#a36676"
+    elif curr_theme == "blue":
+        active_color = "#0c4a6e"
+        inactive_color = "#64748b"
+    else:  # white
+        active_color = "#0f172a"
+        inactive_color = "#94a3b8"
 
     is_tr_current = st.session_state.is_turkish
     st.markdown(f"**{'Dil / Language' if is_tr_current else 'Language / Dil'}**")
 
-    col_en, col_toggle, col_tr = st.columns([1.1, 1.2, 1.1], vertical_alignment="center")
+    col_en, col_toggle, col_tr = st.columns([1, 1, 1], vertical_alignment="center")
     with col_en:
-        en_opacity = "1.0; font-weight: 700;" if not is_tr_current else "0.5; font-weight: 500;"
-        st.markdown(f"<div style='text-align: right; font-size: 14px; opacity: {en_opacity}'>🇬🇧 EN</div>", unsafe_allow_html=True)
+        en_color = active_color if not is_tr_current else inactive_color
+        en_weight = "800" if not is_tr_current else "500"
+        en_op = "1.0" if not is_tr_current else "0.5"
+        st.markdown(
+            f"<div style='text-align: center; line-height: 1.1; margin-right: -4px;'>"
+            f"<span style='font-size: 26px; display: inline-block;'>🇬🇧</span><br/>"
+            f"<span style='font-size: 13px; font-weight: {en_weight}; color: {en_color} !important; opacity: {en_op};'>EN</span>"
+            f"</div>",
+            unsafe_allow_html=True
+        )
     with col_toggle:
         toggle_val = st.toggle(
             "Language Toggle",
@@ -300,8 +322,16 @@ with st.sidebar:
             label_visibility="collapsed"
         )
     with col_tr:
-        tr_opacity = "1.0; font-weight: 700;" if toggle_val else "0.5; font-weight: 500;"
-        st.markdown(f"<div style='text-align: left; font-size: 14px; opacity: {tr_opacity}'>🇹🇷 TR</div>", unsafe_allow_html=True)
+        tr_color = active_color if toggle_val else inactive_color
+        tr_weight = "800" if toggle_val else "500"
+        tr_op = "1.0" if toggle_val else "0.5"
+        st.markdown(
+            f"<div style='text-align: center; line-height: 1.1; margin-left: -4px;'>"
+            f"<span style='font-size: 26px; display: inline-block;'>🇹🇷</span><br/>"
+            f"<span style='font-size: 13px; font-weight: {tr_weight}; color: {tr_color} !important; opacity: {tr_op};'>TR</span>"
+            f"</div>",
+            unsafe_allow_html=True
+        )
 
     st.session_state.is_turkish = toggle_val
     is_tr = st.session_state.is_turkish
