@@ -526,11 +526,26 @@ if current_theme_id == "dark":
         border: 1px solid #30363d !important;
     }
     div[data-testid="stChatMessage"] p, div[data-testid="stChatMessage"] span { color: #e6edf3 !important; }
-    div[data-testid="stExpander"] {
+    div[data-testid="stExpander"], details[data-testid="stExpander"] {
         background-color: #161b22 !important;
         border: 1px solid #30363d !important;
+        border-radius: 10px !important;
     }
-    div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] summary { color: #e6edf3 !important; }
+    div[data-testid="stExpander"] summary, details[data-testid="stExpander"] summary {
+        background-color: #21262d !important;
+        color: #f0f6fc !important;
+        font-weight: 700 !important;
+        border-bottom: 1px solid #30363d !important;
+        border-radius: 8px 8px 0 0 !important;
+        padding: 10px 14px !important;
+    }
+    div[data-testid="stExpander"] summary *, details[data-testid="stExpander"] summary * {
+        color: #f0f6fc !important;
+        font-weight: 700 !important;
+    }
+    div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] div {
+        color: #e6edf3 !important;
+    }
     /* 🌟 Sekmeler (Tabs - Yarı Saydam Beyaz & Siyah Metin) */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
@@ -822,11 +837,24 @@ elif current_theme_id == "white":
     div[data-testid="stChatMessage"] p, div[data-testid="stChatMessage"] span {
         color: #0f172a !important;
     }
-    div[data-testid="stExpander"] {
+    div[data-testid="stExpander"], details[data-testid="stExpander"] {
         background-color: #ffffff !important;
-        border: 1.5px solid #e2e8f0 !important;
+        border: 1.5px solid #cbd5e1 !important;
+        border-radius: 10px !important;
     }
-    div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] summary {
+    div[data-testid="stExpander"] summary, details[data-testid="stExpander"] summary {
+        background-color: #f1f5f9 !important;
+        color: #0f172a !important;
+        font-weight: 700 !important;
+        border-bottom: 1.5px solid #cbd5e1 !important;
+        border-radius: 8px 8px 0 0 !important;
+        padding: 10px 14px !important;
+    }
+    div[data-testid="stExpander"] summary *, details[data-testid="stExpander"] summary * {
+        color: #0f172a !important;
+        font-weight: 700 !important;
+    }
+    div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] div {
         color: #0f172a !important;
     }
     /* Sekmeler (Tabs - Yarı Saydam Beyaz & Siyah Metin) */
@@ -1129,11 +1157,24 @@ elif current_theme_id == "blue":
     div[data-testid="stChatMessage"] p, div[data-testid="stChatMessage"] span {
         color: #0f172a !important;
     }
-    div[data-testid="stExpander"] {
+    div[data-testid="stExpander"], details[data-testid="stExpander"] {
         background-color: #ffffff !important;
-        border: 1px solid #cbd5e1 !important;
+        border: 1.5px solid #93c5fd !important;
+        border-radius: 10px !important;
     }
-    div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] summary {
+    div[data-testid="stExpander"] summary, details[data-testid="stExpander"] summary {
+        background-color: #e1effe !important;
+        color: #0c4a6e !important;
+        font-weight: 700 !important;
+        border-bottom: 1.5px solid #93c5fd !important;
+        border-radius: 8px 8px 0 0 !important;
+        padding: 10px 14px !important;
+    }
+    div[data-testid="stExpander"] summary *, details[data-testid="stExpander"] summary * {
+        color: #0c4a6e !important;
+        font-weight: 700 !important;
+    }
+    div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] div {
         color: #0f172a !important;
     }
     /* Sekmeler (Tabs - Fluent Azure) */
@@ -1440,12 +1481,24 @@ else:
     div[data-testid="stChatMessage"] p, div[data-testid="stChatMessage"] span {
         color: #2d1b22 !important;
     }
-    div[data-testid="stExpander"] {
+    div[data-testid="stExpander"], details[data-testid="stExpander"] {
         background-color: #fffffffa !important;
-        border: 1px solid #e8bcc5 !important;
-        border-radius: 8px !important;
+        border: 1.5px solid #d99ca9 !important;
+        border-radius: 10px !important;
     }
-    div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] summary {
+    div[data-testid="stExpander"] summary, details[data-testid="stExpander"] summary {
+        background-color: #f7dbe1 !important;
+        color: #4a0e1e !important;
+        font-weight: 700 !important;
+        border-bottom: 1.5px solid #d99ca9 !important;
+        border-radius: 8px 8px 0 0 !important;
+        padding: 10px 14px !important;
+    }
+    div[data-testid="stExpander"] summary *, details[data-testid="stExpander"] summary * {
+        color: #4a0e1e !important;
+        font-weight: 700 !important;
+    }
+    div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] div {
         color: #2d1b22 !important;
     }
     /* Sekmeler (Tabs - Toz Pembe) */
