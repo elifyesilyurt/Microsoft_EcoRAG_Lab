@@ -217,7 +217,7 @@ TEXTS = {
         "sys_title": "Altyapı & Benchmark Değerlendirme Raporu",
         "sys_caption": "Yerel SLM Çıkarım Mimarisi ve Deterministik Doğrulama Ölçümleri",
         "sys_card1_title": "Teknik Parametreler",
-        "sys_card2_title": "14 Soruluk Üretim Benchmarkı",
+        "sys_card2_title": "50 Soruluk Üretim Benchmarkı",
         "sys_flow_title": "Çalışma Hattı Akış Şeması"
     },
     "en": {
@@ -269,7 +269,7 @@ TEXTS = {
         "sys_title": "Infrastructure & Benchmark Evaluation Report",
         "sys_caption": "Local SLM Inference Architecture and Deterministic Verification Metrics",
         "sys_card1_title": "Technical Parameters",
-        "sys_card2_title": "14-Question Production Benchmark",
+        "sys_card2_title": "50-Question Production Benchmark",
         "sys_flow_title": "Pipeline Execution Flowchart"
     }
 }
