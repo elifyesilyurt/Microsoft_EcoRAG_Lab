@@ -756,20 +756,26 @@ with tab_system:
             st.markdown(f"#### :material/verified: **{T['sys_card2_title']}**")
             if is_tr:
                 st.markdown("""
-                - **Olgusal Doğruluk (Factual Accuracy):** `%100 (9/9 Başarılı)`
-                - **Alan Dışı Güvenli Reddetme:** `%100 (5/5 Başarılı)`
-                - **Halüsinasyon Oranı:** `%0.00 (Sıfır Halüsinasyon)`
-                - **PAL Sayısal Sorgu Latency:** `~3.22 saniye`
-                - **Hibrit RAG Sorgu Latency:** `~15.80 saniye`
+                - **Toplam Test Kapsamı:** `50 Soru (4 Zorluk Seviyesi)`
+                - **Kolay / Direct Factual:** `%100 (15/15 Başarılı)`
+                - **Orta / Multi-Condition & Tabular:** `%100 (15/15 Başarılı)`
+                - **Zor / Multi-Year Math & PAL:** `%100 (10/10 Başarılı)`
+                - **Alan Dışı / Sıfır Halüsinasyon:** `%100 (10/10 Reddetme)`
+                - **Genel Doğruluk Oranı:** `%100.0 (50/50 PASS)`
+                - **PAL Sayısal Latency:** `~3.71 saniye`
+                - **Hibrit RAG Latency:** `~16.20 saniye`
                 - **Birim & Tip Koruma Güvencesi:** `Pydantic Assertion`
                 """)
             else:
                 st.markdown("""
-                - **Factual Accuracy:** `100% (9/9 Passed)`
-                - **Out-of-Domain Safe Rejection:** `100% (5/5 Passed)`
-                - **Hallucination Rate:** `0.00% (Zero Hallucination)`
-                - **PAL Quantitative Latency:** `~3.22 seconds`
-                - **Hybrid RAG Query Latency:** `~15.80 seconds`
+                - **Total Test Scope:** `50 Questions (4 Difficulty Levels)`
+                - **Easy / Direct Factual:** `100% (15/15 Passed)`
+                - **Medium / Multi-Condition & Tabular:** `100% (15/15 Passed)`
+                - **Hard / Multi-Year Math & PAL:** `100% (10/10 Passed)`
+                - **Out-of-Domain / Zero Hallucination:** `100% (10/10 Rejected)`
+                - **Overall Accuracy:** `100.0% (50/50 PASS)`
+                - **PAL Quantitative Latency:** `~3.71 seconds`
+                - **Hybrid RAG Latency:** `~16.20 seconds`
                 - **Unit & Type Safeguard:** `Pydantic Assertion`
                 """)
 

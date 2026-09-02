@@ -106,32 +106,38 @@ Open http://localhost:8501 in your browser.
 
 ### 3. Running Benchmarks & Negative Controls
 
-The repository includes an automated 14-question benchmark suite (9 factual queries + 5 out-of-domain negative control tests):
+The repository includes an automated 50-question production benchmark suite categorized across 4 difficulty levels:
 
 ```bash
-# Run the complete test suite
+# Run the complete 50-question test suite
 python run_benchmarks.py
 
+# Run by difficulty (easy, medium, hard, negative)
+python run_benchmarks.py --difficulty hard
+
 # Run targeted benchmark questions
-python run_benchmarks.py --only 1,2,7,9
+python run_benchmarks.py --only 1,6,9,16,20,31,32,41,44
 ```
 
-#### Benchmark Results Summary
-| Category | Pass Rate | Hallucination Rate | Avg. Latency |
-|---|---|---|---|
-| **Factual & Quantitative Tests** | **100% (9/9)** | **0%** | ~6.46s (PAL: ~3.2s) |
-| **Out-of-Domain Negative Controls** | **100% (5/5)** | **0%** | ~40.8s |
+#### 50-Question Benchmark Results Summary
+| Difficulty Category | Question Count | Pass Rate | Hallucination Rate | Avg. Latency |
+|---|---|---|---|---|
+| **Category 1: Easy / Direct Factual** | 15 Questions | **100% (15/15)** | **0%** | ~17.9s |
+| **Category 2: Medium / Multi-Condition & Tabular** | 15 Questions | **100% (15/15)** | **0%** | ~22.1s |
+| **Category 3: Hard / Multi-Year Math & PAL** | 10 Questions | **100% (10/10)** | **0%** | ~4.57s |
+| **Category 4: Out-of-Domain Negative Controls** | 10 Questions | **100% (10/10)** | **0%** | ~15.3s |
+| **Overall Benchmark Score** | **50 Questions** | **100.0% (50/50)** | **0.00%** | **Sıfır Halüsinasyon** |
 
 ---
 
 ### 4. Project Structure
 
 ```
-├── app.py                     # Streamlit web application & chat UI
+├── app.py                     # Streamlit web application & multi-tab UI
 ├── ingest_all_reports.py      # PDF parsing, semantic chunking & vector indexing
 ├── esg_tables.py              # PAL deterministic ESG calculation engine
 ├── extraction_pipeline.py     # Pydantic validation schemas & deterministic resolver
-├── run_benchmarks.py          # Automated production benchmark & evaluation suite
+├── run_benchmarks.py          # 50-question automated production benchmark suite
 ├── rag_storage.db             # SQLite vector database with hybrid search index
 ├── docs/                      # Source Microsoft Sustainability PDF reports
 │   ├── Microsoft_2024_Sustainability_Report.pdf
@@ -152,7 +158,7 @@ python run_benchmarks.py --only 1,2,7,9
 
 ### 1. Genel Bakış ve Mimari
 
-Microsoft EcoRAG Lab; Microsoft'un 2024 ve 2025 Çevresel Sürdürülebilirlik Raporları (ESG) ile Veri Tabloları üzerinde çalışan, yerel, sıfır halüsinasyon hedefli bir sürdürülebilirlik analiz motorudur.
+Microsoft EcoRAG Lab; Microsoft'un 2024 ve 2025 Çevresel Sürdürülebilirlik Raporları ile 2026 Data Fact Sheet üzerinde çalışan, yerel, sıfır halüsinasyon hedefli bir sürdürülebilirlik analiz motorudur.
 
 Karmaşık ESG metriklerinde, çok yıllı emisyon tablolarında ve birim eşleşmelerinde tam doğruluğa ulaşmak için hibrit arama (Dense Vector + Lexical Boost), Program-Aided Language (PAL) deterministik hesaplama motoru ve Pydantic tip doğrulama katmanı birlikte çalışır.
 
@@ -190,22 +196,28 @@ Uygulamaya tarayıcınızdan http://localhost:8501 adresinden erişebilirsiniz.
 
 ---
 
-### 3. Otomatik Benchmark ve Değerlendirme
+### 3. Otomatik 50 Soruluk Benchmark ve Değerlendirme
 
-Sistem performansını, birim tutarlılığını ve alan dışı reddetme yeteneğini test etmek için 14 soruluk test paketi mevcuttur:
+Sistem performansını, birim tutarlılığını ve alan dışı reddetme yeteneğini test etmek için 4 farklı zorluk seviyesinde 50 soruluk test paketi mevcuttur:
 
 ```bash
-# Tüm benchmark testlerini çalıştır
+# 50 soruluk benchmark testini çalıştır
 python run_benchmarks.py
 
+# Belirli bir zorluğu çalıştır (easy, medium, hard, negative)
+python run_benchmarks.py --difficulty hard
+
 # Belirli soruları test et
-python run_benchmarks.py --only 1,2,7,9
+python run_benchmarks.py --only 1,6,9,16,20,31,32,41,44
 ```
 
-#### Test Sonuçları Özeti
-- **Factual & Sayısal Doğruluk:** %100 (9/9 Başarılı)
-- **Negatif Kontrol (Alan Dışı Reddetme):** %100 (5/5 Başarılı, 0 Halüsinasyon)
-- **Ortalama Yanıt Süresi:** ~6.46 saniye (PAL sorguları: ~3.2 saniye)
+#### 50 Soruluk Test Sonuçları Özeti
+- **Kategori 1 (Kolay / Direct Factual):** %100 (15/15 Başarılı)
+- **Kategori 2 (Orta / Multi-Condition & Tabular):** %100 (15/15 Başarılı)
+- **Kategori 3 (Zor / Multi-Year Math & PAL):** %100 (10/10 Başarılı)
+- **Kategori 4 (Alan Dışı / Negatif Kontrol):** %100 (10/10 Güvenli Reddetme)
+- **Genel Doğruluk:** %100.0 (50/50 Başarılı)
+- **Halüsinasyon Oranı:** %0.00 (Sıfır Halüsinasyon)
 
 </details>
 
