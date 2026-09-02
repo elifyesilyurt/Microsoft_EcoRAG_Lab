@@ -469,7 +469,31 @@ elif "Fluent Azure" in theme_choice:
     header[data-testid="stHeader"] {
         background-color: #f8fafc !important;
     }
-    .stApp, .stApp p, .stApp span, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6, .stApp label, .stApp div[data-testid="stMarkdownContainer"] p {
+    .stApp, 
+    .stApp p, 
+    .stApp span, 
+    .stApp li, 
+    .stApp ul, 
+    .stApp ol, 
+    .stApp li *, 
+    .stApp h1, 
+    .stApp h2, 
+    .stApp h3, 
+    .stApp h4, 
+    .stApp h5, 
+    .stApp h6, 
+    .stApp label, 
+    .stApp strong,
+    .stApp em,
+    .stApp blockquote,
+    .stApp td,
+    .stApp th,
+    div[data-testid="stMarkdownContainer"] p,
+    div[data-testid="stMarkdownContainer"] li,
+    div[data-testid="stMarkdownContainer"] ul,
+    div[data-testid="stMarkdownContainer"] ol,
+    div[data-testid="stMarkdownContainer"] li *,
+    div[data-testid="stChatMessage"] * {
         color: #0f172a !important; /* Çok net koyu metin */
     }
     section[data-testid="stSidebar"] {
@@ -645,7 +669,31 @@ else:
     header[data-testid="stHeader"] {
         background-color: #fdf6f7 !important;
     }
-    .stApp, .stApp p, .stApp span, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6, .stApp label, .stApp div[data-testid="stMarkdownContainer"] p {
+    .stApp, 
+    .stApp p, 
+    .stApp span, 
+    .stApp li, 
+    .stApp ul, 
+    .stApp ol, 
+    .stApp li *, 
+    .stApp h1, 
+    .stApp h2, 
+    .stApp h3, 
+    .stApp h4, 
+    .stApp h5, 
+    .stApp h6, 
+    .stApp label, 
+    .stApp strong,
+    .stApp em,
+    .stApp blockquote,
+    .stApp td,
+    .stApp th,
+    div[data-testid="stMarkdownContainer"] p,
+    div[data-testid="stMarkdownContainer"] li,
+    div[data-testid="stMarkdownContainer"] ul,
+    div[data-testid="stMarkdownContainer"] ol,
+    div[data-testid="stMarkdownContainer"] li *,
+    div[data-testid="stChatMessage"] * {
         color: #2d1b22 !important; /* Net okunur koyu mürdüm-antrasit */
     }
     section[data-testid="stSidebar"] {
