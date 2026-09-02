@@ -48,7 +48,7 @@ Using the verified structured metrics provided below, compose a concise, direct 
 State the exact numbers, names, and corresponding units clearly in sentence 1. Do not repeat yourself."""
 
 # ══════════════════════════════════════════════════════════════════════════════
-# SAYFA VE TEMA YAPILANDIRMASI
+# SAYFA YAPILANDIRMASI
 # ══════════════════════════════════════════════════════════════════════════════
 st.set_page_config(
     page_title="Microsoft EcoRAG Lab",
@@ -165,33 +165,159 @@ def search_context_hybrid(query: str):
     return filtered, max_score
 
 # ══════════════════════════════════════════════════════════════════════════════
+# ÇİFT DİLLİ METİN SÖZLÜĞÜ (BILINGUAL DICTIONARY)
+# ══════════════════════════════════════════════════════════════════════════════
+TEXTS = {
+    "tr": {
+        "title": "Microsoft EcoRAG Lab",
+        "subtitle": "Sıfır Halüsinasyonlu Deterministik ESG ve Sürdürülebilirlik Analiz Paneli",
+        "sidebar_title": "EcoRAG Lab",
+        "sidebar_caption": "Deterministik Sürdürülebilirlik Analizi",
+        "lang_label": "Dil / Language",
+        "theme_label": "Görsel Tema / Palette",
+        "status_box_title": "Sistem Durumu",
+        "status_badge": "Aktif & Doğrulanmış",
+        "status_model": "Model",
+        "status_embed": "Embedding",
+        "status_index": "İndeks",
+        "status_engine": "Motor",
+        "reset_btn": "Sohbeti Sıfırla",
+        "tab_chat": "💬 Akıllı Asistan",
+        "tab_dash": "📊 ESG Bilanço Paneli",
+        "tab_sys": "🛠️ Sistem & Benchmark Durumu",
+        "pills_title": "Hızlı Başlangıç & Benchmark Test Soruları",
+        "badge_pal": "PAL Deterministik Hesaplama",
+        "badge_rag": "Hibrit Vektör Arama & Pydantic",
+        "verified_output_label": "⚡ Doğrulanmış Analitik Çıktı (Verified Metrics)",
+        "provenance_label": "Kullanılan Kaynaklar ({count}) • Benzerlik Skoru: {score:.4f} • Süre: {latency:.2f}s",
+        "chat_placeholder": "Microsoft çevre ve sürdürülebilirlik raporlarına dair bir soru sorun...",
+        "spinner_text": "Deterministik çıkarım ve doğrulama yürütülüyor...",
+        "not_found_msg": "Microsoft Çevresel Sürdürülebilirlik raporlarında bu konuyla ilgili bilgi bulunmamaktadır.",
+        "kpi_co2_title": "Toplam GHG Emisyonu (FY25)",
+        "kpi_co2_delta": "+61.7% (FY20 Bazına Göre)",
+        "kpi_co2_cap": "Scope 1 + Scope 2 (Market) + Scope 3",
+        "kpi_water_title": "Kümülatif Su Yenileme (FY25)",
+        "kpi_water_delta": "+82.1% Hedef Başarım Oranı",
+        "kpi_water_cap": "2030 Water Positive Hedefi Kapsamı",
+        "kpi_waste_title": "Yönlendirilen Katı Atık (FY25)",
+        "kpi_waste_delta": "%82.3 Çöpten Kurtarma Oranı",
+        "kpi_waste_cap": "Geri Dönüşüm, Yeniden Kullanım ve Kompost",
+        "dash_title": "Microsoft Kurumsal ESG Bilançosu",
+        "dash_caption": "2024–2025 Sürdürülebilirlik Raporları ve 2026 Data Fact Sheet Doğrulanmış Verileri",
+        "dash_t1": "1. Sera Gazı Emisyon Dağılımı (Scope 1, 2, 3)",
+        "dash_t1_cap": "Birim: mtCO2e (Metrik ton CO2 eşdeğeri) • Kaynak: 2025 Report Appendix Table 1",
+        "dash_t2": "2. Karbon Uzaklaştırma Portföyü",
+        "dash_t2_cap": "Birim: mtCO2e • Kaynak: 2025 Report p.21-22",
+        "dash_t3": "3. Su Bilançosu & Hedefler",
+        "dash_t3_cap": "Birim: million m³ • Kaynak: 2025 Report Water Table 1",
+        "dash_t4": "4. Sıfır Atık & UL Solutions Sertifikasyonları",
+        "dash_t4_cap": "Kaynak: 2024 Report p.36 & 2025 Report p.47",
+        "dash_t5": "5. 2026 Data Fact Sheet — Resmi Denetim & Bölgesel Göstergeler",
+        "dash_t5_cap": "Kaynak: Microsoft_2026_Data_Fact_Sheet.pdf (Denetlenmiş Resmi Metrikler & Metodolojiler)",
+        "sys_title": "Altyapı & Benchmark Değerlendirme Raporu",
+        "sys_caption": "Yerel SLM Çıkarım Mimarisi ve Deterministik Doğrulama Ölçümleri",
+        "sys_card1_title": "Teknik Parametreler",
+        "sys_card2_title": "14 Soruluk Üretim Benchmarkı",
+        "sys_flow_title": "Çalışma Hattı Akış Şeması"
+    },
+    "en": {
+        "title": "Microsoft EcoRAG Lab",
+        "subtitle": "Zero-Hallucination Deterministic ESG & Sustainability Analysis Engine",
+        "sidebar_title": "EcoRAG Lab",
+        "sidebar_caption": "Deterministic Sustainability Analysis",
+        "lang_label": "Language / Dil",
+        "theme_label": "Theme / Palette",
+        "status_box_title": "System Status",
+        "status_badge": "Active & Verified",
+        "status_model": "Model",
+        "status_embed": "Embedding",
+        "status_index": "Index",
+        "status_engine": "Engine",
+        "reset_btn": "Clear Conversation",
+        "tab_chat": "💬 Smart Assistant",
+        "tab_dash": "📊 ESG Balance Dashboard",
+        "tab_sys": "🛠️ System & Benchmark Status",
+        "pills_title": "Quick Prompts & Benchmark Questions",
+        "badge_pal": "PAL Deterministic Calculation",
+        "badge_rag": "Hybrid Vector Search & Pydantic",
+        "verified_output_label": "⚡ Verified Structured Representation",
+        "provenance_label": "Data Provenance ({count}) • Similarity Score: {score:.4f} • Latency: {latency:.2f}s",
+        "chat_placeholder": "Ask a question regarding Microsoft sustainability reports...",
+        "spinner_text": "Executing deterministic extraction & validation...",
+        "not_found_msg": "I cannot find information regarding this in the provided Microsoft Environmental Sustainability reports.",
+        "kpi_co2_title": "Total GHG Emissions (FY25)",
+        "kpi_co2_delta": "+61.7% (vs FY20 Baseline)",
+        "kpi_co2_cap": "Scope 1 + Scope 2 (Market) + Scope 3",
+        "kpi_water_title": "Cumulative Water Replenishment (FY25)",
+        "kpi_water_delta": "+82.1% Achievement Rate",
+        "kpi_water_cap": "2030 Water Positive Commitment",
+        "kpi_waste_title": "Diverted Solid Waste (FY25)",
+        "kpi_waste_delta": "82.3% Diversion Rate",
+        "kpi_waste_cap": "Recycled, Reused & Composted",
+        "dash_title": "Microsoft Corporate ESG Balance Sheet",
+        "dash_caption": "Verified Data from 2024–2025 Sustainability Reports & 2026 Data Fact Sheet",
+        "dash_t1": "1. Greenhouse Gas Emissions (Scope 1, 2, 3)",
+        "dash_t1_cap": "Unit: mtCO2e (Metric tons CO2 equivalent) • Source: 2025 Report Appendix Table 1",
+        "dash_t2": "2. Carbon Removal Portfolio Breakdown",
+        "dash_t2_cap": "Unit: mtCO2e • Source: 2025 Report p.21-22",
+        "dash_t3": "3. Water Metrics & Replenishment Targets",
+        "dash_t3_cap": "Unit: million m³ • Source: 2025 Report Water Table 1",
+        "dash_t4": "4. Zero Waste & UL Solutions Certifications",
+        "dash_t4_cap": "Source: 2024 Report p.36 & 2025 Report p.47",
+        "dash_t5": "5. 2026 Data Fact Sheet — Audit Metrics & Regional Indicators",
+        "dash_t5_cap": "Source: Microsoft_2026_Data_Fact_Sheet.pdf (Audited Official Metrics & Methodologies)",
+        "sys_title": "Infrastructure & Benchmark Evaluation Report",
+        "sys_caption": "Local SLM Inference Architecture and Deterministic Verification Metrics",
+        "sys_card1_title": "Technical Parameters",
+        "sys_card2_title": "14-Question Production Benchmark",
+        "sys_flow_title": "Pipeline Execution Flowchart"
+    }
+}
+
+# ══════════════════════════════════════════════════════════════════════════════
 # SIDEBAR (KENAR ÇUBUĞU)
 # ══════════════════════════════════════════════════════════════════════════════
 with st.sidebar:
     st.markdown("### :material/eco: **EcoRAG Lab**")
     st.caption("Deterministic Sustainability Analysis")
-    
+
+    # Yatay Dil Açma/Kapama Düğmesi (Sol: English EN, Sağ: Türkçe TR)
+    lang_choice = st.segmented_control(
+        "Language / Dil",
+        options=["English (EN)", "Türkçe (TR)"],
+        default="Türkçe (TR)",
+        key="lang_choice"
+    )
+    is_tr = (lang_choice == "Türkçe (TR)")
+    L = "tr" if is_tr else "en"
+    T = TEXTS[L]
+
+    # Tema Seçici (3 Tema Seçeneği: Eco Emerald, Fluent Azure, Pastel Sage)
     theme_choice = st.selectbox(
-        "Görsel Tema / Palette",
-        options=["🌿 Eco Emerald (Koyu)", "💼 Fluent Azure (Açık)"],
+        T["theme_label"],
+        options=[
+            "🌿 Eco Emerald (Koyu / Dark)",
+            "💼 Fluent Azure (Açık / Light)",
+            "🌸 Pastel Sage & Sand (Pastel Soft)"
+        ],
         index=0
     )
-    
+
     with st.container(border=True):
-        st.markdown("**Sistem Durumu**")
-        st.badge("Aktif & Doğrulanmış", icon=":material/check_circle:", color="green")
-        st.markdown(f"**Model:** `{MODEL_NAME}`")
-        st.markdown(f"**Embedding:** `nomic-v1.5 (768d)`")
-        st.markdown(f"**İndeks:** `982 Chunk (SQLite WAL)`")
-        st.markdown(f"**Motor:** `PAL + Asymmetric IR`")
-    
-    if st.button("Sohbeti Sıfırla", icon=":material/delete:", width="stretch"):
+        st.markdown(f"**{T['status_box_title']}**")
+        st.badge(T["status_badge"], icon=":material/check_circle:", color="green")
+        st.markdown(f"**{T['status_model']}:** `{MODEL_NAME}`")
+        st.markdown(f"**{T['status_embed']}:** `nomic-v1.5 (768d)`")
+        st.markdown(f"**{T['status_index']}:** `982 Chunks (3 PDF)`")
+        st.markdown(f"**{T['status_engine']}:** `PAL + Asymmetric IR`")
+
+    if st.button(T["reset_btn"], icon=":material/delete:", width="stretch"):
         st.session_state.messages = []
         gc.collect()
         st.rerun()
 
 # ══════════════════════════════════════════════════════════════════════════════
-# DİNAMİK TEMA ENJEKSİYONU
+# DİNAMİK TEMA ENJEKSİYONU (3 FARKLI PALET)
 # ══════════════════════════════════════════════════════════════════════════════
 if "Eco Emerald" in theme_choice:
     st.html("""
@@ -215,13 +341,16 @@ if "Eco Emerald" in theme_choice:
     }
     </style>
     """)
-else:
+elif "Fluent Azure" in theme_choice:
     st.html("""
     <style>
     /* Fluent Azure Light Theme */
     .stApp {
         background-color: #f8f9fa;
         color: #1f2328;
+    }
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
     }
     .stTabs [data-baseweb="tab"] {
         border-radius: 6px;
@@ -234,17 +363,49 @@ else:
     }
     </style>
     """)
+else:
+    # 🌸 Pastel Sage & Sand (Soft Muted Pastel Palette)
+    st.html("""
+    <style>
+    /* Pastel Sage & Sand Theme */
+    .stApp {
+        background-color: #f4f6f4;
+        color: #2d3748;
+    }
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+    }
+    .stTabs [data-baseweb="tab"] {
+        border-radius: 8px;
+        padding: 8px 16px;
+        background-color: #e9efe9;
+        color: #4a5568;
+    }
+    .stTabs [aria-selected="true"] {
+        background-color: #d1e2d2 !important;
+        color: #2b6cb0 !important;
+        font-weight: 600;
+        border-bottom: 2px solid #68d391;
+    }
+    div[data-testid="stMetric"] {
+        background-color: #ffffff !important;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        padding: 12px;
+    }
+    </style>
+    """)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # BAŞLIK VE SEKME DÜZENİ (3 ANA SEKME)
 # ══════════════════════════════════════════════════════════════════════════════
-st.title("Microsoft EcoRAG Lab")
-st.caption("Sıfır Halüsinasyonlu Deterministik ESG ve Sürdürülebilirlik Analiz Paneli")
+st.title(T["title"])
+st.caption(T["subtitle"])
 
 tab_chat, tab_dashboard, tab_system = st.tabs([
-    ":material/chat: Akıllı Asistan",
-    ":material/analytics: ESG Bilanço Paneli",
-    ":material/tune: Sistem & Benchmark Durumu"
+    T["tab_chat"],
+    T["tab_dash"],
+    T["tab_sys"]
 ])
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -254,34 +415,59 @@ with tab_chat:
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    # Hazır Soru Hapları (st.pills)
-    selected_pill = st.pills(
-        "Hızlı Başlangıç & Benchmark Test Soruları",
-        options=[
+    # Dile Göre Hazır Soru Hapları
+    if is_tr:
+        pill_options = [
             "Scope 1-3 Emisyon Trendi",
             "FIDO Tech Akustik Su Kaçağı",
             "Zero Waste Veri Merkezleri (UL Standardı)",
             "Karbon Uzaklaştırma Portföyü",
-            "2026 Fact Sheet: Ambalaj & Plastik Metodolojisi",
+            "2026 Fact Sheet: Ambalaj & Plastik",
             "2026 Bölgesel Tüketim (Hollanda/Madrid)",
             "Ağ Gecikme Süresi (Alan Dışı Test)",
             "Sunucu CPU Saat Hızı (Alan Dışı Test)",
             "2023 FIFA Dünya Kupası (Alan Dışı Test)"
-        ],
+        ]
+    else:
+        pill_options = [
+            "Scope 1-3 Emissions Trend",
+            "FIDO Tech Acoustic Leak AI",
+            "Zero Waste Datacenters (UL Standard)",
+            "Carbon Removal Portfolio",
+            "2026 Fact Sheet: Packaging & Plastic",
+            "2026 Regional Consumption (Netherlands/Madrid)",
+            "Network Latency (Out-of-Domain Test)",
+            "Server CPU Clock Speed (Out-of-Domain Test)",
+            "2023 FIFA World Cup (Out-of-Domain Test)"
+        ]
+
+    selected_pill = st.pills(
+        T["pills_title"],
+        options=pill_options,
         label_visibility="collapsed"
     )
 
-    # Hap tıklandığında sorguyu eşleştir
     pill_query_map = {
+        # TR
         "Scope 1-3 Emisyon Trendi": "Compare Microsoft Scope 1, Scope 2, and Scope 3 emissions trend between FY20 baseline and FY25, highlighting the top contributing categories.",
         "FIDO Tech Akustik Su Kaçağı": "Which organization did Microsoft partner with to deploy AI-enabled acoustic leak analysis in water distribution networks across cities like London, Querétaro, and Phoenix?",
         "Zero Waste Veri Merkezleri (UL Standardı)": "Which external certification does Microsoft use to validate its Zero Waste datacenters, and how many datacenters were certified under this standard in FY23 according to the 2024 report?",
         "Karbon Uzaklaştırma Portföyü": "What is the total contracted carbon removal volume and its breakdown by technology type according to Carbon Table 3 in the 2025 report?",
-        "2026 Fact Sheet: Ambalaj & Plastik Metodolojisi": "According to the 2026 Data Fact Sheet, what is the single-use plastic packaging percentage achieved at the end of calendar year 2025/2026 and what third-party frameworks are used?",
+        "2026 Fact Sheet: Ambalaj & Plastik": "According to the 2026 Data Fact Sheet, what is the single-use plastic packaging percentage achieved at the end of calendar year 2025/2026 and what third-party frameworks are used?",
         "2026 Bölgesel Tüketim (Hollanda/Madrid)": "What are the datacenter water and electricity metrics for regions like the Netherlands and Madrid reported in the 2026 Data Fact Sheet?",
         "Ağ Gecikme Süresi (Alan Dışı Test)": "What was the average round-trip network latency between the Quincy datacenter and the San Antonio Azure edge site in milliseconds during 2024?",
         "Sunucu CPU Saat Hızı (Alan Dışı Test)": "What is the exact clock speed in GHz and cache size of the custom processors used inside the servers at the Boydton datacenter?",
-        "2023 FIFA Dünya Kupası (Alan Dışı Test)": "Who won the FIFA Women's World Cup in 2023, and what was the final score?"
+        "2023 FIFA Dünya Kupası (Alan Dışı Test)": "Who won the FIFA Women's World Cup in 2023, and what was the final score?",
+        # EN
+        "Scope 1-3 Emissions Trend": "Compare Microsoft Scope 1, Scope 2, and Scope 3 emissions trend between FY20 baseline and FY25, highlighting the top contributing categories.",
+        "FIDO Tech Acoustic Leak AI": "Which organization did Microsoft partner with to deploy AI-enabled acoustic leak analysis in water distribution networks across cities like London, Querétaro, and Phoenix?",
+        "Zero Waste Datacenters (UL Standard)": "Which external certification does Microsoft use to validate its Zero Waste datacenters, and how many datacenters were certified under this standard in FY23 according to the 2024 report?",
+        "Carbon Removal Portfolio": "What is the total contracted carbon removal volume and its breakdown by technology type according to Carbon Table 3 in the 2025 report?",
+        "2026 Fact Sheet: Packaging & Plastic": "According to the 2026 Data Fact Sheet, what is the single-use plastic packaging percentage achieved at the end of calendar year 2025/2026 and what third-party frameworks are used?",
+        "2026 Regional Consumption (Netherlands/Madrid)": "What are the datacenter water and electricity metrics for regions like the Netherlands and Madrid reported in the 2026 Data Fact Sheet?",
+        "Network Latency (Out-of-Domain Test)": "What was the average round-trip network latency between the Quincy datacenter and the San Antonio Azure edge site in milliseconds during 2024?",
+        "Server CPU Clock Speed (Out-of-Domain Test)": "What is the exact clock speed in GHz and cache size of the custom processors used inside the servers at the Boydton datacenter?",
+        "2023 FIFA World Cup (Out-of-Domain Test)": "Who won the FIFA Women's World Cup in 2023, and what was the final score?"
     }
 
     active_query = None
@@ -293,43 +479,44 @@ with tab_chat:
         with st.chat_message(msg["role"]):
             if msg["role"] == "assistant" and "route" in msg:
                 if msg["route"] == "pal":
-                    st.markdown(":green-badge[PAL Deterministik Hesaplama]")
+                    st.markdown(f":green-badge[{T['badge_pal']}]")
                 else:
-                    st.markdown(":blue-badge[Hibrit Vektör Arama & Pydantic]")
-            
+                    st.markdown(f":blue-badge[{T['badge_rag']}]")
+
             st.markdown(msg["content"])
-            
+
             if "calc_details" in msg and msg["calc_details"]:
-                with st.expander("⚡ Verified Analytical Engine Output", icon=":material/verified:"):
+                with st.expander(T["verified_output_label"], icon=":material/verified:"):
                     st.text(msg["calc_details"])
             if "provenance" in msg and msg["provenance"]:
-                with st.expander(
-                    f"Kullanılan Kaynaklar ({len(msg['provenance'])}) • Benzerlik Skoru: {msg.get('max_score', 0):.4f} • Süre: {msg.get('latency', 0):.2f}s",
-                    icon=":material/library_books:"
-                ):
+                prov_title = T["provenance_label"].format(
+                    count=len(msg["provenance"]),
+                    score=msg.get("max_score", 0),
+                    latency=msg.get("latency", 0)
+                )
+                with st.expander(prov_title, icon=":material/library_books:"):
                     for p in msg["provenance"]:
-                        st.markdown(f"**{p['title']}** (Skor: {p['score']:.4f})")
+                        st.markdown(f"**{p['title']}** (Score / Skor: {p['score']:.4f})")
                         st.text(p["content"][:300] + "...")
 
     # Kullanıcı Girdisi (chat_input veya pill)
-    user_input = st.chat_input("Microsoft çevre ve sürdürülebilirlik raporlarına dair bir soru sorun...")
+    user_input = st.chat_input(T["chat_placeholder"])
     query_to_run = user_input or active_query
 
     if query_to_run:
-        # Son kullanıcı sorusu ile tekrarlanmayı engelle
         if not st.session_state.messages or st.session_state.messages[-1]["content"] != query_to_run:
             st.session_state.messages.append({"role": "user", "content": query_to_run})
             with st.chat_message("user"):
                 st.markdown(query_to_run)
 
             start_time = time.time()
-            with st.spinner("Deterministik çıkarım ve doğrulama yürütülüyor..."):
+            with st.spinner(T["spinner_text"]):
                 try:
                     q_lower = query_to_run.lower()
                     is_math_scope = ("trend" in q_lower or "compare" in q_lower or "difference" in q_lower) and ("scope" in q_lower)
                     is_carbon_removal = ("carbon removal" in q_lower or "table 3" in q_lower) and ("technology" in q_lower or "breakdown" in q_lower)
                     is_zero_waste_cert = ("zero waste" in q_lower) and ("certification" in q_lower or "standard" in q_lower or "validate" in q_lower)
-                    
+
                     calc_details = None
                     chunks = []
                     max_score = 0.0
@@ -364,19 +551,19 @@ with tab_chat:
                     else:
                         chunks, max_score = search_context_hybrid(query_to_run)
                         if not chunks or max_score < MIN_SCORE_FLOOR:
-                            ans = "I cannot find information regarding this in the provided Microsoft Environmental Sustainability reports."
+                            ans = T["not_found_msg"]
                         else:
                             context_chunks = [c["content"] for c in chunks]
                             extract_prompt = format_extraction_prompt(query_to_run, context_chunks)
                             raw_json = query_foundry(EXTRACTION_SYSTEM_PROMPT, extract_prompt, temperature=0.0)
-                            
+
                             try:
                                 cleaned = re.search(r"\{.*\}", raw_json, re.DOTALL).group(0)
                                 plan = QueryExtractionPlan(**json.loads(cleaned))
                                 resolution = DeterministicResolver.validate_and_filter(plan, query_to_run)
-                                
+
                                 if resolution["status"] == "NOT_FOUND":
-                                    ans = "I cannot find information regarding this in the provided Microsoft Environmental Sustainability reports."
+                                    ans = T["not_found_msg"]
                                 else:
                                     verified_metrics_str = "\n".join([
                                         f"- Entity: {m.entity}, Type: {m.metric_type}, "
@@ -399,21 +586,23 @@ with tab_chat:
 
                     with st.chat_message("assistant"):
                         if route_type == "pal":
-                            st.markdown(":green-badge[PAL Deterministik Hesaplama]")
+                            st.markdown(f":green-badge[{T['badge_pal']}]")
                         else:
-                            st.markdown(":blue-badge[Hibrit Vektör Arama & Pydantic]")
-                        
+                            st.markdown(f":blue-badge[{T['badge_rag']}]")
+
                         st.markdown(ans)
                         if calc_details:
-                            with st.expander("⚡ Verified Analytical Engine Output", icon=":material/verified:"):
+                            with st.expander(T["verified_output_label"], icon=":material/verified:"):
                                 st.text(calc_details)
                         if chunks:
-                            with st.expander(
-                                f"Kullanılan Kaynaklar ({len(chunks)}) • Benzerlik Skoru: {max_score:.4f} • Süre: {latency:.2f}s",
-                                icon=":material/library_books:"
-                            ):
+                            prov_title = T["provenance_label"].format(
+                                count=len(chunks),
+                                score=max_score,
+                                latency=latency
+                            )
+                            with st.expander(prov_title, icon=":material/library_books:"):
                                 for p in chunks:
-                                    st.markdown(f"**{p['title']}** (Skor: {p['score']:.4f})")
+                                    st.markdown(f"**{p['title']}** (Score / Skor: {p['score']:.4f})")
                                     st.text(p["content"][:300] + "...")
 
                     st.session_state.messages.append({
@@ -428,135 +617,171 @@ with tab_chat:
                     gc.collect()
 
                 except Exception as e:
-                    st.error(f"Sorgu yürütülürken hata oluştu: {e}")
+                    st.error(f"Error / Hata: {e}")
                     gc.collect()
 
 # ══════════════════════════════════════════════════════════════════════════════
 # SEKME 2: ESG BİLANÇO PANELİ (DASHBOARD)
 # ══════════════════════════════════════════════════════════════════════════════
 with tab_dashboard:
-    st.markdown("### :material/dashboard: **Microsoft Kurumsal ESG Bilançosu**")
-    st.caption("2024–2025 Sürdürülebilirlik Raporları ve 2026 Data Fact Sheet Doğrulanmış Verileri")
+    st.markdown(f"### :material/dashboard: **{T['dash_title']}**")
+    st.caption(T["dash_caption"])
 
     # Üst 3 Büyük KPI Kartı (st.metric)
     col1, col2, col3 = st.columns(3)
     with col1:
         with st.container(border=True):
             st.metric(
-                label="Toplam GHG Emisyonu (FY25)",
+                label=T["kpi_co2_title"],
                 value="21.12M mtCO2e",
-                delta="+61.7% (FY20 Bazına Göre)",
+                delta=T["kpi_co2_delta"],
                 delta_color="inverse"
             )
-            st.caption("Scope 1 + Scope 2 (Market) + Scope 3")
+            st.caption(T["kpi_co2_cap"])
     with col2:
         with st.container(border=True):
             st.metric(
-                label="Kümülatif Su Yenileme (FY25)",
+                label=T["kpi_water_title"],
                 value="125.0M m³",
-                delta="+82.1% Hedef Başarım Oranı",
+                delta=T["kpi_water_delta"],
                 delta_color="normal"
             )
-            st.caption("2030 Water Positive Hedefi Kapsamı")
+            st.caption(T["kpi_water_cap"])
     with col3:
         with st.container(border=True):
             st.metric(
-                label="Yönlendirilen Katı Atık (FY25)",
+                label=T["kpi_waste_title"],
                 value="218,000 mt",
-                delta="%82.3 Çöpten Kurtarma Oranı",
+                delta=T["kpi_waste_delta"],
                 delta_color="normal"
             )
-            st.caption("Geri Dönüşüm, Yeniden Kullanım ve Kompost")
+            st.caption(T["kpi_waste_cap"])
 
     st.space("medium")
 
     # Tablo 1: Karbon Emisyonları (Scope 1, 2, 3)
     with st.container(border=True):
-        st.markdown("#### :material/co2: **1. Sera Gazı Emisyon Dağılımı (Scope 1, 2, 3)**")
-        st.caption("Birim: mtCO2e (Metrik ton CO2 eşdeğeri) • Kaynak: 2025 Report Appendix Table 1")
+        st.markdown(f"#### :material/co2: **{T['dash_t1']}**")
+        st.caption(T["dash_t1_cap"])
         carbon_df = get_carbon_emissions_df()
         st.dataframe(carbon_df, width="stretch", hide_index=True)
 
     col_left, col_right = st.columns(2)
     with col_left:
         with st.container(border=True):
-            st.markdown("#### :material/filter_drama: **2. Karbon Uzaklaştırma Portföyü**")
-            st.caption("Birim: mtCO2e • Kaynak: 2025 Report p.21-22")
+            st.markdown(f"#### :material/filter_drama: **{T['dash_t2']}**")
+            st.caption(T["dash_t2_cap"])
             cr_type_df = get_carbon_removal_by_type_df()
             st.dataframe(cr_type_df, width="stretch", hide_index=True)
 
     with col_right:
         with st.container(border=True):
-            st.markdown("#### :material/water_drop: **3. Su Bilançosu & Hedefler**")
-            st.caption("Birim: million m³ • Kaynak: 2025 Report Water Table 1")
+            st.markdown(f"#### :material/water_drop: **{T['dash_t3']}**")
+            st.caption(T["dash_t3_cap"])
             water_df = get_water_metrics_df()
             st.dataframe(water_df, width="stretch", hide_index=True)
 
     with st.container(border=True):
-        st.markdown("#### :material/delete_forever: **4. Sıfır Atık & UL Solutions Sertifikasyonları**")
-        st.caption("Kaynak: 2024 Report p.36 & 2025 Report p.47")
+        st.markdown(f"#### :material/delete_forever: **{T['dash_t4']}**")
+        st.caption(T["dash_t4_cap"])
         zero_waste_df = get_zero_waste_certifications_df()
         st.dataframe(zero_waste_df, width="stretch", hide_index=True)
 
     with st.container(border=True):
-        st.markdown("#### :material/fact_check: **5. 2026 Data Fact Sheet — Resmi Denetim & Bölgesel Göstergeler**")
-        st.caption("Kaynak: Microsoft_2026_Data_Fact_Sheet.pdf (Denetlenmiş Resmi Metrikler & Metodolojiler)")
-        st.markdown("""
-        - **Tek Kullanımlık Plastik Ambalaj (2025/2026 Takvim Yılı Sonu):** `%0.07` (2030 Sıfır Plastik Hedefi Yolunda)
-        - **Standart ve Denetim Çerçeveleri:** `TRUE Zero Waste` & `UL 2799 ECVP` Çerçeveleri
-        - **Bölgesel Veri Merkezi Elektrik Tüketimleri (2026 Tablosu):**
-          - *Hollanda:* `1,291,170 MWh` (46 Yenilenebilir Varlık)
-          - *Madrid (İspanya):* `22,588 MWh` (15 Yenilenebilir Varlık)
-          - *Malmö (İsveç):* `41,681 MWh`
-          - *Milano (İtalya):* `46,950 MWh`
-        """)
+        st.markdown(f"#### :material/fact_check: **{T['dash_t5']}**")
+        st.caption(T["dash_t5_cap"])
+        if is_tr:
+            st.markdown("""
+            - **Tek Kullanımlık Plastik Ambalaj (2025/2026 Takvim Yılı Sonu):** `%0.07` (2030 Sıfır Plastik Hedefi Yolunda)
+            - **Standart ve Denetim Çerçeveleri:** `TRUE Zero Waste` & `UL 2799 ECVP` Çerçeveleri
+            - **Bölgesel Veri Merkezi Elektrik Tüketimleri (2026 Tablosu):**
+              - *Hollanda:* `1,291,170 MWh` (46 Yenilenebilir Varlık)
+              - *Madrid (İspanya):* `22,588 MWh` (15 Yenilenebilir Varlık)
+              - *Malmö (İsveç):* `41,681 MWh`
+              - *Milano (İtalya):* `46,950 MWh`
+            """)
+        else:
+            st.markdown("""
+            - **Single-Use Plastic Packaging (End of Calendar Year 2025/2026):** `0.07%` (Towards 2030 Zero Plastic Target)
+            - **Standard & Audit Frameworks:** `TRUE Zero Waste` & `UL 2799 ECVP` Frameworks
+            - **Regional Datacenter Electricity Consumption (2026 Table):**
+              - *Netherlands:* `1,291,170 MWh` (46 Renewable Assets)
+              - *Madrid (Spain):* `22,588 MWh` (15 Renewable Assets)
+              - *Malmö (Sweden):* `41,681 MWh`
+              - *Milan (Italy):* `46,950 MWh`
+            """)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # SEKME 3: SİSTEM & BENCHMARK DURUMU
 # ══════════════════════════════════════════════════════════════════════════════
 with tab_system:
-    st.markdown("### :material/memory: **Altyapı & Benchmark Değerlendirme Raporu**")
-    st.caption("Yerel SLM Çıkarım Mimarisi ve Deterministik Doğrulama Ölçümleri")
+    st.markdown(f"### :material/memory: **{T['sys_title']}**")
+    st.caption(T["sys_caption"])
 
     col_arch1, col_arch2 = st.columns(2)
     with col_arch1:
         with st.container(border=True):
-            st.markdown("#### :material/settings_suggest: **Teknik Parametreler**")
-            st.markdown("""
-            - **SLM Modeli:** `phi-4-mini` (Local Foundry Endpoint)
-            - **Sıcaklık (Temperature):** `0.0` (Deterministik Çıkarım)
-            - **Max Tokens Sınırı:** `512` (Loop Hallucination Koruması)
-            - **Embedding Modeli:** `nomic-ai/nomic-embed-text-v1.5`
-            - **Embedding Boyutu:** `768 Boyutlu Yoğun Vektör`
-            - **Vektör Prefix:** Asimetrik (`search_document:` / `search_query:`)
-            - **Veritabanı Motoru:** `SQLite 3 (WAL Modu)`
-            - **Toplam İndeks Parçası:** `982 Chunk (3 Doküman)`
-              - `Microsoft_2024_Sustainability_Report.pdf` (487 Chunk)
-              - `Microsoft_2025_Sustainability_Report.pdf` (322 Chunk)
-              - `Microsoft_2026_Data_Fact_Sheet.pdf` (173 Chunk)
-            """)
+            st.markdown(f"#### :material/settings_suggest: **{T['sys_card1_title']}**")
+            if is_tr:
+                st.markdown("""
+                - **SLM Modeli:** `phi-4-mini` (Local Foundry Endpoint)
+                - **Sıcaklık (Temperature):** `0.0` (Deterministik Çıkarım)
+                - **Max Tokens Sınırı:** `512` (Loop Hallucination Koruması)
+                - **Embedding Modeli:** `nomic-ai/nomic-embed-text-v1.5`
+                - **Embedding Boyutu:** `768 Boyutlu Yoğun Vektör`
+                - **Vektör Prefix:** Asimetrik (`search_document:` / `search_query:`)
+                - **Veritabanı Motoru:** `SQLite 3 (WAL Modu)`
+                - **Toplam İndeks Parçası:** `982 Chunk (3 Doküman)`
+                  - `Microsoft_2024_Sustainability_Report.pdf` (487 Chunk)
+                  - `Microsoft_2025_Sustainability_Report.pdf` (322 Chunk)
+                  - `Microsoft_2026_Data_Fact_Sheet.pdf` (173 Chunk)
+                """)
+            else:
+                st.markdown("""
+                - **SLM Model:** `phi-4-mini` (Local Foundry Endpoint)
+                - **Temperature:** `0.0` (Deterministic Inference)
+                - **Max Tokens Limit:** `512` (Loop Hallucination Safeguard)
+                - **Embedding Model:** `nomic-ai/nomic-embed-text-v1.5`
+                - **Embedding Dimensions:** `768-dim Dense Vector`
+                - **Vector Prefix:** Asymmetric (`search_document:` / `search_query:`)
+                - **Database Engine:** `SQLite 3 (WAL Mode)`
+                - **Total Indexed Chunks:** `982 Chunks (3 Documents)`
+                  - `Microsoft_2024_Sustainability_Report.pdf` (487 Chunks)
+                  - `Microsoft_2025_Sustainability_Report.pdf` (322 Chunks)
+                  - `Microsoft_2026_Data_Fact_Sheet.pdf` (173 Chunks)
+                """)
 
     with col_arch2:
         with st.container(border=True):
-            st.markdown("#### :material/verified: **14 Soruluk Üretim Benchmarkı**")
-            st.markdown("""
-            - **Olgusal Doğruluk (Factual Accuracy):** `%100 (9/9 Başarılı)`
-            - **Alan Dışı Güvenli Reddetme:** `%100 (5/5 Başarılı)`
-            - **Halüsinasyon Oranı:** `%0.00 (Sıfır Halüsinasyon)`
-            - **PAL Sayısal Sorgu Latency:** `~3.22 saniye`
-            - **Hibrit RAG Sorgu Latency:** `~15.80 saniye`
-            - **Birim & Tip Koruma Güvencesi:** `Pydantic Assertion`
-            """)
+            st.markdown(f"#### :material/verified: **{T['sys_card2_title']}**")
+            if is_tr:
+                st.markdown("""
+                - **Olgusal Doğruluk (Factual Accuracy):** `%100 (9/9 Başarılı)`
+                - **Alan Dışı Güvenli Reddetme:** `%100 (5/5 Başarılı)`
+                - **Halüsinasyon Oranı:** `%0.00 (Sıfır Halüsinasyon)`
+                - **PAL Sayısal Sorgu Latency:** `~3.22 saniye`
+                - **Hibrit RAG Sorgu Latency:** `~15.80 saniye`
+                - **Birim & Tip Koruma Güvencesi:** `Pydantic Assertion`
+                """)
+            else:
+                st.markdown("""
+                - **Factual Accuracy:** `100% (9/9 Passed)`
+                - **Out-of-Domain Safe Rejection:** `100% (5/5 Passed)`
+                - **Hallucination Rate:** `0.00% (Zero Hallucination)`
+                - **PAL Quantitative Latency:** `~3.22 seconds`
+                - **Hybrid RAG Query Latency:** `~15.80 seconds`
+                - **Unit & Type Safeguard:** `Pydantic Assertion`
+                """)
 
     with st.container(border=True):
-        st.markdown("#### :material/account_tree: **Çalışma Hattı Akış Şeması**")
+        st.markdown(f"#### :material/account_tree: **{T['sys_flow_title']}**")
         st.code("""
-[Kullanıcı Sorusu] ──► Query Routing ──┬──► (Sayısal/Bilanço) ──► PAL Engine (esg_tables.py) ────────┐
-                                      └──► (Metin/Politika)   ──► Hybrid Retrieval (Nomic 1.5)      │
-                                                                       │                            │
-                                                                       ▼                            ▼
-                                                                Pydantic Assertion ──► phi-4-mini Synthesis
-                                                                                            │
-                                                                                            ▼
-                                                                                   [Doğrulanmış Yanıt]
+[User Query] ──► Query Routing ──┬──► (Quantitative/PAL) ──► PAL Engine (esg_tables.py) ────────┐
+                                 └──► (Text/Policy)       ──► Hybrid Retrieval (Nomic 1.5)      │
+                                                                   │                            │
+                                                                   ▼                            ▼
+                                                            Pydantic Assertion ──► phi-4-mini Synthesis
+                                                                                        │
+                                                                                        ▼
+                                                                               [Verified Response]
         """, language="text")
