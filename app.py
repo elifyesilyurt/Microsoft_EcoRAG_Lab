@@ -526,25 +526,42 @@ if current_theme_id == "dark":
         border: 1px solid #30363d !important;
     }
     div[data-testid="stChatMessage"] p, div[data-testid="stChatMessage"] span { color: #e6edf3 !important; }
-    div[data-testid="stExpander"], details[data-testid="stExpander"] {
+    .stApp div[data-testid="stExpander"],
+    .stApp details[data-testid="stExpander"],
+    div[data-testid="stExpander"] {
         background-color: #161b22 !important;
         border: 1px solid #30363d !important;
         border-radius: 10px !important;
     }
-    div[data-testid="stExpander"] summary, details[data-testid="stExpander"] summary {
+    .stApp div[data-testid="stExpander"] summary,
+    .stApp details[data-testid="stExpander"] summary,
+    .stApp [data-testid="stExpanderSummary"],
+    div[data-testid="stExpander"] summary,
+    details[data-testid="stExpander"] summary {
         background-color: #21262d !important;
         color: #f0f6fc !important;
         font-weight: 700 !important;
         border-bottom: 1px solid #30363d !important;
-        border-radius: 8px 8px 0 0 !important;
+        border-radius: 8px !important;
         padding: 10px 14px !important;
     }
-    div[data-testid="stExpander"] summary *, details[data-testid="stExpander"] summary * {
+    .stApp div[data-testid="stExpander"] summary *,
+    .stApp details[data-testid="stExpander"] summary *,
+    .stApp [data-testid="stExpanderSummary"] *,
+    div[data-testid="stExpander"] summary * {
         color: #f0f6fc !important;
+        -webkit-text-fill-color: #f0f6fc !important;
         font-weight: 700 !important;
     }
-    div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] div {
+    .stApp div[data-testid="stExpanderDetails"],
+    .stApp div[data-testid="stExpander"] div,
+    .stApp div[data-testid="stExpander"] p,
+    .stApp div[data-testid="stExpander"] span,
+    .stApp div[data-testid="stText"],
+    .stApp div[data-testid="stText"] pre {
+        background-color: #161b22 !important;
         color: #e6edf3 !important;
+        -webkit-text-fill-color: #e6edf3 !important;
     }
     /* 🌟 Sekmeler (Tabs - Yarı Saydam Beyaz & Siyah Metin) */
     .stTabs [data-baseweb="tab-list"] {
@@ -837,25 +854,42 @@ elif current_theme_id == "white":
     div[data-testid="stChatMessage"] p, div[data-testid="stChatMessage"] span {
         color: #0f172a !important;
     }
-    div[data-testid="stExpander"], details[data-testid="stExpander"] {
+    .stApp div[data-testid="stExpander"],
+    .stApp details[data-testid="stExpander"],
+    div[data-testid="stExpander"] {
         background-color: #ffffff !important;
         border: 1.5px solid #cbd5e1 !important;
         border-radius: 10px !important;
     }
-    div[data-testid="stExpander"] summary, details[data-testid="stExpander"] summary {
+    .stApp div[data-testid="stExpander"] summary,
+    .stApp details[data-testid="stExpander"] summary,
+    .stApp [data-testid="stExpanderSummary"],
+    div[data-testid="stExpander"] summary,
+    details[data-testid="stExpander"] summary {
         background-color: #f1f5f9 !important;
         color: #0f172a !important;
         font-weight: 700 !important;
         border-bottom: 1.5px solid #cbd5e1 !important;
-        border-radius: 8px 8px 0 0 !important;
+        border-radius: 8px !important;
         padding: 10px 14px !important;
     }
-    div[data-testid="stExpander"] summary *, details[data-testid="stExpander"] summary * {
+    .stApp div[data-testid="stExpander"] summary *,
+    .stApp details[data-testid="stExpander"] summary *,
+    .stApp [data-testid="stExpanderSummary"] *,
+    div[data-testid="stExpander"] summary * {
         color: #0f172a !important;
+        -webkit-text-fill-color: #0f172a !important;
         font-weight: 700 !important;
     }
-    div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] div {
+    .stApp div[data-testid="stExpanderDetails"],
+    .stApp div[data-testid="stExpander"] div,
+    .stApp div[data-testid="stExpander"] p,
+    .stApp div[data-testid="stExpander"] span,
+    .stApp div[data-testid="stText"],
+    .stApp div[data-testid="stText"] pre {
+        background-color: #ffffff !important;
         color: #0f172a !important;
+        -webkit-text-fill-color: #0f172a !important;
     }
     /* Sekmeler (Tabs - Yarı Saydam Beyaz & Siyah Metin) */
     .stTabs [data-baseweb="tab-list"] {
@@ -1157,25 +1191,42 @@ elif current_theme_id == "blue":
     div[data-testid="stChatMessage"] p, div[data-testid="stChatMessage"] span {
         color: #0f172a !important;
     }
-    div[data-testid="stExpander"], details[data-testid="stExpander"] {
+    .stApp div[data-testid="stExpander"],
+    .stApp details[data-testid="stExpander"],
+    div[data-testid="stExpander"] {
         background-color: #ffffff !important;
         border: 1.5px solid #93c5fd !important;
         border-radius: 10px !important;
     }
-    div[data-testid="stExpander"] summary, details[data-testid="stExpander"] summary {
+    .stApp div[data-testid="stExpander"] summary,
+    .stApp details[data-testid="stExpander"] summary,
+    .stApp [data-testid="stExpanderSummary"],
+    div[data-testid="stExpander"] summary,
+    details[data-testid="stExpander"] summary {
         background-color: #e1effe !important;
         color: #0c4a6e !important;
         font-weight: 700 !important;
         border-bottom: 1.5px solid #93c5fd !important;
-        border-radius: 8px 8px 0 0 !important;
+        border-radius: 8px !important;
         padding: 10px 14px !important;
     }
-    div[data-testid="stExpander"] summary *, details[data-testid="stExpander"] summary * {
+    .stApp div[data-testid="stExpander"] summary *,
+    .stApp details[data-testid="stExpander"] summary *,
+    .stApp [data-testid="stExpanderSummary"] *,
+    div[data-testid="stExpander"] summary * {
         color: #0c4a6e !important;
+        -webkit-text-fill-color: #0c4a6e !important;
         font-weight: 700 !important;
     }
-    div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] div {
+    .stApp div[data-testid="stExpanderDetails"],
+    .stApp div[data-testid="stExpander"] div,
+    .stApp div[data-testid="stExpander"] p,
+    .stApp div[data-testid="stExpander"] span,
+    .stApp div[data-testid="stText"],
+    .stApp div[data-testid="stText"] pre {
+        background-color: #ffffff !important;
         color: #0f172a !important;
+        -webkit-text-fill-color: #0f172a !important;
     }
     /* Sekmeler (Tabs - Fluent Azure) */
     .stTabs [data-baseweb="tab-list"] {
@@ -1481,25 +1532,42 @@ else:
     div[data-testid="stChatMessage"] p, div[data-testid="stChatMessage"] span {
         color: #2d1b22 !important;
     }
-    div[data-testid="stExpander"], details[data-testid="stExpander"] {
+    .stApp div[data-testid="stExpander"],
+    .stApp details[data-testid="stExpander"],
+    div[data-testid="stExpander"] {
         background-color: #fffffffa !important;
         border: 1.5px solid #d99ca9 !important;
         border-radius: 10px !important;
     }
-    div[data-testid="stExpander"] summary, details[data-testid="stExpander"] summary {
+    .stApp div[data-testid="stExpander"] summary,
+    .stApp details[data-testid="stExpander"] summary,
+    .stApp [data-testid="stExpanderSummary"],
+    div[data-testid="stExpander"] summary,
+    details[data-testid="stExpander"] summary {
         background-color: #f7dbe1 !important;
         color: #4a0e1e !important;
         font-weight: 700 !important;
         border-bottom: 1.5px solid #d99ca9 !important;
-        border-radius: 8px 8px 0 0 !important;
+        border-radius: 8px !important;
         padding: 10px 14px !important;
     }
-    div[data-testid="stExpander"] summary *, details[data-testid="stExpander"] summary * {
+    .stApp div[data-testid="stExpander"] summary *,
+    .stApp details[data-testid="stExpander"] summary *,
+    .stApp [data-testid="stExpanderSummary"] *,
+    div[data-testid="stExpander"] summary * {
         color: #4a0e1e !important;
+        -webkit-text-fill-color: #4a0e1e !important;
         font-weight: 700 !important;
     }
-    div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] div {
+    .stApp div[data-testid="stExpanderDetails"],
+    .stApp div[data-testid="stExpander"] div,
+    .stApp div[data-testid="stExpander"] p,
+    .stApp div[data-testid="stExpander"] span,
+    .stApp div[data-testid="stText"],
+    .stApp div[data-testid="stText"] pre {
+        background-color: #fffffffa !important;
         color: #2d1b22 !important;
+        -webkit-text-fill-color: #2d1b22 !important;
     }
     /* Sekmeler (Tabs - Toz Pembe) */
     .stTabs [data-baseweb="tab-list"] {
