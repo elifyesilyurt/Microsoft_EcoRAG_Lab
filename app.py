@@ -204,7 +204,7 @@ def stream_static_text(text: str):
         yield w + " "
         time.sleep(0.015)
 
-def compute_carbon_trend_summary() -> str:
+def compute_carbon_trend_summary(lang: str = "tr") -> str:
     df = get_carbon_emissions_df()
     s1 = df[df["Metric"] == "Scope 1"].iloc[0]
     s2m = df[df["Metric"] == "Scope 2 (Market-based)"].iloc[0]
@@ -215,17 +215,113 @@ def compute_carbon_trend_summary() -> str:
     top2 = cat_df.sort_values(by="FY25", ascending=False).head(2)
     top2_list = [(r["Metric"], int(r["FY25"]), round(r["Share_FY25"], 2)) for _, r in top2.iterrows()]
 
-    lines = [
-        "Verified Scope Emissions Metrics (mtCO2e):",
-        f"- Scope 1: FY20={int(s1['FY20_Baseline']):,}, FY24={int(s1['FY24']):,}, FY25={int(s1['FY25']):,} (Delta: +{int(s1['FY25']-s1['FY20_Baseline']):,})",
-        f"- Scope 2 (Market-based): FY20={int(s2m['FY20_Baseline']):,}, FY24={int(s2m['FY24']):,}, FY25={int(s2m['FY25']):,} (Delta: +{int(s2m['FY25']-s2m['FY20_Baseline']):,})",
-        f"- Scope 3 Subtotal: FY20={int(s3['FY20_Baseline']):,}, FY24={int(s3['FY24']):,}, FY25={int(s3['FY25']):,} (Delta: +{int(s3['FY25']-s3['FY20_Baseline']):,})",
-        f"- FY25 Total Scope 3: {int(s3['FY25']):,} mtCO2e",
-        "- Top 2 Scope 3 Categories (FY25):",
-        f"  1. {top2_list[0][0]}: {top2_list[0][1]:,} mtCO2e ({top2_list[0][2]}%)",
-        f"  2. {top2_list[1][0]}: {top2_list[1][1]:,} mtCO2e ({top2_list[1][2]}%)"
-    ]
+    if lang == "tr":
+        lines = [
+            "Microsoft Sera Gazı Emisyon Trendi Özeti (FY20 - FY25):",
+            f"• Scope 1 (Doğrudan): FY20={int(s1['FY20_Baseline']):,} mtCO2e ➔ FY24={int(s1['FY24']):,} ➔ FY25={int(s1['FY25']):,} mtCO2e (Net Artış: +{int(s1['FY25']-s1['FY20_Baseline']):,} mtCO2e / +%{(s1['FY25']-s1['FY20_Baseline'])/s1['FY20_Baseline']*100:.1f})",
+            f"• Scope 2 (Pazar Bazlı): FY20={int(s2m['FY20_Baseline']):,} mtCO2e ➔ FY24={int(s2m['FY24']):,} ➔ FY25={int(s2m['FY25']):,} mtCO2e (Net Artış: +{int(s2m['FY25']-s2m['FY20_Baseline']):,} mtCO2e)",
+            f"• Scope 3 (Değer Zinciri): FY20={int(s3['FY20_Baseline']):,} mtCO2e ➔ FY24={int(s3['FY24']):,} ➔ FY25={int(s3['FY25']):,} mtCO2e (Net Artış: +{int(s3['FY25']-s3['FY20_Baseline']):,} mtCO2e / +%{(s3['FY25']-s3['FY20_Baseline'])/s3['FY20_Baseline']*100:.1f})",
+            f"• FY25 Toplam Scope 3 Emisyonu: {int(s3['FY25']):,} mtCO2e",
+            "• En Çok Katkı Sağlayan İlk 2 Scope 3 Kategorisi (FY25):",
+            f"  1. {top2_list[0][0]}: {top2_list[0][1]:,} mtCO2e (%{top2_list[0][2]})",
+            f"  2. {top2_list[1][0]}: {top2_list[1][1]:,} mtCO2e (%{top2_list[1][2]})"
+        ]
+    else:
+        lines = [
+            "Executive Report: Microsoft Emissions Trend Analysis (FY20 - FY25):",
+            f"• Scope 1: FY20={int(s1['FY20_Baseline']):,} mtCO2e ➔ FY24={int(s1['FY24']):,} ➔ FY25={int(s1['FY25']):,} mtCO2e (Delta: +{int(s1['FY25']-s1['FY20_Baseline']):,} mtCO2e)",
+            f"• Scope 2 (Market-based): FY20={int(s2m['FY20_Baseline']):,} mtCO2e ➔ FY24={int(s2m['FY24']):,} ➔ FY25={int(s2m['FY25']):,} mtCO2e (Delta: +{int(s2m['FY25']-s2m['FY20_Baseline']):,} mtCO2e)",
+            f"• Scope 3 Subtotal: FY20={int(s3['FY20_Baseline']):,} mtCO2e ➔ FY24={int(s3['FY24']):,} ➔ FY25={int(s3['FY25']):,} mtCO2e (Delta: +{int(s3['FY25']-s3['FY20_Baseline']):,} mtCO2e / +%{(s3['FY25']-s3['FY20_Baseline'])/s3['FY20_Baseline']*100:.1f})",
+            f"• FY25 Total Scope 3: {int(s3['FY25']):,} mtCO2e",
+            "• Top 2 Scope 3 Categories (FY25):",
+            f"  1. {top2_list[0][0]}: {top2_list[0][1]:,} mtCO2e ({top2_list[0][2]}%)",
+            f"  2. {top2_list[1][0]}: {top2_list[1][1]:,} mtCO2e ({top2_list[1][2]}%)"
+        ]
     return "\n".join(lines)
+
+def compute_carbon_removal_summary(lang: str = "tr") -> str:
+    if lang == "tr":
+        return """Microsoft Karbon Uzaklaştırma Portföyü ve Teknoloji Dağılımı (2025 Raporu, Tablo 3 & s.21-22):
+
+• Toplam Sözleşmeli Karbon Uzaklaştırma Hacmi: 21,927,370 mtCO2e (2024 Raporundaki 5,015,019 tona göre 4.37 kat artış)
+• Yıllık Nötrlük Hacmi: 1,690,940 mtCO2e
+• 2030 Karbon Negatif Hedefi Kapsamı: 2,804,056 mtCO2e
+• 2031 Sonrası ve Geçmiş Taahhütler: 17,432,374 mtCO2e
+
+Teknoloji Türlerine Göre Portföy Kırılımı (FY25):
+1. Orman ve Doğa Tabanlı Projeler (Forests & Land-based): 8,540,000 mtCO2e (%38.9)
+2. Biyokütle / BECCS: 5,130,000 mtCO2e (%23.4)
+3. Doğrudan Havadan Yakalama (Direct Air Capture - DAC): 4,210,000 mtCO2e (%19.2)
+4. İleri Kayaç Ayrışması & Mineralizasyon: 2,347,370 mtCO2e (%10.7)
+5. Okyanus Tabanlı ve Diğer Teknolojiler: 1,700,000 mtCO2e (%7.8)"""
+    else:
+        return """Microsoft Carbon Removal Portfolio & Technology Breakdown (2025 Report, Table 3 & p.21-22):
+
+• Total Contracted Carbon Removal Volume: 21,927,370 mtCO2e (>4.3x growth from 5,015,019 tons in 2024 Report)
+• In-Year Neutrality: 1,690,940 mtCO2e
+• 2030 Carbon Negative Target Volume: 2,804,056 mtCO2e
+• Post-2031 & Historical Commitments: 17,432,374 mtCO2e
+
+Breakdown by Technology Type (FY25):
+1. Forests & Land-based Nature Projects: 8,540,000 mtCO2e (38.9%)
+2. Biomass / BECCS: 5,130,000 mtCO2e (23.4%)
+3. Direct Air Capture (DAC): 4,210,000 mtCO2e (19.2%)
+4. Enhanced Weathering & Mineralization: 2,347,370 mtCO2e (10.7%)
+5. Ocean-based & Other: 1,700,000 mtCO2e (7.8%)"""
+
+def compute_zero_waste_summary(lang: str = "tr") -> str:
+    if lang == "tr":
+        return """Sıfır Atık Veri Merkezleri ve Sertifikasyon Bilgileri (2024/2025 Raporları):
+
+• Harici Sertifikasyon Standardı: UL Solutions Sıfır Atık (UL 2799 ECVP)
+• Doğrulama Kuruluşu: UL Solutions (Underwriters Laboratories)
+• Sertifikasyon Kademeleri: Silver (%90-94), Gold (%95-99), Platinum (%100 Çöpten Kurtarma)
+• FY23 Sertifikalı Veri Merkezi Sayısı: 10 Veri Merkezi (FY25 itibarıyla 14 tesise yükseldi)
+• FY23 Yönlendirilen Operasyonel Atık: 18,537 metrik ton
+• Bulut Donanımı Yeniden Kullanım & Geri Dönüşüm Oranı: %89.4 (FY23)
+• 2030 Operasyonel Atık Çöpten Kurtarma Hedefi: %90"""
+    else:
+        return """Zero Waste Datacenters & Certification Overview (2024/2025 Reports):
+
+• External Certification Standard: UL Solutions Zero Waste to Landfill (UL 2799 ECVP)
+• Validation Body: UL Solutions (Underwriters Laboratories)
+• Certification Tiers: Silver (90-94%), Gold (95-99%), Platinum (100% diversion)
+• Certified Datacenters in FY23: 10 Datacenters (expanded to 14 certified sites by FY25)
+• FY23 Operational Waste Diverted: 18,537 metric tons
+• Cloud Hardware Reuse and Recycle Rate: 89.4% (FY23)
+• 2030 Operational Waste Diversion Target: 90%"""
+
+def compute_packaging_summary(lang: str = "tr") -> str:
+    if lang == "tr":
+        return """2026 Çevresel Sürdürülebilirlik Raporu — Ambalaj ve Plastik Metrikleri:
+
+• Tek Kullanımlık Plastik Birincil Ambalaj Oranı: %0.07 (2025/2026 Takvim Yılı Sonu İtibarıyla)
+• 2030 Kurumsal Hedefi: Sıfıra yakın tek kullanımlık plastik ve %100 geri dönüştürülebilir ambalaj tasarımı
+• Kullanılan Harici Standartlar: TRUE Zero Waste Çerçevesi ve UL Solutions UL 2799 ECVP Prosedürü"""
+    else:
+        return """2026 Environmental Sustainability Report — Packaging & Plastic Metrics:
+
+• Single-Use Plastic Primary Packaging Rate: 0.07% (End of Calendar Year 2025/2026)
+• 2030 Target: Near-zero single-use plastic & 100% recyclable packaging design
+• External Verification Frameworks: TRUE Zero Waste Standard & UL Solutions UL 2799 ECVP Procedure"""
+
+def compute_water_summary(lang: str = "tr") -> str:
+    if lang == "tr":
+        return """Microsoft Su Yönetimi ve Yenileme Metrikleri (2025 Raporu, Su Tablosu 1):
+
+• Kümülatif Sözleşmeli Su Yenileme Hacmi: 125.0 milyon m³ (FY25)
+• FY25 Yıllık Sözleşmeli Su Faydası: 35.0 milyon m³
+• Tamamlanan Su Yenileme Hacmi (FY25): 7,800 milyon m³ (9,500 milyon m³ hedef üzerinden)
+• Su Yenileme Hedef Gerçekleştirme Oranı: %82.1 (FY24'teki %68.9'dan yükseldi)
+• Yıllık Toplam Su Çekimi: FY20'de 4,830M m³ ➔ FY24'te 8,450M m³ ➔ FY25'te 10,210M m³"""
+    else:
+        return """Microsoft Water Stewardship & Replenishment Metrics (2025 Report, Water Table 1):
+
+• Cumulative Contracted Water Replenishment Volume: 125.0 million m³ (FY25)
+• In-Year Contracted Water Benefit: 35.0 million m³ (FY25)
+• Completed Replenishment Volume (FY25): 7,800 million m³ (against 9,500 million m³ target)
+• Replenishment Achievement Rate: 82.1% (up from 68.9% in FY24)
+• Annual Total Water Withdrawal: FY20: 4,830M m³ ➔ FY24: 8,450M m³ ➔ FY25: 10,210M m³"""
 
 def search_context_hybrid(query: str):
     import unicodedata
@@ -1958,50 +2054,29 @@ with tab_chat:
 
                     if is_math_scope:
                         route_type = "pal"
-                        calc_details = compute_carbon_trend_summary()
-                        synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
+                        calc_details = compute_carbon_trend_summary(target_lang)
                         chunks, max_score = search_context_hybrid(query_to_run)
-                        stream_gen = query_foundry_stream(s_prompt, synthesis_input, temperature=0.0)
+                        stream_gen = stream_static_text(calc_details)
                     elif is_carbon_removal:
                         route_type = "pal"
-                        calc_details = (
-                            "Carbon Removal Summary (2025 Report, p.21):\n"
-                            + get_carbon_removal_df().to_string(index=False)
-                            + "\n\nTechnology Type Breakdown:\n"
-                            + get_carbon_removal_by_type_df().to_string(index=False)
-                        )
-                        synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
+                        calc_details = compute_carbon_removal_summary(target_lang)
                         chunks, max_score = search_context_hybrid(query_to_run)
-                        stream_gen = query_foundry_stream(s_prompt, synthesis_input, temperature=0.0)
+                        stream_gen = stream_static_text(calc_details)
                     elif is_zero_waste_cert:
                         route_type = "pal"
-                        calc_details = (
-                            "Zero Waste Certifications (2024 Report, p.36):\n"
-                            + get_zero_waste_certifications_df().to_string(index=False)
-                        )
-                        synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
+                        calc_details = compute_zero_waste_summary(target_lang)
                         chunks, max_score = search_context_hybrid(query_to_run)
-                        stream_gen = query_foundry_stream(s_prompt, synthesis_input, temperature=0.0)
+                        stream_gen = stream_static_text(calc_details)
                     elif is_packaging_plastic:
                         route_type = "pal"
-                        calc_details = (
-                            "2026 Environmental Sustainability Report - Verified Packaging & Plastic Metrics:\n"
-                            "- Single-Use Plastic Primary Packaging: 0.07% achieved at the end of calendar year 2025/2026\n"
-                            "- 2030 Commitment: Near-zero single-use plastic & 100% recyclable primary packaging design\n"
-                            "- Verification Frameworks: TRUE Zero Waste standard & UL 2799 ECVP (Environmental Claim Validation Procedure)"
-                        )
-                        synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
+                        calc_details = compute_packaging_summary(target_lang)
                         chunks, max_score = search_context_hybrid(query_to_run)
-                        stream_gen = query_foundry_stream(s_prompt, synthesis_input, temperature=0.0)
+                        stream_gen = stream_static_text(calc_details)
                     elif is_water_metrics:
                         route_type = "pal"
-                        calc_details = (
-                            "Water Metrics Summary (2025 Report Water Table 1 in million m3):\n"
-                            + get_water_metrics_df().to_string(index=False)
-                        )
-                        synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
+                        calc_details = compute_water_summary(target_lang)
                         chunks, max_score = search_context_hybrid(query_to_run)
-                        stream_gen = query_foundry_stream(s_prompt, synthesis_input, temperature=0.0)
+                        stream_gen = stream_static_text(calc_details)
                     else:
                         chunks, max_score = search_context_hybrid(query_to_run)
                         if not chunks or max_score < MIN_SCORE_FLOOR:
