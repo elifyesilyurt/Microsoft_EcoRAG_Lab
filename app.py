@@ -536,26 +536,40 @@ if current_theme_id == "dark":
         border: 1px solid #30363d !important;
     }
     div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] summary { color: #e6edf3 !important; }
+    /* 🌟 Sekmeler (Tabs - Yarı Saydam Beyaz & Siyah Metin) */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
     }
+    div[data-baseweb="tab"][aria-selected="false"],
     .stTabs [data-baseweb="tab"] {
-        color: #8b949e !important;
-        background-color: #21262d !important;
-        border: 1px solid #30363d !important;
+        color: #e6edf3 !important;
+        background-color: transparent !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
         border-radius: 6px;
         padding: 8px 16px;
         font-weight: 600;
     }
-    .stTabs [data-baseweb="tab"] p, .stTabs [data-baseweb="tab"] span { color: #8b949e !important; }
-    .stTabs [aria-selected="true"] {
-        background-color: #f0f6fc !important;
-        color: #0d1117 !important;
-        font-weight: 700 !important;
-        border: 2px solid #ffffff !important;
-        border-bottom: 3px solid #ffffff !important;
+    div[data-baseweb="tab"][aria-selected="false"] *,
+    .stTabs [data-baseweb="tab"] p,
+    .stTabs [data-baseweb="tab"] span {
+        color: #e6edf3 !important;
     }
-    .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span { color: #0d1117 !important; font-weight: 700 !important; }
+    div[data-baseweb="tab"][aria-selected="true"],
+    .stTabs [data-baseweb="tab"][aria-selected="true"],
+    .stTabs [aria-selected="true"] {
+        background-color: rgba(255, 255, 255, 0.85) !important;
+        color: #000000 !important;
+        font-weight: 700 !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.95) !important;
+        border-bottom: 3px solid #000000 !important;
+        border-radius: 6px !important;
+    }
+    div[data-baseweb="tab"][aria-selected="true"] *,
+    .stTabs [aria-selected="true"] p,
+    .stTabs [aria-selected="true"] span {
+        color: #000000 !important;
+        font-weight: 700 !important;
+    }
     .stApp small, .stApp .stCaption, .stApp caption, .stApp div[data-testid="stCaptionContainer"] { color: #8b949e !important; }
     </style>
     """)
@@ -791,30 +805,39 @@ elif current_theme_id == "white":
     div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] summary {
         color: #0f172a !important;
     }
-    /* Sekmeler (Tabs - Asil Siyah & Saf Beyaz) */
+    /* Sekmeler (Tabs - Yarı Saydam Beyaz & Siyah Metin) */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
     }
+    div[data-baseweb="tab"][aria-selected="false"],
     .stTabs [data-baseweb="tab"] {
-        color: #475569 !important;
-        background-color: #f1f5f9 !important;
+        color: #0f172a !important;
+        background-color: transparent !important;
         border: 1.5px solid #cbd5e1 !important;
         border-radius: 6px;
         padding: 8px 16px;
         font-weight: 600;
     }
-    .stTabs [data-baseweb="tab"] p, .stTabs [data-baseweb="tab"] span {
-        color: #475569 !important;
+    div[data-baseweb="tab"][aria-selected="false"] *,
+    .stTabs [data-baseweb="tab"] p,
+    .stTabs [data-baseweb="tab"] span {
+        color: #0f172a !important;
     }
+    div[data-baseweb="tab"][aria-selected="true"],
+    .stTabs [data-baseweb="tab"][aria-selected="true"],
     .stTabs [aria-selected="true"] {
-        background-color: #0f172a !important;
-        color: #ffffff !important;
+        background-color: rgba(255, 255, 255, 0.85) !important;
+        color: #000000 !important;
         font-weight: 700 !important;
-        border: 2px solid #0f172a !important;
+        border: 1.5px solid #cbd5e1 !important;
         border-bottom: 3px solid #000000 !important;
+        border-radius: 6px !important;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05) !important;
     }
-    .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span {
-        color: #ffffff !important;
+    div[data-baseweb="tab"][aria-selected="true"] *,
+    .stTabs [aria-selected="true"] p,
+    .stTabs [aria-selected="true"] span {
+        color: #000000 !important;
         font-weight: 700 !important;
     }
 
@@ -1070,28 +1093,39 @@ elif current_theme_id == "blue":
     div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] summary {
         color: #0f172a !important;
     }
+    /* Sekmeler (Tabs - Fluent Azure) */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
     }
+    div[data-baseweb="tab"][aria-selected="false"],
     .stTabs [data-baseweb="tab"] {
         color: #0c4a6e !important;
-        background-color: #e1effe !important;
+        background-color: transparent !important;
         border: 1px solid #93c5fd !important;
         border-radius: 6px;
         padding: 8px 16px;
         font-weight: 600;
     }
-    .stTabs [data-baseweb="tab"] p, .stTabs [data-baseweb="tab"] span {
+    div[data-baseweb="tab"][aria-selected="false"] *,
+    .stTabs [data-baseweb="tab"] p,
+    .stTabs [data-baseweb="tab"] span {
         color: #0c4a6e !important;
     }
+    div[data-baseweb="tab"][aria-selected="true"],
+    .stTabs [data-baseweb="tab"][aria-selected="true"],
     .stTabs [aria-selected="true"] {
-        background-color: #0078d4 !important;
-        color: #ffffff !important;
-        font-weight: 700;
-        border: 1px solid #005a9e !important;
+        background-color: rgba(255, 255, 255, 0.85) !important;
+        color: #000000 !important;
+        font-weight: 700 !important;
+        border: 1.5px solid #93c5fd !important;
+        border-bottom: 3px solid #000000 !important;
+        border-radius: 6px !important;
     }
-    .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span {
-        color: #ffffff !important;
+    div[data-baseweb="tab"][aria-selected="true"] *,
+    .stTabs [aria-selected="true"] p,
+    .stTabs [aria-selected="true"] span {
+        color: #000000 !important;
+        font-weight: 700 !important;
     }
     /* 📊 DataFrames & Tables (Siyah Tabloları Tamamen Kaldırır) */
     div[data-testid="stDataFrame"],
@@ -1350,30 +1384,40 @@ else:
     div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] summary {
         color: #2d1b22 !important;
     }
+    /* Sekmeler (Tabs - Toz Pembe) */
     .stTabs [data-baseweb="tab-list"] {
         gap: 10px;
     }
+    div[data-baseweb="tab"][aria-selected="false"],
     .stTabs [data-baseweb="tab"] {
         border-radius: 8px;
         padding: 8px 18px;
-        background-color: #f7e2e6 !important;
-        color: #5c182c !important;
-        border: 1px solid #ebd0d6 !important;
+        background-color: transparent !important;
+        color: #4a0e1e !important;
+        border: 1px solid #d99ca9 !important;
         font-weight: 600;
         transition: all 0.2s ease;
     }
-    .stTabs [data-baseweb="tab"] p, .stTabs [data-baseweb="tab"] span {
-        color: #5c182c !important;
+    div[data-baseweb="tab"][aria-selected="false"] *,
+    .stTabs [data-baseweb="tab"] p,
+    .stTabs [data-baseweb="tab"] span {
+        color: #4a0e1e !important;
     }
+    div[data-baseweb="tab"][aria-selected="true"],
+    .stTabs [data-baseweb="tab"][aria-selected="true"],
     .stTabs [aria-selected="true"] {
-        background-color: #f0c3cb !important;
-        color: #4a0e1e !important;
+        background-color: rgba(255, 255, 255, 0.85) !important;
+        color: #000000 !important;
         font-weight: 700 !important;
-        border: 2px solid #d99ca9 !important;
-        border-bottom: 3px solid #b85d75 !important;
+        border: 1.5px solid #d99ca9 !important;
+        border-bottom: 3px solid #000000 !important;
+        border-radius: 8px !important;
     }
-    .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span {
-        color: #4a0e1e !important;
+    div[data-baseweb="tab"][aria-selected="true"] *,
+    .stTabs [aria-selected="true"] p,
+    .stTabs [aria-selected="true"] span {
+        color: #000000 !important;
+        font-weight: 700 !important;
     }
     /* 📊 DataFrames & Tables */
     div[data-testid="stDataFrame"],
