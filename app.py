@@ -262,6 +262,8 @@ with tab_chat:
             "FIDO Tech Akustik Su Kaçağı",
             "Zero Waste Veri Merkezleri (UL Standardı)",
             "Karbon Uzaklaştırma Portföyü",
+            "2026 Fact Sheet: Ambalaj & Plastik Metodolojisi",
+            "2026 Bölgesel Tüketim (Hollanda/Madrid)",
             "Ağ Gecikme Süresi (Alan Dışı Test)",
             "Sunucu CPU Saat Hızı (Alan Dışı Test)",
             "2023 FIFA Dünya Kupası (Alan Dışı Test)"
@@ -275,6 +277,8 @@ with tab_chat:
         "FIDO Tech Akustik Su Kaçağı": "Which organization did Microsoft partner with to deploy AI-enabled acoustic leak analysis in water distribution networks across cities like London, Querétaro, and Phoenix?",
         "Zero Waste Veri Merkezleri (UL Standardı)": "Which external certification does Microsoft use to validate its Zero Waste datacenters, and how many datacenters were certified under this standard in FY23 according to the 2024 report?",
         "Karbon Uzaklaştırma Portföyü": "What is the total contracted carbon removal volume and its breakdown by technology type according to Carbon Table 3 in the 2025 report?",
+        "2026 Fact Sheet: Ambalaj & Plastik Metodolojisi": "According to the 2026 Data Fact Sheet, what is the single-use plastic packaging percentage achieved at the end of calendar year 2025/2026 and what third-party frameworks are used?",
+        "2026 Bölgesel Tüketim (Hollanda/Madrid)": "What are the datacenter water and electricity metrics for regions like the Netherlands and Madrid reported in the 2026 Data Fact Sheet?",
         "Ağ Gecikme Süresi (Alan Dışı Test)": "What was the average round-trip network latency between the Quincy datacenter and the San Antonio Azure edge site in milliseconds during 2024?",
         "Sunucu CPU Saat Hızı (Alan Dışı Test)": "What is the exact clock speed in GHz and cache size of the custom processors used inside the servers at the Boydton datacenter?",
         "2023 FIFA Dünya Kupası (Alan Dışı Test)": "Who won the FIFA Women's World Cup in 2023, and what was the final score?"
@@ -494,6 +498,19 @@ with tab_dashboard:
         zero_waste_df = get_zero_waste_certifications_df()
         st.dataframe(zero_waste_df, width="stretch", hide_index=True)
 
+    with st.container(border=True):
+        st.markdown("#### :material/fact_check: **5. 2026 Data Fact Sheet — Resmi Denetim & Bölgesel Göstergeler**")
+        st.caption("Kaynak: Microsoft_2026_Data_Fact_Sheet.pdf (Denetlenmiş Resmi Metrikler & Metodolojiler)")
+        st.markdown("""
+        - **Tek Kullanımlık Plastik Ambalaj (2025/2026 Takvim Yılı Sonu):** `%0.07` (2030 Sıfır Plastik Hedefi Yolunda)
+        - **Standart ve Denetim Çerçeveleri:** `TRUE Zero Waste` & `UL 2799 ECVP` Çerçeveleri
+        - **Bölgesel Veri Merkezi Elektrik Tüketimleri (2026 Tablosu):**
+          - *Hollanda:* `1,291,170 MWh` (46 Yenilenebilir Varlık)
+          - *Madrid (İspanya):* `22,588 MWh` (15 Yenilenebilir Varlık)
+          - *Malmö (İsveç):* `41,681 MWh`
+          - *Milano (İtalya):* `46,950 MWh`
+        """)
+
 # ══════════════════════════════════════════════════════════════════════════════
 # SEKME 3: SİSTEM & BENCHMARK DURUMU
 # ══════════════════════════════════════════════════════════════════════════════
@@ -513,7 +530,10 @@ with tab_system:
             - **Embedding Boyutu:** `768 Boyutlu Yoğun Vektör`
             - **Vektör Prefix:** Asimetrik (`search_document:` / `search_query:`)
             - **Veritabanı Motoru:** `SQLite 3 (WAL Modu)`
-            - **Toplam İndeks Parçası:** `982 Chunk`
+            - **Toplam İndeks Parçası:** `982 Chunk (3 Doküman)`
+              - `Microsoft_2024_Sustainability_Report.pdf` (487 Chunk)
+              - `Microsoft_2025_Sustainability_Report.pdf` (322 Chunk)
+              - `Microsoft_2026_Data_Fact_Sheet.pdf` (173 Chunk)
             """)
 
     with col_arch2:
