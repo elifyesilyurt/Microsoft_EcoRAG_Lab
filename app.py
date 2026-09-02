@@ -256,12 +256,15 @@ with tab_chat:
 
     # Hazır Soru Hapları (st.pills)
     selected_pill = st.pills(
-        "Hızlı Başlangıç Soruları",
+        "Hızlı Başlangıç & Benchmark Test Soruları",
         options=[
             "Scope 1-3 Emisyon Trendi",
             "FIDO Tech Akustik Su Kaçağı",
             "Zero Waste Veri Merkezleri (UL Standardı)",
-            "Karbon Uzaklaştırma Portföyü"
+            "Karbon Uzaklaştırma Portföyü",
+            "Ağ Gecikme Süresi (Alan Dışı Test)",
+            "Sunucu CPU Saat Hızı (Alan Dışı Test)",
+            "2023 FIFA Dünya Kupası (Alan Dışı Test)"
         ],
         label_visibility="collapsed"
     )
@@ -271,7 +274,10 @@ with tab_chat:
         "Scope 1-3 Emisyon Trendi": "Compare Microsoft Scope 1, Scope 2, and Scope 3 emissions trend between FY20 baseline and FY25, highlighting the top contributing categories.",
         "FIDO Tech Akustik Su Kaçağı": "Which organization did Microsoft partner with to deploy AI-enabled acoustic leak analysis in water distribution networks across cities like London, Querétaro, and Phoenix?",
         "Zero Waste Veri Merkezleri (UL Standardı)": "Which external certification does Microsoft use to validate its Zero Waste datacenters, and how many datacenters were certified under this standard in FY23 according to the 2024 report?",
-        "Karbon Uzaklaştırma Portföyü": "What is the total contracted carbon removal volume and its breakdown by technology type according to Carbon Table 3 in the 2025 report?"
+        "Karbon Uzaklaştırma Portföyü": "What is the total contracted carbon removal volume and its breakdown by technology type according to Carbon Table 3 in the 2025 report?",
+        "Ağ Gecikme Süresi (Alan Dışı Test)": "What was the average round-trip network latency between the Quincy datacenter and the San Antonio Azure edge site in milliseconds during 2024?",
+        "Sunucu CPU Saat Hızı (Alan Dışı Test)": "What is the exact clock speed in GHz and cache size of the custom processors used inside the servers at the Boydton datacenter?",
+        "2023 FIFA Dünya Kupası (Alan Dışı Test)": "Who won the FIFA Women's World Cup in 2023, and what was the final score?"
     }
 
     active_query = None
