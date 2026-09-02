@@ -549,21 +549,30 @@ if current_theme_id == "dark":
     .stTabs [data-baseweb="tab"] span {
         color: #e6edf3 !important;
     }
+    .stApp div[data-baseweb="tab"][aria-selected="true"],
+    .stApp .stTabs [data-baseweb="tab"][aria-selected="true"],
+    .stApp .stTabs [aria-selected="true"],
     div[data-baseweb="tab"][aria-selected="true"],
     .stTabs [data-baseweb="tab"][aria-selected="true"],
     .stTabs [aria-selected="true"] {
-        background-color: rgba(255, 255, 255, 0.85) !important;
+        background-color: rgba(255, 255, 255, 0.9) !important;
         color: #000000 !important;
-        font-weight: 700 !important;
+        font-weight: 800 !important;
         border: 1.5px solid rgba(255, 255, 255, 0.95) !important;
         border-bottom: 3px solid #000000 !important;
         border-radius: 6px !important;
     }
+    .stApp div[data-baseweb="tab"][aria-selected="true"] *,
+    .stApp .stTabs [aria-selected="true"] *,
+    .stApp .stTabs [aria-selected="true"] p,
+    .stApp .stTabs [aria-selected="true"] span,
+    .stApp .stTabs [aria-selected="true"] div,
     div[data-baseweb="tab"][aria-selected="true"] *,
     .stTabs [aria-selected="true"] p,
     .stTabs [aria-selected="true"] span {
         color: #000000 !important;
-        font-weight: 700 !important;
+        -webkit-text-fill-color: #000000 !important;
+        font-weight: 800 !important;
     }
     .stApp small, .stApp .stCaption, .stApp caption, .stApp div[data-testid="stCaptionContainer"] { color: #8b949e !important; }
     </style>
@@ -838,22 +847,31 @@ elif current_theme_id == "white":
     .stTabs [data-baseweb="tab"] span {
         color: #0f172a !important;
     }
+    .stApp div[data-baseweb="tab"][aria-selected="true"],
+    .stApp .stTabs [data-baseweb="tab"][aria-selected="true"],
+    .stApp .stTabs [aria-selected="true"],
     div[data-baseweb="tab"][aria-selected="true"],
     .stTabs [data-baseweb="tab"][aria-selected="true"],
     .stTabs [aria-selected="true"] {
-        background-color: rgba(255, 255, 255, 0.85) !important;
+        background-color: rgba(255, 255, 255, 0.9) !important;
         color: #000000 !important;
-        font-weight: 700 !important;
+        font-weight: 800 !important;
         border: 1.5px solid #cbd5e1 !important;
         border-bottom: 3px solid #000000 !important;
         border-radius: 6px !important;
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05) !important;
     }
+    .stApp div[data-baseweb="tab"][aria-selected="true"] *,
+    .stApp .stTabs [aria-selected="true"] *,
+    .stApp .stTabs [aria-selected="true"] p,
+    .stApp .stTabs [aria-selected="true"] span,
+    .stApp .stTabs [aria-selected="true"] div,
     div[data-baseweb="tab"][aria-selected="true"] *,
     .stTabs [aria-selected="true"] p,
     .stTabs [aria-selected="true"] span {
         color: #000000 !important;
-        font-weight: 700 !important;
+        -webkit-text-fill-color: #000000 !important;
+        font-weight: 800 !important;
     }
 
     /* 📊 DataFrames & Tables */
@@ -1136,21 +1154,30 @@ elif current_theme_id == "blue":
     .stTabs [data-baseweb="tab"] span {
         color: #0c4a6e !important;
     }
+    .stApp div[data-baseweb="tab"][aria-selected="true"],
+    .stApp .stTabs [data-baseweb="tab"][aria-selected="true"],
+    .stApp .stTabs [aria-selected="true"],
     div[data-baseweb="tab"][aria-selected="true"],
     .stTabs [data-baseweb="tab"][aria-selected="true"],
     .stTabs [aria-selected="true"] {
-        background-color: rgba(255, 255, 255, 0.85) !important;
+        background-color: rgba(255, 255, 255, 0.9) !important;
         color: #000000 !important;
-        font-weight: 700 !important;
+        font-weight: 800 !important;
         border: 1.5px solid #93c5fd !important;
         border-bottom: 3px solid #000000 !important;
         border-radius: 6px !important;
     }
+    .stApp div[data-baseweb="tab"][aria-selected="true"] *,
+    .stApp .stTabs [aria-selected="true"] *,
+    .stApp .stTabs [aria-selected="true"] p,
+    .stApp .stTabs [aria-selected="true"] span,
+    .stApp .stTabs [aria-selected="true"] div,
     div[data-baseweb="tab"][aria-selected="true"] *,
     .stTabs [aria-selected="true"] p,
     .stTabs [aria-selected="true"] span {
         color: #000000 !important;
-        font-weight: 700 !important;
+        -webkit-text-fill-color: #000000 !important;
+        font-weight: 800 !important;
     }
     /* 📊 DataFrames & Tables (Siyah Tabloları Tamamen Kaldırır) */
     div[data-testid="stDataFrame"],
@@ -1440,21 +1467,30 @@ else:
     .stTabs [data-baseweb="tab"] span {
         color: #4a0e1e !important;
     }
+    .stApp div[data-baseweb="tab"][aria-selected="true"],
+    .stApp .stTabs [data-baseweb="tab"][aria-selected="true"],
+    .stApp .stTabs [aria-selected="true"],
     div[data-baseweb="tab"][aria-selected="true"],
     .stTabs [data-baseweb="tab"][aria-selected="true"],
     .stTabs [aria-selected="true"] {
-        background-color: rgba(255, 255, 255, 0.85) !important;
+        background-color: rgba(255, 255, 255, 0.9) !important;
         color: #000000 !important;
-        font-weight: 700 !important;
+        font-weight: 800 !important;
         border: 1.5px solid #d99ca9 !important;
         border-bottom: 3px solid #000000 !important;
         border-radius: 8px !important;
     }
+    .stApp div[data-baseweb="tab"][aria-selected="true"] *,
+    .stApp .stTabs [aria-selected="true"] *,
+    .stApp .stTabs [aria-selected="true"] p,
+    .stApp .stTabs [aria-selected="true"] span,
+    .stApp .stTabs [aria-selected="true"] div,
     div[data-baseweb="tab"][aria-selected="true"] *,
     .stTabs [aria-selected="true"] p,
     .stTabs [aria-selected="true"] span {
         color: #000000 !important;
-        font-weight: 700 !important;
+        -webkit-text-fill-color: #000000 !important;
+        font-weight: 800 !important;
     }
     /* 📊 DataFrames & Tables */
     div[data-testid="stDataFrame"],
