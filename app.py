@@ -59,6 +59,39 @@ Tam sayıları, isimleri ve birimleri cümlenin başında net olarak belirt. Ken
 Using the verified structured metrics provided below, compose a concise, direct natural language answer in English.
 State the exact numbers, names, and corresponding units clearly in sentence 1. Do not repeat yourself."""
 
+def detect_query_language(query: str, default_lang: str = "tr") -> str:
+    if not query:
+        return default_lang
+    q = query.lower()
+    
+    # 1. Türkçe özel karakter kontrolü
+    if any(c in "çğıöşü" for c in q):
+        return "tr"
+    
+    # 2. Türkçe anahtar kelimeler ve soru kalıpları
+    tr_keywords = {
+        "nedir", "nelerdir", "neler", "hangi", "hangisi", "kaç", "kaçtır", 
+        "nasıl", "kim", "nerede", "ne", "mi", "mı", "mu", "mü", "ve", "veya", 
+        "ile", "için", "göre", "kadar", "olan", "tarafından", "hakkında", 
+        "emisyon", "oranı", "hedefi", "şirket", "ortaklık", "rapor", "raporu", 
+        "yılında", "verileri", "toplam", "fark", "farkı", "karşılaştır", 
+        "değişim", "özetle", "açıkla", "seviyesi", "durumu", "sertifika"
+    }
+    tokens = set(re.findall(r'\b\w+\b', q))
+    if tokens & tr_keywords:
+        return "tr"
+        
+    # 3. İngilizce anahtar kelimeler
+    en_keywords = {
+        "what", "which", "how", "why", "where", "who", "when", "is", "are", 
+        "was", "were", "compare", "trend", "breakdown", "summarize", "describe", 
+        "explain", "between", "according", "highlighting", "difference", "total"
+    }
+    if tokens & en_keywords:
+        return "en"
+
+    return default_lang
+
 # ══════════════════════════════════════════════════════════════════════════════
 # SAYFA YAPILANDIRMASI
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1878,8 +1911,10 @@ with tab_chat:
                     route_type = "rag"
                     stream_gen = None
 
-                    s_prompt = get_synthesis_prompt(L)
-                    f_prompt = get_factual_synthesis_prompt(L)
+                    target_lang = detect_query_language(query_to_run, default_lang=L)
+                    s_prompt = get_synthesis_prompt(target_lang)
+                    f_prompt = get_factual_synthesis_prompt(target_lang)
+                    not_found_msg = TEXTS[target_lang]["not_found_msg"]
 
                     if is_math_scope:
                         route_type = "pal"
@@ -1910,7 +1945,7 @@ with tab_chat:
                     else:
                         chunks, max_score = search_context_hybrid(query_to_run)
                         if not chunks or max_score < MIN_SCORE_FLOOR:
-                            stream_gen = stream_static_text(T["not_found_msg"])
+                            stream_gen = stream_static_text(not_found_msg)
                         else:
                             context_chunks = [c["content"] for c in chunks]
                             extract_prompt = format_extraction_prompt(query_to_run, context_chunks)
@@ -1922,7 +1957,7 @@ with tab_chat:
                                 resolution = DeterministicResolver.validate_and_filter(plan, query_to_run)
 
                                 if resolution["status"] == "NOT_FOUND":
-                                    stream_gen = stream_static_text(T["not_found_msg"])
+                                    stream_gen = stream_static_text(not_found_msg)
                                 else:
                                     verified_metrics_str = "\n".join([
                                         f"- Entity: {m.entity}, Type: {m.metric_type}, "
@@ -1935,7 +1970,7 @@ with tab_chat:
                                     stream_gen = query_foundry_stream(f_prompt, synthesis_prompt, temperature=0.0)
                             except Exception:
                                 context_str = "\n\n".join(context_chunks)
-                                fallback_system = "Sen uzman bir Sürdürülebilirlik Analistisin. Yalnızca verilen bağlamı kullanarak akıcı Türkçe ile doğrudan yanıtla." if L == "tr" else "You are a precise Sustainability Analyst. Answer directly using ONLY context in fluent English."
+                                fallback_system = "Sen uzman bir Sürdürülebilirlik Analistisin. Yalnızca verilen bağlamı kullanarak akıcı Türkçe ile doğrudan yanıtla." if target_lang == "tr" else "You are a precise Sustainability Analyst. Answer directly using ONLY context in fluent English."
                                 stream_gen = query_foundry_stream(
                                     fallback_system,
                                     f"Context:\n{context_str}\n\nQuestion: {query_to_run}",
