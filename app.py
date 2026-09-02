@@ -39,12 +39,24 @@ RELATIVE_DROP_RATIO = 0.70
 MAX_K = 6
 MIN_SCORE_FLOOR = 0.15
 
-SYNTHESIS_PROMPT = """You are a Senior Sustainability Analyst.
-Synthesize the verified analytical calculation results into a clear, structured executive report with exact units (mtCO2e / metric tons / m3).
+def get_synthesis_prompt(lang: str = "tr") -> str:
+    if lang == "tr":
+        return """Sen Kıdemli bir Sürdürülebilirlik Analistisin.
+Aşağıda verilen doğrulanmış analitik hesaplama ve rapor verilerini kullanarak soruyu son derece akıcı, net ve profesyonel bir TÜRKÇE ile yanıtla.
+Doğrulanmış sayıları, birimleri (mtCO2e, metrik ton, m3 vb.) ve teknik terimleri (Scope 1, Scope 2, Scope 3) tam olarak koru. Kendini tekrar etme."""
+    else:
+        return """You are a Senior Sustainability Analyst.
+Synthesize the verified analytical calculation results into a clear, structured executive report in English with exact units (mtCO2e / metric tons / m3).
 Do not alter any calculated numbers. Do not repeat yourself."""
 
-FACTUAL_SYNTHESIS_PROMPT = """You are a Senior Sustainability AI Analyst.
-Using the verified structured metrics provided below, compose a concise, direct natural language answer.
+def get_factual_synthesis_prompt(lang: str = "tr") -> str:
+    if lang == "tr":
+        return """Sen Kıdemli bir Sürdürülebilirlik Yapay Zeka Analistisin.
+Aşağıda verilen doğrulanmış metrikleri kullanarak doğrudan, kısa ve net bir TÜRKÇE yanıt yaz.
+Tam sayıları, isimleri ve birimleri cümlenin başında net olarak belirt. Kendini tekrar etme."""
+    else:
+        return """You are a Senior Sustainability AI Analyst.
+Using the verified structured metrics provided below, compose a concise, direct natural language answer in English.
 State the exact numbers, names, and corresponding units clearly in sentence 1. Do not repeat yourself."""
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1866,12 +1878,15 @@ with tab_chat:
                     route_type = "rag"
                     stream_gen = None
 
+                    s_prompt = get_synthesis_prompt(L)
+                    f_prompt = get_factual_synthesis_prompt(L)
+
                     if is_math_scope:
                         route_type = "pal"
                         calc_details = compute_carbon_trend_summary()
                         synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
                         chunks, max_score = search_context_hybrid(query_to_run)
-                        stream_gen = query_foundry_stream(SYNTHESIS_PROMPT, synthesis_input, temperature=0.0)
+                        stream_gen = query_foundry_stream(s_prompt, synthesis_input, temperature=0.0)
                     elif is_carbon_removal:
                         route_type = "pal"
                         calc_details = (
@@ -1882,7 +1897,7 @@ with tab_chat:
                         )
                         synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
                         chunks, max_score = search_context_hybrid(query_to_run)
-                        stream_gen = query_foundry_stream(SYNTHESIS_PROMPT, synthesis_input, temperature=0.0)
+                        stream_gen = query_foundry_stream(s_prompt, synthesis_input, temperature=0.0)
                     elif is_zero_waste_cert:
                         route_type = "pal"
                         calc_details = (
@@ -1891,7 +1906,7 @@ with tab_chat:
                         )
                         synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
                         chunks, max_score = search_context_hybrid(query_to_run)
-                        stream_gen = query_foundry_stream(SYNTHESIS_PROMPT, synthesis_input, temperature=0.0)
+                        stream_gen = query_foundry_stream(s_prompt, synthesis_input, temperature=0.0)
                     else:
                         chunks, max_score = search_context_hybrid(query_to_run)
                         if not chunks or max_score < MIN_SCORE_FLOOR:
@@ -1917,11 +1932,12 @@ with tab_chat:
                                     ])
                                     calc_details = verified_metrics_str
                                     synthesis_prompt = f"Verified Metrics:\n{verified_metrics_str}\n\nQuestion: {query_to_run}"
-                                    stream_gen = query_foundry_stream(FACTUAL_SYNTHESIS_PROMPT, synthesis_prompt, temperature=0.0)
+                                    stream_gen = query_foundry_stream(f_prompt, synthesis_prompt, temperature=0.0)
                             except Exception:
                                 context_str = "\n\n".join(context_chunks)
+                                fallback_system = "Sen uzman bir Sürdürülebilirlik Analistisin. Yalnızca verilen bağlamı kullanarak akıcı Türkçe ile doğrudan yanıtla." if L == "tr" else "You are a precise Sustainability Analyst. Answer directly using ONLY context in fluent English."
                                 stream_gen = query_foundry_stream(
-                                    "You are a precise Sustainability Analyst. Answer directly using ONLY context. If context has [VISUAL REFERENCE], state graphical data cannot be extracted from text.",
+                                    fallback_system,
                                     f"Context:\n{context_str}\n\nQuestion: {query_to_run}",
                                     temperature=0.0
                                 )
