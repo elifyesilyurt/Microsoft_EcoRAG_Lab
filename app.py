@@ -655,82 +655,69 @@ else:
     section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] h3 {
         color: #2d1b22 !important;
     }
-    /* 🔘 Universal Pills & Tags Override (Siyahlığı Tamamen Kaldırır) */
-    [data-testid*="stPills"],
+    /* 🔘 Universal Sub-element Border Reset (İç Dikdörtgen Kutuları Tamamen Yok Eder) */
     [data-testid*="stPills"] *,
-    [data-baseweb="tag"],
+    [data-testid*="stSegmentedControl"] *,
     [data-baseweb="tag"] *,
-    div[role="radiogroup"] button,
-    div[role="radiogroup"] button *,
+    .stTabs * {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    /* 🔘 Pills (Yumuşak Oval Haplar - İç Çerçeve Yok) */
     div[data-testid="stPills"] button,
-    div[data-testid="stPills"] button * {
-        background-color: #f7dbe1 !important; /* Arka plandan bir tık koyu açık toz pembe */
-        color: #4a0e1e !important; /* Net okunan koyu mürdüm yazı */
+    div[data-testid="stPills"] [data-baseweb="tag"],
+    div[role="radiogroup"] button {
+        background-color: #f7dbe1 !important;
+        color: #4a0e1e !important;
         border: 1.5px solid #d99ca9 !important;
+        border-radius: 20px !important;
+        padding: 6px 14px !important;
         font-weight: 600 !important;
     }
-    [data-testid*="stPills"] button:hover,
-    [data-baseweb="tag"]:hover,
+    div[data-testid="stPills"] button:hover,
+    div[data-testid="stPills"] [data-baseweb="tag"]:hover,
     div[role="radiogroup"] button:hover {
         background-color: #ebd0d6 !important;
         color: #2d050f !important;
         border-color: #b85d75 !important;
     }
-    [data-testid*="stPills"] [aria-pressed="true"],
-    [data-testid*="stPills"] [aria-selected="true"],
-    [data-testid*="stPills"] [aria-checked="true"],
+    div[data-testid="stPills"] [aria-pressed="true"],
+    div[data-testid="stPills"] [aria-selected="true"],
+    div[data-testid="stPills"] [aria-checked="true"],
     div[role="radiogroup"] [aria-checked="true"] {
         background-color: #f0c3cb !important;
         color: #2d050f !important;
         border: 2px solid #b85d75 !important;
     }
-    [data-testid*="stPills"] [aria-pressed="true"] *,
-    [data-testid*="stPills"] [aria-selected="true"] *,
-    [data-testid*="stPills"] [aria-checked="true"] * {
-        color: #2d050f !important;
-    }
-    /* 🎛️ Segmented Control (Dil Seçici - Tam Toz Pembe Kontrol) */
-    [data-testid*="stSegmentedControl"],
-    [data-testid*="stSegmentedControl"] > div,
-    [data-testid*="stSegmentedControl"] [data-baseweb="button-group"],
-    [data-testid*="stSegmentedControl"] [role="radiogroup"] {
+    div[data-testid="stPills"] span,
+    div[data-testid="stPills"] p,
+    div[data-testid="stPills"] div {
         background-color: transparent !important;
+        color: inherit !important;
+    }
+
+    /* 🎛️ Segmented Control (Dil Seçici - İç Dikdörtgensiz) */
+    div[data-testid="stSegmentedControl"] > div,
+    div[data-testid="stSegmentedControl"] [data-baseweb="button-group"] {
+        background-color: #f7dbe1 !important;
+        border: 1.5px solid #d99ca9 !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
+    }
+    div[data-testid="stSegmentedControl"] button {
+        background-color: transparent !important;
+        color: #4a0e1e !important;
+        font-weight: 600 !important;
         border: none !important;
     }
-    [data-testid*="stSegmentedControl"] button,
-    [data-testid*="stSegmentedControl"] [role="radio"],
-    [data-testid*="stSegmentedControl"] [data-baseweb="button-group"] button {
-        background-color: #f7dbe1 !important; /* Sayfa zemininden bir tık koyu, tatlı ve açık bir toz pembe (#f7dbe1) */
-        color: #4a0e1e !important; /* Açık pembe üzerinde kristal netliğinde okunan koyu mürdüm/bordo (#4a0e1e) */
-        border: 1.5px solid #d99ca9 !important; /* 1.5px solid #d99ca9 zarif gül kurusu çerçeve */
-        font-weight: 600 !important;
-    }
-    [data-testid*="stSegmentedControl"] button *,
-    [data-testid*="stSegmentedControl"] [role="radio"] * {
-        color: #4a0e1e !important;
-        background-color: transparent !important;
-    }
-    [data-testid*="stSegmentedControl"] button:hover,
-    [data-testid*="stSegmentedControl"] [role="radio"]:hover {
-        background-color: #ebd0d6 !important;
-        border-color: #b85d75 !important;
-        color: #2d050f !important;
-    }
-    [data-testid*="stSegmentedControl"] [aria-checked="true"],
-    [data-testid*="stSegmentedControl"] [aria-selected="true"],
-    [data-testid*="stSegmentedControl"] [aria-pressed="true"],
-    [data-testid*="stSegmentedControl"] button[aria-checked="true"],
-    [data-testid*="stSegmentedControl"] [data-checked="true"] {
-        background-color: #f0c3cb !important; /* Seçili Durum: #f0c3cb zemin */
-        color: #4a0e1e !important;
-        border: 2px solid #b85d75 !important; /* 2px solid #b85d75 belirgin pembe çerçeve */
-        font-weight: 700 !important;
-    }
-    [data-testid*="stSegmentedControl"] [aria-checked="true"] *,
-    [data-testid*="stSegmentedControl"] [aria-selected="true"] *,
-    [data-testid*="stSegmentedControl"] [aria-pressed="true"] * {
+    div[data-testid="stSegmentedControl"] button[aria-checked="true"],
+    div[data-testid="stSegmentedControl"] button[aria-pressed="true"] {
+        background-color: #f0c3cb !important;
         color: #4a0e1e !important;
         font-weight: 700 !important;
+        border: none !important;
     }
     /* 💬 Chat Input & Bottom Bar (Siyahlığı Tamamen Kaldırır) */
     [data-testid="stBottom"],
