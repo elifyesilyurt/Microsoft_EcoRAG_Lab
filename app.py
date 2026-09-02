@@ -667,12 +667,12 @@ else:
         color: #2d1b22 !important;
     }
     div[data-testid="stPills"] button[aria-pressed="true"], div[data-testid="stPills"] [aria-selected="true"] {
-        background-color: #be185d !important;
-        color: #ffffff !important;
-        border-color: #9d174d !important;
+        background-color: #f0c3cb !important; /* Açık toz pembe */
+        color: #4a0e1e !important;
+        border: 2px solid #d99ca9 !important;
     }
     div[data-testid="stPills"] button[aria-pressed="true"] span {
-        color: #ffffff !important;
+        color: #4a0e1e !important;
     }
     /* Segmented Control (Dil Seçici) */
     div[data-testid="stSegmentedControl"] button {
@@ -682,11 +682,12 @@ else:
         font-weight: 600 !important;
     }
     div[data-testid="stSegmentedControl"] button[aria-checked="true"], div[data-testid="stSegmentedControl"] button[aria-pressed="true"] {
-        background-color: #be185d !important;
-        color: #ffffff !important;
+        background-color: #f0c3cb !important; /* Açık toz pembe */
+        color: #4a0e1e !important;
+        border: 2px solid #d99ca9 !important;
     }
     div[data-testid="stSegmentedControl"] button[aria-checked="true"] p, div[data-testid="stSegmentedControl"] button[aria-checked="true"] span {
-        color: #ffffff !important;
+        color: #4a0e1e !important;
     }
     /* Chat Input */
     div[data-testid="stChatInput"] {
@@ -703,7 +704,7 @@ else:
         color: #83184399 !important;
     }
     div[data-testid="stChatInput"] button {
-        color: #be185d !important;
+        color: #b85d75 !important;
     }
     /* Code Badges & Code Blocks */
     div[data-testid="stCode"], div[data-testid="stCodeBlock"], pre {
@@ -739,7 +740,7 @@ else:
     }
     .stButton > button:hover {
         background-color: #fadce2 !important;
-        border-color: #be185d !important;
+        border-color: #d99ca9 !important;
     }
     /* Selectbox */
     div[data-baseweb="select"] > div {
@@ -794,23 +795,24 @@ else:
     .stTabs [data-baseweb="tab"] {
         border-radius: 8px;
         padding: 8px 18px;
-        background-color: #eed6dc !important;
-        color: #4a2c35 !important;
-        border: 1px solid #e8bcc5 !important;
-        font-weight: 500;
+        background-color: #f7e2e6 !important; /* Açık toz pembe pasif */
+        color: #5c182c !important;
+        border: 1px solid #ebd0d6 !important;
+        font-weight: 600;
         transition: all 0.2s ease;
     }
     .stTabs [data-baseweb="tab"] p, .stTabs [data-baseweb="tab"] span {
-        color: #4a2c35 !important;
+        color: #5c182c !important;
     }
     .stTabs [aria-selected="true"] {
-        background-color: #be185d !important;
-        color: #ffffff !important;
+        background-color: #f0c3cb !important; /* Açık ve tatlı toz pembe aktif */
+        color: #4a0e1e !important; /* Net okunur koyu mürdüm metin */
         font-weight: 700 !important;
-        border: 1px solid #9d174d !important;
+        border: 2px solid #d99ca9 !important;
+        border-bottom: 3px solid #b85d75 !important;
     }
     .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span {
-        color: #ffffff !important;
+        color: #4a0e1e !important;
     }
     .stApp small, .stApp .stCaption, .stApp caption, .stApp div[data-testid="stCaptionContainer"] {
         color: #6b404e !important;
