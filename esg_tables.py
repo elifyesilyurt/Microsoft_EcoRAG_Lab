@@ -9,7 +9,7 @@ SLM'e hiçbir zaman çok basamaklı aritmetik hesaplattırılmaz.
 Kaynaklar:
   - Microsoft 2024 Environmental Sustainability Report
   - Microsoft 2025 Environmental Sustainability Report
-  - Microsoft 2026 Environmental Sustainability Data Fact Sheet
+  - Microsoft 2026 Environmental Sustainability Report
 """
 
 import pandas as pd

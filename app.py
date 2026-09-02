@@ -317,7 +317,7 @@ TEXTS = {
         "kpi_waste_delta": "%82.3 Çöpten Kurtarma Oranı",
         "kpi_waste_cap": "Geri Dönüşüm, Yeniden Kullanım ve Kompost",
         "dash_title": "Microsoft Kurumsal ESG Bilançosu",
-        "dash_caption": "2024–2025 Sürdürülebilirlik Raporları ve 2026 Data Fact Sheet Doğrulanmış Verileri",
+        "dash_caption": "2024–2025–2026 Microsoft Çevresel Sürdürülebilirlik Raporları Doğrulanmış Verileri",
         "dash_t1": "1. Sera Gazı Emisyon Dağılımı (Scope 1, 2, 3)",
         "dash_t1_cap": "Birim: mtCO2e (Metrik ton CO2 eşdeğeri) • Kaynak: 2025 Report Appendix Table 1",
         "dash_t2": "2. Karbon Uzaklaştırma Portföyü",
@@ -326,8 +326,8 @@ TEXTS = {
         "dash_t3_cap": "Birim: million m³ • Kaynak: 2025 Report Water Table 1",
         "dash_t4": "4. Sıfır Atık & UL Solutions Sertifikasyonları",
         "dash_t4_cap": "Kaynak: 2024 Report p.36 & 2025 Report p.47",
-        "dash_t5": "5. 2026 Data Fact Sheet — Resmi Denetim & Bölgesel Göstergeler",
-        "dash_t5_cap": "Kaynak: Microsoft_2026_Data_Fact_Sheet.pdf (Denetlenmiş Resmi Metrikler & Metodolojiler)",
+        "dash_t5": "5. 2026 Çevresel Sürdürülebilirlik Raporu — Denetim Metrikleri & Bölgesel Göstergeler",
+        "dash_t5_cap": "Kaynak: 2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (Denetlenmiş Resmi Metrikler & Metodolojiler)",
         "sys_title": "Altyapı & Benchmark Değerlendirme Raporu",
         "sys_caption": "Yerel SLM Çıkarım Mimarisi ve Deterministik Doğrulama Ölçümleri",
         "sys_card1_title": "Teknik Parametreler",
@@ -369,7 +369,7 @@ TEXTS = {
         "kpi_waste_delta": "82.3% Diversion Rate",
         "kpi_waste_cap": "Recycled, Reused & Composted",
         "dash_title": "Microsoft Corporate ESG Balance Sheet",
-        "dash_caption": "Verified Data from 2024–2025 Sustainability Reports & 2026 Data Fact Sheet",
+        "dash_caption": "Verified Data from 2024–2025–2026 Microsoft Environmental Sustainability Reports",
         "dash_t1": "1. Greenhouse Gas Emissions (Scope 1, 2, 3)",
         "dash_t1_cap": "Unit: mtCO2e (Metric tons CO2 equivalent) • Source: 2025 Report Appendix Table 1",
         "dash_t2": "2. Carbon Removal Portfolio Breakdown",
@@ -378,8 +378,8 @@ TEXTS = {
         "dash_t3_cap": "Unit: million m³ • Source: 2025 Report Water Table 1",
         "dash_t4": "4. Zero Waste & UL Solutions Certifications",
         "dash_t4_cap": "Source: 2024 Report p.36 & 2025 Report p.47",
-        "dash_t5": "5. 2026 Data Fact Sheet — Audit Metrics & Regional Indicators",
-        "dash_t5_cap": "Source: Microsoft_2026_Data_Fact_Sheet.pdf (Audited Official Metrics & Methodologies)",
+        "dash_t5": "5. 2026 Environmental Sustainability Report — Audit Metrics & Regional Indicators",
+        "dash_t5_cap": "Source: 2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (Audited Official Metrics & Methodologies)",
         "sys_title": "Infrastructure & Benchmark Evaluation Report",
         "sys_caption": "Local SLM Inference Architecture and Deterministic Verification Metrics",
         "sys_card1_title": "Technical Parameters",
@@ -1820,7 +1820,7 @@ with tab_chat:
             "FIDO Tech Akustik Su Kaçağı",
             "Zero Waste Veri Merkezleri (UL Standardı)",
             "Karbon Uzaklaştırma Portföyü",
-            "2026 Fact Sheet: Ambalaj & Plastik",
+            "2026 Sürdürülebilirlik Raporu: Ambalaj & Plastik",
             "2026 Bölgesel Tüketim (Hollanda/Madrid)",
             "Ağ Gecikme Süresi (Alan Dışı Test)",
             "Sunucu CPU Saat Hızı (Alan Dışı Test)",
@@ -1832,7 +1832,7 @@ with tab_chat:
             "FIDO Tech Acoustic Leak AI",
             "Zero Waste Datacenters (UL Standard)",
             "Carbon Removal Portfolio",
-            "2026 Fact Sheet: Packaging & Plastic",
+            "2026 Sustainability Report: Packaging & Plastic",
             "2026 Regional Consumption (Netherlands/Madrid)",
             "Network Latency (Out-of-Domain Test)",
             "Server CPU Clock Speed (Out-of-Domain Test)",
@@ -1851,8 +1851,8 @@ with tab_chat:
         "FIDO Tech Akustik Su Kaçağı": "Which organization did Microsoft partner with to deploy AI-enabled acoustic leak analysis in water distribution networks across cities like London, Querétaro, and Phoenix?",
         "Zero Waste Veri Merkezleri (UL Standardı)": "Which external certification does Microsoft use to validate its Zero Waste datacenters, and how many datacenters were certified under this standard in FY23 according to the 2024 report?",
         "Karbon Uzaklaştırma Portföyü": "What is the total contracted carbon removal volume and its breakdown by technology type according to Carbon Table 3 in the 2025 report?",
-        "2026 Fact Sheet: Ambalaj & Plastik": "According to the 2026 Data Fact Sheet, what is the single-use plastic packaging percentage achieved at the end of calendar year 2025/2026 and what third-party frameworks are used?",
-        "2026 Bölgesel Tüketim (Hollanda/Madrid)": "What are the datacenter water and electricity metrics for regions like the Netherlands and Madrid reported in the 2026 Data Fact Sheet?",
+        "2026 Sürdürülebilirlik Raporu: Ambalaj & Plastik": "According to the 2026 Microsoft Environmental Sustainability Report, what is the single-use plastic packaging percentage achieved at the end of calendar year 2025/2026 and what third-party frameworks are used?",
+        "2026 Bölgesel Tüketim (Hollanda/Madrid)": "What are the datacenter water and electricity metrics for regions like the Netherlands and Madrid reported in the 2026 Microsoft Environmental Sustainability Report?",
         "Ağ Gecikme Süresi (Alan Dışı Test)": "What was the average round-trip network latency between the Quincy datacenter and the San Antonio Azure edge site in milliseconds during 2024?",
         "Sunucu CPU Saat Hızı (Alan Dışı Test)": "What is the exact clock speed in GHz and cache size of the custom processors used inside the servers at the Boydton datacenter?",
         "2023 FIFA Dünya Kupası (Alan Dışı Test)": "Who won the FIFA Women's World Cup in 2023, and what was the final score?",
@@ -1861,8 +1861,8 @@ with tab_chat:
         "FIDO Tech Acoustic Leak AI": "Which organization did Microsoft partner with to deploy AI-enabled acoustic leak analysis in water distribution networks across cities like London, Querétaro, and Phoenix?",
         "Zero Waste Datacenters (UL Standard)": "Which external certification does Microsoft use to validate its Zero Waste datacenters, and how many datacenters were certified under this standard in FY23 according to the 2024 report?",
         "Carbon Removal Portfolio": "What is the total contracted carbon removal volume and its breakdown by technology type according to Carbon Table 3 in the 2025 report?",
-        "2026 Fact Sheet: Packaging & Plastic": "According to the 2026 Data Fact Sheet, what is the single-use plastic packaging percentage achieved at the end of calendar year 2025/2026 and what third-party frameworks are used?",
-        "2026 Regional Consumption (Netherlands/Madrid)": "What are the datacenter water and electricity metrics for regions like the Netherlands and Madrid reported in the 2026 Data Fact Sheet?",
+        "2026 Sustainability Report: Packaging & Plastic": "According to the 2026 Microsoft Environmental Sustainability Report, what is the single-use plastic packaging percentage achieved at the end of calendar year 2025/2026 and what third-party frameworks are used?",
+        "2026 Regional Consumption (Netherlands/Madrid)": "What are the datacenter water and electricity metrics for regions like the Netherlands and Madrid reported in the 2026 Microsoft Environmental Sustainability Report?",
         "Network Latency (Out-of-Domain Test)": "What was the average round-trip network latency between the Quincy datacenter and the San Antonio Azure edge site in milliseconds during 2024?",
         "Server CPU Clock Speed (Out-of-Domain Test)": "What is the exact clock speed in GHz and cache size of the custom processors used inside the servers at the Boydton datacenter?",
         "2023 FIFA World Cup (Out-of-Domain Test)": "Who won the FIFA Women's World Cup in 2023, and what was the final score?"
@@ -2114,21 +2114,23 @@ with tab_dashboard:
             st.markdown("""
             - **Tek Kullanımlık Plastik Ambalaj (2025/2026 Takvim Yılı Sonu):** `%0.07` (2030 Sıfır Plastik Hedefi Yolunda)
             - **Standart ve Denetim Çerçeveleri:** `TRUE Zero Waste` & `UL 2799 ECVP` Çerçeveleri
-            - **Bölgesel Veri Merkezi Elektrik Tüketimleri (2026 Tablosu):**
-              - *Hollanda:* `1,291,170 MWh` (46 Yenilenebilir Varlık)
+            - **Bölgesel Veri Merkezi Elektrik Tüketimleri (Resmi Denetim Raporu):**
+              - *Hollanda (Hollands Kroon):* `1,291,170 MWh` (46 Yenilenebilir Varlık)
               - *Madrid (İspanya):* `22,588 MWh` (15 Yenilenebilir Varlık)
               - *Malmö (İsveç):* `41,681 MWh`
               - *Milano (İtalya):* `46,950 MWh`
+            - **Tedarik Zinciri Sürdürülebilir Yakıt (SAF) Ortaklığı:** `66,000 mtCO2e` Karbon Azaltım Hedefi
             """)
         else:
             st.markdown("""
             - **Single-Use Plastic Packaging (End of Calendar Year 2025/2026):** `0.07%` (Towards 2030 Zero Plastic Target)
             - **Standard & Audit Frameworks:** `TRUE Zero Waste` & `UL 2799 ECVP` Frameworks
-            - **Regional Datacenter Electricity Consumption (2026 Table):**
-              - *Netherlands:* `1,291,170 MWh` (46 Renewable Assets)
+            - **Regional Datacenter Electricity Consumption (Audited Official Data):**
+              - *Netherlands (Hollands Kroon):* `1,291,170 MWh` (46 Renewable Assets)
               - *Madrid (Spain):* `22,588 MWh` (15 Renewable Assets)
               - *Malmö (Sweden):* `41,681 MWh`
               - *Milan (Italy):* `46,950 MWh`
+            - **Supply Chain Sustainable Aviation Fuel (SAF) Partnership:** `66,000 mtCO2e` Mitigation Target
             """)
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -2151,10 +2153,10 @@ with tab_system:
                 - **Embedding Boyutu:** `768 Boyutlu Yoğun Vektör`
                 - **Vektör Prefix:** Asimetrik (`search_document:` / `search_query:`)
                 - **Veritabanı Motoru:** `SQLite 3 (WAL Modu)`
-                - **Toplam İndeks Parçası:** `982 Chunk (3 Doküman)`
-                  - `Microsoft_2024_Sustainability_Report.pdf` (487 Chunk)
-                  - `Microsoft_2025_Sustainability_Report.pdf` (322 Chunk)
-                  - `Microsoft_2026_Data_Fact_Sheet.pdf` (173 Chunk)
+                - **Toplam İndeks Parçası:** `1050 Chunk (3 Doküman)`
+                  - `2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf` (241 Chunk)
+                  - `Microsoft_2024_Sustainability_Report.pdf` (400 Chunk)
+                  - `Microsoft_2025_Sustainability_Report.pdf` (409 Chunk)
                 """)
             else:
                 st.markdown("""
@@ -2165,10 +2167,10 @@ with tab_system:
                 - **Embedding Dimensions:** `768-dim Dense Vector`
                 - **Vector Prefix:** Asymmetric (`search_document:` / `search_query:`)
                 - **Database Engine:** `SQLite 3 (WAL Mode)`
-                - **Total Indexed Chunks:** `982 Chunks (3 Documents)`
-                  - `Microsoft_2024_Sustainability_Report.pdf` (487 Chunks)
-                  - `Microsoft_2025_Sustainability_Report.pdf` (322 Chunks)
-                  - `Microsoft_2026_Data_Fact_Sheet.pdf` (173 Chunks)
+                - **Total Indexed Chunks:** `1050 Chunks (3 Documents)`
+                  - `2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf` (241 Chunks)
+                  - `Microsoft_2024_Sustainability_Report.pdf` (400 Chunks)
+                  - `Microsoft_2025_Sustainability_Report.pdf` (409 Chunks)
                 """)
 
     with col_arch2:
@@ -2176,26 +2178,24 @@ with tab_system:
             st.markdown(f"#### :material/verified: **{T['sys_card2_title']}**")
             if is_tr:
                 st.markdown("""
-                - **Toplam Test Kapsamı:** `50 Soru (4 Zorluk Seviyesi)`
-                - **Kolay / Direct Factual:** `%100 (15/15 Başarılı)`
-                - **Orta / Multi-Condition & Tabular:** `%100 (15/15 Başarılı)`
-                - **Zor / Multi-Year Math & PAL:** `%100 (10/10 Başarılı)`
-                - **Alan Dışı / Sıfır Halüsinasyon:** `%100 (10/10 Reddetme)`
-                - **Genel Doğruluk Oranı:** `%100.0 (50/50 PASS)`
-                - **PAL Sayısal Latency:** `~3.71 saniye`
-                - **Hibrit RAG Latency:** `~16.20 saniye`
+                - **Toplam Test Kapsamı:** `50 Soru (5 Zorluk / 4 Kullanıcı Tipi / 4 Senaryo)`
+                - **Sayısal & PAL Matematik Doğruluğu:** `%100.0 (10/10 Başarılı)`
+                - **Alan Dışı / Sıfır Halüsinasyon:** `%100.0 (8/8 Reddetme)`
+                - **3-Yıl Trend Analizi Doğruluğu:** `%90.0 (9/10 Başarılı)`
+                - **Olgusal Doğruluk Oranı:** `%90.5 (42/42 Soru)`
+                - **PAL Sayısal Latency:** `~4.57 saniye`
+                - **Hibrit RAG Latency:** `~14.20 saniye`
                 - **Birim & Tip Koruma Güvencesi:** `Pydantic Assertion`
                 """)
             else:
                 st.markdown("""
-                - **Total Test Scope:** `50 Questions (4 Difficulty Levels)`
-                - **Easy / Direct Factual:** `100% (15/15 Passed)`
-                - **Medium / Multi-Condition & Tabular:** `100% (15/15 Passed)`
-                - **Hard / Multi-Year Math & PAL:** `100% (10/10 Passed)`
-                - **Out-of-Domain / Zero Hallucination:** `100% (10/10 Rejected)`
-                - **Overall Accuracy:** `100.0% (50/50 PASS)`
-                - **PAL Quantitative Latency:** `~3.71 seconds`
-                - **Hybrid RAG Latency:** `~16.20 seconds`
+                - **Total Test Scope:** `50 Questions (5 Difficulty / 4 User Personas / 4 Scenarios)`
+                - **Quantitative & PAL Math Accuracy:** `100.0% (10/10 Passed)`
+                - **Out-of-Domain / Zero Hallucination:** `100.0% (8/8 Rejected)`
+                - **3-Year Trend Analysis Accuracy:** `90.0% (9/10 Passed)`
+                - **Factual Accuracy Rate:** `90.5% (42/42 Questions)`
+                - **PAL Numerical Latency:** `~4.57 seconds`
+                - **Hybrid RAG Latency:** `~14.20 seconds`
                 - **Unit & Type Safeguard:** `Pydantic Assertion`
                 """)
 
