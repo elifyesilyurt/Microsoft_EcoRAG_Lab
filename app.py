@@ -296,14 +296,14 @@ with st.sidebar:
         t_sub = "#475569"
         t_body = "#0f172a"
 
-    st.markdown(f"<div style='margin-top: -28px; margin-bottom: 2px;'><span style='font-size: 25px; font-weight: 900; color: {t_head}; display: flex; align-items: center; gap: 8px; letter-spacing: -0.5px;'>🌱 EcoRAG Lab</span></div>", unsafe_allow_html=True)
-    st.markdown(f"<div style='color: {t_sub}; font-size: 13px; margin-bottom: 18px; font-weight: 500;'>Deterministic Sustainability Analysis</div>", unsafe_allow_html=True)
+    st.markdown("<div style='margin-top: -28px; margin-bottom: 2px;'><span class='sidebar-main-title' style='display: flex; align-items: center; gap: 8px; letter-spacing: -0.5px;'>🌱 EcoRAG Lab</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='sidebar-subtitle' style='margin-bottom: 18px;'>Deterministic Sustainability Analysis</div>", unsafe_allow_html=True)
 
     # 1. 🌐 Kompakt Dil Seçici (st.pills - 🇬🇧 EN & 🇹🇷 TR)
     if "is_turkish" not in st.session_state:
         st.session_state.is_turkish = True
 
-    st.markdown(f"<div style='font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: {t_head}; margin-bottom: 6px;'>LANGUAGE / DİL</div>", unsafe_allow_html=True)
+    st.markdown("<div class='sidebar-section-title' style='margin-bottom: 6px;'>LANGUAGE / DİL</div>", unsafe_allow_html=True)
 
     lang_opts = ["🇬🇧 EN", "🇹🇷 TR"]
     curr_lang = "🇹🇷 TR" if st.session_state.is_turkish else "🇬🇧 EN"
@@ -323,7 +323,7 @@ with st.sidebar:
     T = TEXTS[L]
 
     # 2. 🎨 Temalar İçin Yatay Kapsüller (st.pills)
-    st.markdown(f"<div style='font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: {t_head}; margin-top: 14px; margin-bottom: 6px;'>{T['theme_label'].upper()}</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='sidebar-section-title' style='margin-top: 14px; margin-bottom: 6px;'>{T['theme_label'].upper()}</div>", unsafe_allow_html=True)
 
     theme_meta = [
         {"id": "pink", "label_tr": "🌸 Toz Pembe", "label_en": "🌸 Blush Rose"},
@@ -355,13 +355,13 @@ with st.sidebar:
 
     # 3. 🛠️ Sistem Durumu Konteyneri (Rahatlatılmış Dikey Hizalama & Net Kontrast)
     with st.container(border=True):
-        st.markdown(f"<div style='font-size: 13px; font-weight: 800; color: {t_head}; margin-bottom: 6px;'>{T['status_box_title']}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='sidebar-box-title' style='margin-bottom: 6px;'>{T['status_box_title']}</div>", unsafe_allow_html=True)
         st.badge(T["status_badge"], icon=":material/check_circle:", color="green")
         st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
-        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'><span style='color: {t_sub}; font-size: 13px; font-weight: 600;'>{T['status_model']}</span><code>{MODEL_NAME}</code></div>", unsafe_allow_html=True)
-        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'><span style='color: {t_sub}; font-size: 13px; font-weight: 600;'>{T['status_embed']}</span><code>nomic-v1.5</code></div>", unsafe_allow_html=True)
-        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'><span style='color: {t_sub}; font-size: 13px; font-weight: 600;'>{T['status_index']}</span><code>982 Chunks</code></div>", unsafe_allow_html=True)
-        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center;'><span style='color: {t_sub}; font-size: 13px; font-weight: 600;'>{T['status_engine']}</span><code>PAL + IR</code></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'><span class='sidebar-metric-label'>{T['status_model']}</span><code>{MODEL_NAME}</code></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'><span class='sidebar-metric-label'>{T['status_embed']}</span><code>nomic-v1.5</code></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'><span class='sidebar-metric-label'>{T['status_index']}</span><code>982 Chunks</code></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='display: flex; justify-content: space-between; align-items: center;'><span class='sidebar-metric-label'>{T['status_engine']}</span><code>PAL + IR</code></div>", unsafe_allow_html=True)
 
     st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
     if st.button(T["reset_btn"], icon=":material/delete:", width="stretch"):
@@ -398,6 +398,12 @@ if current_theme_id == "dark":
     section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] h3 {
         color: #e6edf3 !important;
     }
+    /* 🏷️ Sidebar Typography Classes (Dark Theme) */
+    .sidebar-main-title { color: #ffffff !important; font-size: 25px !important; font-weight: 900 !important; }
+    .sidebar-subtitle { color: #8b949e !important; font-size: 13px !important; font-weight: 500 !important; }
+    .sidebar-section-title { color: #ffffff !important; font-size: 11px !important; font-weight: 800 !important; text-transform: uppercase !important; letter-spacing: 0.8px !important; opacity: 0.9 !important; }
+    .sidebar-box-title { color: #ffffff !important; font-size: 13px !important; font-weight: 800 !important; }
+    .sidebar-metric-label { color: #8b949e !important; font-size: 13px !important; font-weight: 600 !important; }
     /* 🔘 Universal Sub-element Border Reset */
     [data-testid*="stPills"] *,
     [data-testid*="stSegmentedControl"] *,
@@ -612,6 +618,12 @@ elif current_theme_id == "white":
     section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] h3 {
         color: #0f172a !important;
     }
+    /* 🏷️ Sidebar Typography Classes (Pure Light Theme) */
+    .sidebar-main-title { color: #0f172a !important; font-size: 25px !important; font-weight: 900 !important; }
+    .sidebar-subtitle { color: #475569 !important; font-size: 13px !important; font-weight: 500 !important; }
+    .sidebar-section-title { color: #0f172a !important; font-size: 11px !important; font-weight: 800 !important; text-transform: uppercase !important; letter-spacing: 0.8px !important; opacity: 0.9 !important; }
+    .sidebar-box-title { color: #0f172a !important; font-size: 13px !important; font-weight: 800 !important; }
+    .sidebar-metric-label { color: #475569 !important; font-size: 13px !important; font-weight: 600 !important; }
     /* 🔘 Universal Sub-element Border Reset */
     [data-testid*="stPills"] *,
     [data-testid*="stSegmentedControl"] *,
@@ -922,6 +934,12 @@ elif current_theme_id == "blue":
     section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] h3 {
         color: #0f172a !important;
     }
+    /* 🏷️ Sidebar Typography Classes (Fluent Azure Theme) */
+    .sidebar-main-title { color: #0c4a6e !important; font-size: 25px !important; font-weight: 900 !important; }
+    .sidebar-subtitle { color: #475569 !important; font-size: 13px !important; font-weight: 500 !important; }
+    .sidebar-section-title { color: #0c4a6e !important; font-size: 11px !important; font-weight: 800 !important; text-transform: uppercase !important; letter-spacing: 0.8px !important; opacity: 0.9 !important; }
+    .sidebar-box-title { color: #0c4a6e !important; font-size: 13px !important; font-weight: 800 !important; }
+    .sidebar-metric-label { color: #475569 !important; font-size: 13px !important; font-weight: 600 !important; }
     /* 🔘 Universal Sub-element Border Reset */
     [data-testid*="stPills"] *,
     [data-testid*="stSegmentedControl"] *,
@@ -1213,6 +1231,12 @@ else:
     section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] h3 {
         color: #2d1b22 !important;
     }
+    /* 🏷️ Sidebar Typography Classes (Blush Rose Theme) */
+    .sidebar-main-title { color: #4a0e1e !important; font-size: 25px !important; font-weight: 900 !important; }
+    .sidebar-subtitle { color: #6b3343 !important; font-size: 13px !important; font-weight: 500 !important; }
+    .sidebar-section-title { color: #4a0e1e !important; font-size: 11px !important; font-weight: 800 !important; text-transform: uppercase !important; letter-spacing: 0.8px !important; opacity: 0.9 !important; }
+    .sidebar-box-title { color: #4a0e1e !important; font-size: 13px !important; font-weight: 800 !important; }
+    .sidebar-metric-label { color: #6b3343 !important; font-size: 13px !important; font-weight: 600 !important; }
     /* 🔘 Universal Sub-element Border Reset (İç Dikdörtgen Kutuları Tamamen Yok Eder) */
     [data-testid*="stPills"] *,
     [data-testid*="stSegmentedControl"] *,
