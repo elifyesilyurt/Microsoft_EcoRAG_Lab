@@ -463,6 +463,12 @@ elif "Fluent Azure" in theme_choice:
     st.html("""
     <style>
     /* 💼 Fluent Azure Light Theme */
+    :root, .stApp {
+        --background-color: #f8fafc !important;
+        --secondary-background-color: #e1effe !important;
+        --text-color: #0f172a !important;
+        --primary-color: #0078d4 !important;
+    }
     .stApp {
         background-color: #f8fafc !important;
     }
@@ -700,6 +706,29 @@ elif "Fluent Azure" in theme_choice:
     .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span {
         color: #ffffff !important;
     }
+    /* 📊 DataFrames & Tables (Siyah Tabloları Tamamen Kaldırır) */
+    div[data-testid="stDataFrame"],
+    div[data-testid="stTable"],
+    .stDataFrame,
+    table {
+        background-color: #ffffff !important;
+        border: 1.5px solid #93c5fd !important;
+        border-radius: 10px !important;
+    }
+    table thead tr th, th {
+        background-color: #e1effe !important;
+        color: #0c4a6e !important;
+        font-weight: 700 !important;
+        border-bottom: 2px solid #93c5fd !important;
+    }
+    table tbody tr td, td {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+        border-bottom: 1px solid #e1effe !important;
+    }
+    table tbody tr:nth-child(even) td {
+        background-color: #f8fafc !important;
+    }
     .stApp small, .stApp .stCaption, .stApp caption, .stApp div[data-testid="stCaptionContainer"] {
         color: #475569 !important;
     }
@@ -710,6 +739,12 @@ else:
     st.html("""
     <style>
     /* 🌸 Toz Pembe Pastel / Blush Rose Theme */
+    :root, .stApp {
+        --background-color: #fdf6f7 !important;
+        --secondary-background-color: #f7dbe1 !important;
+        --text-color: #2d1b22 !important;
+        --primary-color: #be185d !important;
+    }
     .stApp {
         background: linear-gradient(180deg, #fdf6f7 0%, #f7e8ec 100%) !important;
     }
@@ -952,6 +987,29 @@ else:
     }
     .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span {
         color: #4a0e1e !important;
+    }
+    /* 📊 DataFrames & Tables */
+    div[data-testid="stDataFrame"],
+    div[data-testid="stTable"],
+    .stDataFrame,
+    table {
+        background-color: #ffffff !important;
+        border: 1.5px solid #d99ca9 !important;
+        border-radius: 10px !important;
+    }
+    table thead tr th, th {
+        background-color: #f7dbe1 !important;
+        color: #4a0e1e !important;
+        font-weight: 700 !important;
+        border-bottom: 2px solid #d99ca9 !important;
+    }
+    table tbody tr td, td {
+        background-color: #ffffff !important;
+        color: #2d1b22 !important;
+        border-bottom: 1px solid #faedf0 !important;
+    }
+    table tbody tr:nth-child(even) td {
+        background-color: #fdf6f7 !important;
     }
     .stApp small, .stApp .stCaption, .stApp caption, .stApp div[data-testid="stCaptionContainer"] {
         color: #6b404e !important;
