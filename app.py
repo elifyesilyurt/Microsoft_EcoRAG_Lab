@@ -503,55 +503,101 @@ elif "Fluent Azure" in theme_choice:
     section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] h3 {
         color: #0f172a !important;
     }
-    /* Pills (Hızlı Sorular) */
-    div[data-testid="stPills"] button, div[data-testid="stPills"] [data-baseweb="tag"], div[data-testid="stPills"] span {
-        background-color: #e2e8f0 !important;
-        color: #0f172a !important;
-        border: 1px solid #cbd5e1 !important;
+    /* 🔘 Universal Sub-element Border Reset */
+    [data-testid*="stPills"] *,
+    [data-testid*="stSegmentedControl"] *,
+    [data-baseweb="tag"] *,
+    .stTabs * {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    /* 🔘 Pills (Hızlı Sorular - Arka Plandan Bir Tık Koyu Mavi) */
+    div[data-testid="stPills"] button,
+    div[data-testid="stPills"] [data-baseweb="tag"],
+    div[role="radiogroup"] button {
+        background-color: #e1effe !important; /* Arka plandan bir tık koyu açık mavi */
+        color: #0c4a6e !important; /* Net okunur koyu lacivert */
+        border: 1.5px solid #93c5fd !important;
+        border-radius: 20px !important;
+        padding: 6px 14px !important;
         font-weight: 600 !important;
     }
-    div[data-testid="stPills"] button:hover {
-        background-color: #cbd5e1 !important;
-        color: #000000 !important;
+    div[data-testid="stPills"] button:hover,
+    div[data-testid="stPills"] [data-baseweb="tag"]:hover,
+    div[role="radiogroup"] button:hover {
+        background-color: #bfdbfe !important;
+        color: #032b43 !important;
+        border-color: #0078d4 !important;
     }
-    div[data-testid="stPills"] button[aria-pressed="true"], div[data-testid="stPills"] [aria-selected="true"] {
+    div[data-testid="stPills"] [aria-pressed="true"],
+    div[data-testid="stPills"] [aria-selected="true"],
+    div[data-testid="stPills"] [aria-checked="true"],
+    div[role="radiogroup"] [aria-checked="true"] {
         background-color: #0078d4 !important;
         color: #ffffff !important;
-        border-color: #005a9e !important;
+        border: 2px solid #005a9e !important;
     }
-    div[data-testid="stPills"] button[aria-pressed="true"] span {
-        color: #ffffff !important;
+    div[data-testid="stPills"] span,
+    div[data-testid="stPills"] p,
+    div[data-testid="stPills"] div {
+        background-color: transparent !important;
+        color: inherit !important;
     }
-    /* Segmented Control (Dil Seçici) */
+
+    /* 🎛️ Segmented Control (Dil Seçici - Açık Mavi & Koyu Mavi) */
+    div[data-testid="stSegmentedControl"] > div,
+    div[data-testid="stSegmentedControl"] [data-baseweb="button-group"] {
+        background-color: #e1effe !important;
+        border: 1.5px solid #93c5fd !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
+    }
     div[data-testid="stSegmentedControl"] button {
-        background-color: #e2e8f0 !important;
-        color: #0f172a !important;
-        border: 1px solid #cbd5e1 !important;
+        background-color: transparent !important;
+        color: #0c4a6e !important;
         font-weight: 600 !important;
+        border: none !important;
     }
-    div[data-testid="stSegmentedControl"] button[aria-checked="true"], div[data-testid="stSegmentedControl"] button[aria-pressed="true"] {
+    div[data-testid="stSegmentedControl"] button[aria-checked="true"],
+    div[data-testid="stSegmentedControl"] button[aria-pressed="true"] {
         background-color: #0078d4 !important;
         color: #ffffff !important;
+        font-weight: 700 !important;
+        border: none !important;
     }
-    div[data-testid="stSegmentedControl"] button[aria-checked="true"] p, div[data-testid="stSegmentedControl"] button[aria-checked="true"] span {
-        color: #ffffff !important;
+
+    /* 💬 Chat Input & Bottom Bar (Siyahlığı Tamamen Kaldırır) */
+    [data-testid="stBottom"],
+    [data-testid="stBottom"] > div,
+    [data-testid="stBottomBlockContainer"],
+    [data-testid="stChatInputContainer"],
+    [data-testid="stChatInput"],
+    [data-testid="stChatInput"] > div,
+    [data-testid="stChatInput"] > div > div {
+        background-color: transparent !important;
+        border: none !important;
     }
-    /* Chat Input */
-    div[data-testid="stChatInput"] {
+    [data-testid="stChatInput"] {
         background-color: #ffffff !important;
-        border: 1px solid #cbd5e1 !important;
-        border-radius: 12px !important;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.05) !important;
+        border: 2px solid #93c5fd !important;
+        border-radius: 14px !important;
+        box-shadow: 0 2px 8px rgba(0, 120, 212, 0.08) !important;
     }
-    div[data-testid="stChatInput"] textarea {
+    [data-testid="stChatInput"] textarea,
+    [data-testid="stChatInput"] textarea * {
         background-color: transparent !important;
         color: #0f172a !important;
+        font-size: 15px !important;
     }
-    div[data-testid="stChatInput"] textarea::placeholder {
+    [data-testid="stChatInput"] textarea::placeholder {
         color: #64748b !important;
     }
-    div[data-testid="stChatInput"] button {
+    [data-testid="stChatInput"] button {
+        background-color: #e1effe !important;
         color: #0078d4 !important;
+        border-radius: 8px !important;
     }
     /* Code Badges & Code Blocks */
     div[data-testid="stCode"], div[data-testid="stCodeBlock"], pre {
@@ -567,10 +613,10 @@ elif "Fluent Azure" in theme_choice:
         font-weight: 500 !important;
     }
     code {
-        background-color: #e2e8f0 !important;
+        background-color: #e1effe !important;
         color: #0078d4 !important;
-        border: 1px solid #cbd5e1 !important;
-        border-radius: 4px;
+        border: 1px solid #93c5fd !important;
+        border-radius: 6px;
         padding: 2px 6px;
         font-weight: 600;
     }
@@ -578,25 +624,25 @@ elif "Fluent Azure" in theme_choice:
     .stButton > button {
         background-color: #ffffff !important;
         color: #0f172a !important;
-        border: 1px solid #cbd5e1 !important;
+        border: 1.5px solid #cbd5e1 !important;
         font-weight: 600 !important;
     }
     .stButton > button:hover {
-        background-color: #e2e8f0 !important;
-        border-color: #94a3b8 !important;
+        background-color: #e1effe !important;
+        border-color: #0078d4 !important;
     }
     /* Selectbox */
     div[data-baseweb="select"] > div {
         background-color: #ffffff !important;
         color: #0f172a !important;
-        border: 1px solid #cbd5e1 !important;
+        border: 1.5px solid #cbd5e1 !important;
     }
     div[data-baseweb="select"] span {
         color: #0f172a !important;
     }
     /* Metrics, Cards, Expanders */
     div[data-testid="stMetricValue"] {
-        color: #0f172a !important;
+        color: #0078d4 !important;
         font-weight: 700;
     }
     div[data-testid="stMetricLabel"] {
@@ -635,14 +681,15 @@ elif "Fluent Azure" in theme_choice:
         gap: 8px;
     }
     .stTabs [data-baseweb="tab"] {
-        color: #334155 !important;
-        background-color: #e2e8f0 !important;
-        border: 1px solid #cbd5e1 !important;
+        color: #0c4a6e !important;
+        background-color: #e1effe !important;
+        border: 1px solid #93c5fd !important;
         border-radius: 6px;
         padding: 8px 16px;
+        font-weight: 600;
     }
     .stTabs [data-baseweb="tab"] p, .stTabs [data-baseweb="tab"] span {
-        color: #334155 !important;
+        color: #0c4a6e !important;
     }
     .stTabs [aria-selected="true"] {
         background-color: #0078d4 !important;
