@@ -1974,30 +1974,24 @@ with tab_chat:
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    # Dile Göre Hazır Soru Hapları
+    # Dile Göre Hazır Soru Hapları (2 Dakikalık Demo Akışı İçin Optimize Edilmiş Sıralama)
     if is_tr:
         pill_options = [
-            "Scope 1-3 Emisyon Trendi",
-            "FIDO Tech Akustik Su Kaçağı",
-            "Zero Waste Veri Merkezleri (UL Standardı)",
-            "Karbon Uzaklaştırma Portföyü",
-            "2026 Sürdürülebilirlik Raporu: Ambalaj & Plastik",
-            "2026 Bölgesel İnovasyonlar (Hollanda & Madrid)",
-            "Ağ Gecikme Süresi (Alan Dışı Test)",
-            "Sunucu CPU Saat Hızı (Alan Dışı Test)",
-            "2023 FIFA Dünya Kupası (Alan Dışı Test)"
+            "🎯 1. Scope 1-3 Emisyon Trendi (PAL)",
+            "🎯 2. 2026 Raporu: Ambalaj & Plastik",
+            "🎯 3. Sıfır Halüsinasyon Güvenlik Kalkanı",
+            "4. FIDO Tech Akustik Su Kaçağı (AI)",
+            "5. 2026 Bölgesel İnovasyonlar (Hollanda & Madrid)",
+            "6. Karbon Uzaklaştırma Portföyü (Tablo 3)"
         ]
     else:
         pill_options = [
-            "Scope 1-3 Emissions Trend",
-            "FIDO Tech Acoustic Leak AI",
-            "Zero Waste Datacenters (UL Standard)",
-            "Carbon Removal Portfolio",
-            "2026 Sustainability Report: Packaging & Plastic",
-            "2026 Regional Innovations (Netherlands & Madrid)",
-            "Network Latency (Out-of-Domain Test)",
-            "Server CPU Clock Speed (Out-of-Domain Test)",
-            "2023 FIFA World Cup (Out-of-Domain Test)"
+            "🎯 1. Scope 1-3 Emissions Trend (PAL)",
+            "🎯 2. 2026 Report: Packaging & Plastic",
+            "🎯 3. Zero-Hallucination Safe Rejection",
+            "4. FIDO Tech Acoustic Leak AI",
+            "5. 2026 Regional Innovations (Netherlands & Madrid)",
+            "6. Carbon Removal Portfolio (Table 3)"
         ]
 
     selected_pill = st.pills(
@@ -2008,25 +2002,19 @@ with tab_chat:
 
     pill_query_map = {
         # TR
-        "Scope 1-3 Emisyon Trendi": "Microsoft'un FY20 baz yılı ile FY25 arasındaki Scope 1, Scope 2 ve Scope 3 sera gazı emisyon trendini ve en çok katkı sağlayan kategorileri karşılaştırın.",
-        "FIDO Tech Akustik Su Kaçağı": "Microsoft, Londra, Querétaro ve Phoenix gibi şehirlerdeki su dağıtım ağlarında yapay zeka destekli akustik sızıntı analizi için hangi kuruluşla ortaklık kurdu?",
-        "Zero Waste Veri Merkezleri (UL Standardı)": "Microsoft, Sıfır Atık veri merkezlerini doğrulamak için hangi harici sertifikasyonu kullanıyor ve 2024 raporuna göre FY23'te bu standart altında kaç veri merkezi sertifikalandırıldı?",
-        "Karbon Uzaklaştırma Portföyü": "2025 raporundaki Karbon Tablosu 3'e göre sözleşmeye bağlanan toplam karbon uzaklaştırma hacmi ve teknoloji türlerine göre dağılımı nedir?",
-        "2026 Sürdürülebilirlik Raporu: Ambalaj & Plastik": "2026 Microsoft Çevresel Sürdürülebilirlik Raporuna göre, 2025/2026 takvim yılı sonunda ulaşılan tek kullanımlık plastik ambalaj oranı nedir ve hangi standartlar kullanılmaktadır?",
-        "2026 Bölgesel İnovasyonlar (Hollanda & Madrid)": "2026 Microsoft Çevresel Sürdürülebilirlik Raporunda Amsterdam (Hollanda) ve Madrid (İspanya) veri merkezi bölgeleri için bildirilen ekolojik restorasyon ve düşük emisyonlu jeneratör projeleri nelerdir?",
-        "Ağ Gecikme Süresi (Alan Dışı Test)": "2024 yılında Quincy veri merkezi ile San Antonio Azure uç noktası arasındaki ortalama gidiş-dönüş ağ gecikme süresi milisaniye cinsinden ne kadardı?",
-        "Sunucu CPU Saat Hızı (Alan Dışı Test)": "Boydton veri merkezindeki sunucularda kullanılan özel işlemcilerin GHz cinsinden tam saat hızı ve önbellek boyutu nedir?",
-        "2023 FIFA Dünya Kupası (Alan Dışı Test)": "2023 FIFA Kadınlar Dünya Kupasını kim kazandı ve final skoru ne oldu?",
+        "🎯 1. Scope 1-3 Emisyon Trendi (PAL)": "Microsoft'un FY20 baz yılı ile FY25 arasındaki Scope 1, Scope 2 ve Scope 3 sera gazı emisyon trendini ve en çok katkı sağlayan kategorileri karşılaştırın.",
+        "🎯 2. 2026 Raporu: Ambalaj & Plastik": "2026 Microsoft Çevresel Sürdürülebilirlik Raporuna göre, 2025/2026 takvim yılı sonunda ulaşılan tek kullanımlık plastik ambalaj oranı nedir ve hangi standartlar kullanılmaktadır?",
+        "🎯 3. Sıfır Halüsinasyon Güvenlik Kalkanı": "Boydton veri merkezindeki sunucularda kullanılan özel işlemcilerin GHz cinsinden tam saat hızı ve önbellek boyutu nedir?",
+        "4. FIDO Tech Akustik Su Kaçağı (AI)": "Microsoft, Londra, Querétaro ve Phoenix gibi şehirlerdeki su dağıtım ağlarında yapay zeka destekli akustik sızıntı analizi için hangi kuruluşla ortaklık kurdu?",
+        "5. 2026 Bölgesel İnovasyonlar (Hollanda & Madrid)": "2026 Microsoft Çevresel Sürdürülebilirlik Raporunda Amsterdam (Hollanda) ve Madrid (İspanya) veri merkezi bölgeleri için bildirilen ekolojik restorasyon ve düşük emisyonlu jeneratör projeleri nelerdir?",
+        "6. Karbon Uzaklaştırma Portföyü (Tablo 3)": "2025 raporundaki Karbon Tablosu 3'e göre sözleşmeye bağlanan toplam karbon uzaklaştırma hacmi ve teknoloji türlerine göre dağılımı nedir?",
         # EN
-        "Scope 1-3 Emissions Trend": "Compare Microsoft Scope 1, Scope 2, and Scope 3 emissions trend between FY20 baseline and FY25, highlighting the top contributing categories.",
-        "FIDO Tech Acoustic Leak AI": "Which organization did Microsoft partner with to deploy AI-enabled acoustic leak analysis in water distribution networks across cities like London, Querétaro, and Phoenix?",
-        "Zero Waste Datacenters (UL Standard)": "Which external certification does Microsoft use to validate its Zero Waste datacenters, and how many datacenters were certified under this standard in FY23 according to the 2024 report?",
-        "Carbon Removal Portfolio": "What is the total contracted carbon removal volume and its breakdown by technology type according to Carbon Table 3 in the 2025 report?",
-        "2026 Sustainability Report: Packaging & Plastic": "According to the 2026 Microsoft Environmental Sustainability Report, what is the single-use plastic packaging percentage achieved at the end of calendar year 2025/2026 and what third-party frameworks are used?",
-        "2026 Regional Innovations (Netherlands & Madrid)": "According to the 2026 Microsoft Environmental Sustainability Report, what local ecological restoration and low-emission generator projects are deployed at Amsterdam (Netherlands) and Madrid (Spain) datacenter sites?",
-        "Network Latency (Out-of-Domain Test)": "What was the average round-trip network latency between the Quincy datacenter and the San Antonio Azure edge site in milliseconds during 2024?",
-        "Server CPU Clock Speed (Out-of-Domain Test)": "What is the exact clock speed in GHz and cache size of the custom processors used inside the servers at the Boydton datacenter?",
-        "2023 FIFA World Cup (Out-of-Domain Test)": "Who won the FIFA Women's World Cup in 2023, and what was the final score?"
+        "🎯 1. Scope 1-3 Emissions Trend (PAL)": "Compare Microsoft Scope 1, Scope 2, and Scope 3 emissions trend between FY20 baseline and FY25, highlighting the top contributing categories.",
+        "🎯 2. 2026 Report: Packaging & Plastic": "According to the 2026 Microsoft Environmental Sustainability Report, what is the single-use plastic packaging percentage achieved at the end of calendar year 2025/2026 and what third-party frameworks are used?",
+        "🎯 3. Zero-Hallucination Safe Rejection": "What is the exact clock speed in GHz and cache size of the custom processors used inside the servers at the Boydton datacenter?",
+        "4. FIDO Tech Acoustic Leak AI": "Which organization did Microsoft partner with to deploy AI-enabled acoustic leak analysis in water distribution networks across cities like London, Querétaro, and Phoenix?",
+        "5. 2026 Regional Innovations (Netherlands & Madrid)": "According to the 2026 Microsoft Environmental Sustainability Report, what local ecological restoration and low-emission generator projects are deployed at Amsterdam (Netherlands) and Madrid (Spain) datacenter sites?",
+        "6. Carbon Removal Portfolio (Table 3)": "What is the total contracted carbon removal volume and its breakdown by technology type according to Carbon Table 3 in the 2025 report?"
     }
 
     active_query = None
