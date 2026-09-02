@@ -91,6 +91,63 @@ def query_foundry(system_prompt: str, user_prompt: str, temperature: float = 0.0
     finally:
         gc.collect()
 
+def query_foundry_stream(system_prompt: str, user_prompt: str, temperature: float = 0.0):
+    url = f"{FOUNDRY_BASE_URL}/v1/chat/completions"
+    headers = {
+        "Content-Type": "application/json",
+        "Connection": "close"
+    }
+    payload = {
+        "model": MODEL_NAME,
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ],
+        "temperature": temperature,
+        "max_tokens": 512,
+        "stream": True
+    }
+    
+    try:
+        with requests.Session() as session:
+            with session.post(url, headers=headers, json=payload, stream=True, timeout=180) as res:
+                if res.status_code == 200:
+                    for line in res.iter_lines():
+                        if line:
+                            decoded = line.decode('utf-8')
+                            if decoded.startswith("data: "):
+                                data_str = decoded[6:].strip()
+                                if data_str == "[DONE]":
+                                    break
+                                try:
+                                    chunk = json.loads(data_str)
+                                    delta = chunk["choices"][0]["delta"].get("content", "")
+                                    if delta:
+                                        yield delta
+                                except Exception:
+                                    pass
+                else:
+                    ans = query_foundry(system_prompt, user_prompt, temperature)
+                    for word in ans.split(" "):
+                        yield word + " "
+                        time.sleep(0.015)
+    except Exception:
+        try:
+            ans = query_foundry(system_prompt, user_prompt, temperature)
+            for word in ans.split(" "):
+                yield word + " "
+                time.sleep(0.015)
+        except Exception as e:
+            yield f"Error: {e}"
+    finally:
+        gc.collect()
+
+def stream_static_text(text: str):
+    words = text.split(" ")
+    for w in words:
+        yield w + " "
+        time.sleep(0.015)
+
 def compute_carbon_trend_summary() -> str:
     df = get_carbon_emissions_df()
     s1 = df[df["Metric"] == "Scope 1"].iloc[0]
@@ -1797,95 +1854,117 @@ with tab_chat:
                     st.markdown(query_to_run)
 
                 start_time = time.time()
-                with st.spinner(T["spinner_text"]):
-                    try:
-                        q_lower = query_to_run.lower()
-                        is_math_scope = ("trend" in q_lower or "compare" in q_lower or "difference" in q_lower) and ("scope" in q_lower)
-                        is_carbon_removal = ("carbon removal" in q_lower or "table 3" in q_lower) and ("technology" in q_lower or "breakdown" in q_lower)
-                        is_zero_waste_cert = ("zero waste" in q_lower) and ("certification" in q_lower or "standard" in q_lower or "validate" in q_lower)
+                try:
+                    q_lower = query_to_run.lower()
+                    is_math_scope = ("trend" in q_lower or "compare" in q_lower or "difference" in q_lower) and ("scope" in q_lower)
+                    is_carbon_removal = ("carbon removal" in q_lower or "table 3" in q_lower) and ("technology" in q_lower or "breakdown" in q_lower)
+                    is_zero_waste_cert = ("zero waste" in q_lower) and ("certification" in q_lower or "standard" in q_lower or "validate" in q_lower)
 
-                        calc_details = None
-                        chunks = []
-                        max_score = 0.0
-                        route_type = "rag"
+                    calc_details = None
+                    chunks = []
+                    max_score = 0.0
+                    route_type = "rag"
+                    stream_gen = None
 
-                        if is_math_scope:
-                            route_type = "pal"
-                            calc_details = compute_carbon_trend_summary()
-                            synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
-                            ans = query_foundry(SYNTHESIS_PROMPT, synthesis_input, temperature=0.0)
-                            chunks, max_score = search_context_hybrid(query_to_run)
-                        elif is_carbon_removal:
-                            route_type = "pal"
-                            calc_details = (
-                                "Carbon Removal Summary (2025 Report, p.21):\n"
-                                + get_carbon_removal_df().to_string(index=False)
-                                + "\n\nTechnology Type Breakdown:\n"
-                                + get_carbon_removal_by_type_df().to_string(index=False)
-                            )
-                            synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
-                            ans = query_foundry(SYNTHESIS_PROMPT, synthesis_input, temperature=0.0)
-                            chunks, max_score = search_context_hybrid(query_to_run)
-                        elif is_zero_waste_cert:
-                            route_type = "pal"
-                            calc_details = (
-                                "Zero Waste Certifications (2024 Report, p.36):\n"
-                                + get_zero_waste_certifications_df().to_string(index=False)
-                            )
-                            synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
-                            ans = query_foundry(SYNTHESIS_PROMPT, synthesis_input, temperature=0.0)
-                            chunks, max_score = search_context_hybrid(query_to_run)
+                    if is_math_scope:
+                        route_type = "pal"
+                        calc_details = compute_carbon_trend_summary()
+                        synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
+                        chunks, max_score = search_context_hybrid(query_to_run)
+                        stream_gen = query_foundry_stream(SYNTHESIS_PROMPT, synthesis_input, temperature=0.0)
+                    elif is_carbon_removal:
+                        route_type = "pal"
+                        calc_details = (
+                            "Carbon Removal Summary (2025 Report, p.21):\n"
+                            + get_carbon_removal_df().to_string(index=False)
+                            + "\n\nTechnology Type Breakdown:\n"
+                            + get_carbon_removal_by_type_df().to_string(index=False)
+                        )
+                        synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
+                        chunks, max_score = search_context_hybrid(query_to_run)
+                        stream_gen = query_foundry_stream(SYNTHESIS_PROMPT, synthesis_input, temperature=0.0)
+                    elif is_zero_waste_cert:
+                        route_type = "pal"
+                        calc_details = (
+                            "Zero Waste Certifications (2024 Report, p.36):\n"
+                            + get_zero_waste_certifications_df().to_string(index=False)
+                        )
+                        synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
+                        chunks, max_score = search_context_hybrid(query_to_run)
+                        stream_gen = query_foundry_stream(SYNTHESIS_PROMPT, synthesis_input, temperature=0.0)
+                    else:
+                        chunks, max_score = search_context_hybrid(query_to_run)
+                        if not chunks or max_score < MIN_SCORE_FLOOR:
+                            stream_gen = stream_static_text(T["not_found_msg"])
                         else:
-                            chunks, max_score = search_context_hybrid(query_to_run)
-                            if not chunks or max_score < MIN_SCORE_FLOOR:
-                                ans = T["not_found_msg"]
-                            else:
-                                context_chunks = [c["content"] for c in chunks]
-                                extract_prompt = format_extraction_prompt(query_to_run, context_chunks)
-                                raw_json = query_foundry(EXTRACTION_SYSTEM_PROMPT, extract_prompt, temperature=0.0)
+                            context_chunks = [c["content"] for c in chunks]
+                            extract_prompt = format_extraction_prompt(query_to_run, context_chunks)
+                            raw_json = query_foundry(EXTRACTION_SYSTEM_PROMPT, extract_prompt, temperature=0.0)
 
-                                try:
-                                    cleaned = re.search(r"\{.*\}", raw_json, re.DOTALL).group(0)
-                                    plan = QueryExtractionPlan(**json.loads(cleaned))
-                                    resolution = DeterministicResolver.validate_and_filter(plan, query_to_run)
+                            try:
+                                cleaned = re.search(r"\{.*\}", raw_json, re.DOTALL).group(0)
+                                plan = QueryExtractionPlan(**json.loads(cleaned))
+                                resolution = DeterministicResolver.validate_and_filter(plan, query_to_run)
 
-                                    if resolution["status"] == "NOT_FOUND":
-                                        ans = T["not_found_msg"]
-                                    else:
-                                        verified_metrics_str = "\n".join([
-                                            f"- Entity: {m.entity}, Type: {m.metric_type}, "
-                                            f"Value: {m.string_value if m.string_value else f'{m.value:,.0f} {m.unit}'}, "
-                                            f"Scope: {m.temporal_scope}, Cumulative: {m.is_cumulative}"
-                                            for m in resolution["metrics"]
-                                        ])
-                                        calc_details = verified_metrics_str
-                                        synthesis_prompt = f"Verified Metrics:\n{verified_metrics_str}\n\nQuestion: {query_to_run}"
-                                        ans = query_foundry(FACTUAL_SYNTHESIS_PROMPT, synthesis_prompt, temperature=0.0)
-                                except Exception:
-                                    context_str = "\n\n".join(context_chunks)
-                                    ans = query_foundry(
-                                        "You are a precise Sustainability Analyst. Answer directly using ONLY context. If context has [VISUAL REFERENCE], state graphical data cannot be extracted from text.",
-                                        f"Context:\n{context_str}\n\nQuestion: {query_to_run}",
-                                        temperature=0.0
-                                    )
+                                if resolution["status"] == "NOT_FOUND":
+                                    stream_gen = stream_static_text(T["not_found_msg"])
+                                else:
+                                    verified_metrics_str = "\n".join([
+                                        f"- Entity: {m.entity}, Type: {m.metric_type}, "
+                                        f"Value: {m.string_value if m.string_value else f'{m.value:,.0f} {m.unit}'}, "
+                                        f"Scope: {m.temporal_scope}, Cumulative: {m.is_cumulative}"
+                                        for m in resolution["metrics"]
+                                    ])
+                                    calc_details = verified_metrics_str
+                                    synthesis_prompt = f"Verified Metrics:\n{verified_metrics_str}\n\nQuestion: {query_to_run}"
+                                    stream_gen = query_foundry_stream(FACTUAL_SYNTHESIS_PROMPT, synthesis_prompt, temperature=0.0)
+                            except Exception:
+                                context_str = "\n\n".join(context_chunks)
+                                stream_gen = query_foundry_stream(
+                                    "You are a precise Sustainability Analyst. Answer directly using ONLY context. If context has [VISUAL REFERENCE], state graphical data cannot be extracted from text.",
+                                    f"Context:\n{context_str}\n\nQuestion: {query_to_run}",
+                                    temperature=0.0
+                                )
+
+                    with st.chat_message("assistant"):
+                        if route_type == "pal":
+                            st.markdown(f":green-badge[{T['badge_pal']}]")
+                        else:
+                            st.markdown(f":blue-badge[{T['badge_rag']}]")
+
+                        # ⚡ Canlı Akışlı Yanıt Yazımı (Streaming Output)
+                        ans = st.write_stream(stream_gen)
 
                         latency = time.time() - start_time
 
-                        st.session_state.messages.append({
-                            "role": "assistant",
-                            "content": ans,
-                            "route": route_type,
-                            "calc_details": calc_details,
-                            "provenance": chunks,
-                            "max_score": max_score,
-                            "latency": latency
-                        })
-                        gc.collect()
-                        st.rerun()
+                        if calc_details:
+                            with st.expander(T["verified_output_label"], icon=":material/verified:"):
+                                st.text(calc_details)
+                        if chunks:
+                            prov_title = T["provenance_label"].format(
+                                count=len(chunks),
+                                score=max_score,
+                                latency=latency
+                            )
+                            with st.expander(prov_title, icon=":material/library_books:"):
+                                for p in chunks:
+                                    st.markdown(f"**{p['title']}** (Score / Skor: {p['score']:.4f})")
+                                    st.text(p["content"][:300] + "...")
 
-                    except Exception as e:
-                        st.error(f"Error / Hata: {e}")
-                        gc.collect()
+                    st.session_state.messages.append({
+                        "role": "assistant",
+                        "content": ans,
+                        "route": route_type,
+                        "calc_details": calc_details,
+                        "provenance": chunks,
+                        "max_score": max_score,
+                        "latency": latency
+                    })
+                    gc.collect()
+
+                except Exception as e:
+                    st.error(f"Error / Hata: {e}")
+                    gc.collect()
 
 # ══════════════════════════════════════════════════════════════════════════════
 # SEKME 2: ESG BİLANÇO PANELİ (DASHBOARD)
