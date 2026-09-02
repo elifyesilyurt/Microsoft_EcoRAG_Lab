@@ -655,67 +655,98 @@ else:
     section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] h3 {
         color: #2d1b22 !important;
     }
-    /* Pills (Hızlı Sorular) */
-    div[data-testid="stPills"] button, div[data-testid="stPills"] [data-baseweb="tag"], div[data-testid="stPills"] span {
-        background-color: #fceef1 !important;
-        color: #501d2d !important;
-        border: 1px solid #e8bcc5 !important;
+    /* 🔘 Universal Pills & Tags Override (Siyahlığı Tamamen Kaldırır) */
+    [data-testid*="stPills"],
+    [data-testid*="stPills"] *,
+    [data-baseweb="tag"],
+    [data-baseweb="tag"] *,
+    div[role="radiogroup"] button,
+    div[role="radiogroup"] button *,
+    div[data-testid="stPills"] button,
+    div[data-testid="stPills"] button * {
+        background-color: #f7dbe1 !important; /* Arka plandan bir tık koyu açık toz pembe */
+        color: #4a0e1e !important; /* Net okunan koyu mürdüm yazı */
+        border: 1.5px solid #d99ca9 !important;
         font-weight: 600 !important;
     }
-    div[data-testid="stPills"] button:hover {
-        background-color: #fadce2 !important;
-        color: #2d1b22 !important;
+    [data-testid*="stPills"] button:hover,
+    [data-baseweb="tag"]:hover,
+    div[role="radiogroup"] button:hover {
+        background-color: #ebd0d6 !important;
+        color: #2d050f !important;
+        border-color: #b85d75 !important;
     }
-    div[data-testid="stPills"] button[aria-pressed="true"], div[data-testid="stPills"] [aria-selected="true"] {
-        background-color: #f0c3cb !important; /* Açık toz pembe */
-        color: #4a0e1e !important;
-        border: 2px solid #d99ca9 !important;
+    [data-testid*="stPills"] [aria-pressed="true"],
+    [data-testid*="stPills"] [aria-selected="true"],
+    [data-testid*="stPills"] [aria-checked="true"],
+    div[role="radiogroup"] [aria-checked="true"] {
+        background-color: #f0c3cb !important;
+        color: #2d050f !important;
+        border: 2px solid #b85d75 !important;
     }
-    div[data-testid="stPills"] button[aria-pressed="true"] span {
-        color: #4a0e1e !important;
+    [data-testid*="stPills"] [aria-pressed="true"] *,
+    [data-testid*="stPills"] [aria-selected="true"] *,
+    [data-testid*="stPills"] [aria-checked="true"] * {
+        color: #2d050f !important;
     }
     /* Segmented Control (Dil Seçici) */
-    div[data-testid="stSegmentedControl"] button {
+    div[data-testid="stSegmentedControl"] button,
+    div[data-testid="stSegmentedControl"] button * {
         background-color: #fceef1 !important;
         color: #501d2d !important;
         border: 1px solid #e8bcc5 !important;
         font-weight: 600 !important;
     }
-    div[data-testid="stSegmentedControl"] button[aria-checked="true"], div[data-testid="stSegmentedControl"] button[aria-pressed="true"] {
-        background-color: #f0c3cb !important; /* Açık toz pembe */
+    div[data-testid="stSegmentedControl"] button[aria-checked="true"],
+    div[data-testid="stSegmentedControl"] button[aria-pressed="true"] {
+        background-color: #f0c3cb !important;
         color: #4a0e1e !important;
         border: 2px solid #d99ca9 !important;
     }
-    div[data-testid="stSegmentedControl"] button[aria-checked="true"] p, div[data-testid="stSegmentedControl"] button[aria-checked="true"] span {
+    div[data-testid="stSegmentedControl"] button[aria-checked="true"] * {
         color: #4a0e1e !important;
     }
-    /* Chat Input */
-    div[data-testid="stChatInput"] {
+    /* 💬 Chat Input & Bottom Bar (Siyahlığı Tamamen Kaldırır) */
+    [data-testid="stBottom"],
+    [data-testid="stBottom"] > div,
+    [data-testid="stBottomBlockContainer"],
+    [data-testid="stChatInputContainer"],
+    [data-testid="stChatInput"],
+    [data-testid="stChatInput"] > div,
+    [data-testid="stChatInput"] > div > div {
+        background-color: transparent !important;
+        border: none !important;
+    }
+    [data-testid="stChatInput"] {
         background-color: #ffffff !important;
-        border: 1px solid #e8bcc5 !important;
-        border-radius: 12px !important;
+        border: 2px solid #d99ca9 !important;
+        border-radius: 14px !important;
         box-shadow: 0 2px 8px rgba(184, 93, 117, 0.08) !important;
     }
-    div[data-testid="stChatInput"] textarea {
+    [data-testid="stChatInput"] textarea,
+    [data-testid="stChatInput"] textarea * {
         background-color: transparent !important;
         color: #2d1b22 !important;
+        font-size: 15px !important;
     }
-    div[data-testid="stChatInput"] textarea::placeholder {
-        color: #83184399 !important;
+    [data-testid="stChatInput"] textarea::placeholder {
+        color: #8a4a58 !important;
     }
-    div[data-testid="stChatInput"] button {
-        color: #b85d75 !important;
+    [data-testid="stChatInput"] button {
+        background-color: #f7dbe1 !important;
+        color: #831843 !important;
+        border-radius: 8px !important;
     }
     /* Code Badges & Code Blocks */
     div[data-testid="stCode"], div[data-testid="stCodeBlock"], pre {
         background-color: #faedf0 !important;
-        border: 2px solid #d99ca9 !important; /* Bir tık koyu toz pembe çerçeve */
+        border: 2px solid #d99ca9 !important;
         border-radius: 12px !important;
         padding: 10px !important;
     }
     div[data-testid="stCode"] code, div[data-testid="stCodeBlock"] code, pre code {
         background-color: transparent !important;
-        color: #501d2d !important; /* Net okunur koyu mürdüm */
+        color: #501d2d !important;
         border: none !important;
         font-weight: 500 !important;
     }
@@ -753,7 +784,7 @@ else:
     }
     /* Metrics, Cards, Expanders */
     div[data-testid="stMetricValue"] {
-        color: #831843 !important; /* Derin gül kurusu rengi */
+        color: #831843 !important;
         font-weight: 700;
     }
     div[data-testid="stMetricLabel"] {
@@ -795,7 +826,7 @@ else:
     .stTabs [data-baseweb="tab"] {
         border-radius: 8px;
         padding: 8px 18px;
-        background-color: #f7e2e6 !important; /* Açık toz pembe pasif */
+        background-color: #f7e2e6 !important;
         color: #5c182c !important;
         border: 1px solid #ebd0d6 !important;
         font-weight: 600;
@@ -805,8 +836,8 @@ else:
         color: #5c182c !important;
     }
     .stTabs [aria-selected="true"] {
-        background-color: #f0c3cb !important; /* Açık ve tatlı toz pembe aktif */
-        color: #4a0e1e !important; /* Net okunur koyu mürdüm metin */
+        background-color: #f0c3cb !important;
+        color: #4a0e1e !important;
         font-weight: 700 !important;
         border: 2px solid #d99ca9 !important;
         border-bottom: 3px solid #b85d75 !important;
