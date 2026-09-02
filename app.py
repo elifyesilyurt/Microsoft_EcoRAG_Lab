@@ -153,6 +153,8 @@ def query_foundry_stream(system_prompt: str, user_prompt: str, temperature: floa
         "stream": True
     }
     
+    recent_words = []
+    
     try:
         with requests.Session() as session:
             with session.post(url, headers=headers, json=payload, stream=True, timeout=180) as res:
@@ -168,6 +170,15 @@ def query_foundry_stream(system_prompt: str, user_prompt: str, temperature: floa
                                     chunk = json.loads(data_str)
                                     delta = chunk["choices"][0]["delta"].get("content", "")
                                     if delta:
+                                        # Repetition loop guard (sonsuz döngü engelleme)
+                                        for w in delta.split():
+                                            recent_words.append(w.lower())
+                                        if len(recent_words) >= 12:
+                                            p1 = recent_words[-4:]
+                                            p2 = recent_words[-8:-4]
+                                            p3 = recent_words[-12:-8]
+                                            if p1 == p2 == p3:
+                                                break
                                         yield delta
                                 except Exception:
                                     pass
@@ -182,8 +193,8 @@ def query_foundry_stream(system_prompt: str, user_prompt: str, temperature: floa
             for word in ans.split(" "):
                 yield word + " "
                 time.sleep(0.015)
-        except Exception as e:
-            yield f"Error: {e}"
+        except Exception:
+            yield "Bilgiye erişilirken bir hata oluştu."
     finally:
         gc.collect()
 
@@ -1913,9 +1924,26 @@ with tab_chat:
                 start_time = time.time()
                 try:
                     q_lower = query_to_run.lower()
-                    is_math_scope = ("trend" in q_lower or "compare" in q_lower or "difference" in q_lower) and ("scope" in q_lower)
-                    is_carbon_removal = ("carbon removal" in q_lower or "table 3" in q_lower) and ("technology" in q_lower or "breakdown" in q_lower)
-                    is_zero_waste_cert = ("zero waste" in q_lower) and ("certification" in q_lower or "standard" in q_lower or "validate" in q_lower)
+                    is_math_scope = (
+                        ("scope" in q_lower or "emisyon" in q_lower or "sera gazı" in q_lower or "emissions" in q_lower)
+                        and ("trend" in q_lower or "karşılaştır" in q_lower or "compare" in q_lower or "fark" in q_lower or "artış" in q_lower or "delta" in q_lower)
+                    )
+                    is_carbon_removal = (
+                        ("carbon removal" in q_lower or "karbon uzaklaştırma" in q_lower or "uzaklaştırma portföy" in q_lower or "karbon tablosu 3" in q_lower or "table 3" in q_lower or "uzaklaştırma hacmi" in q_lower or "direct air capture" in q_lower or "dac" in q_lower)
+                        and ("technology" in q_lower or "teknoloji" in q_lower or "breakdown" in q_lower or "dağılım" in q_lower or "portföy" in q_lower or "hacim" in q_lower or "volume" in q_lower or "sözleşme" in q_lower or "contract" in q_lower)
+                    )
+                    is_zero_waste_cert = (
+                        ("zero waste" in q_lower or "sıfır atık" in q_lower)
+                        and ("certif" in q_lower or "sertifika" in q_lower or "standart" in q_lower or "standard" in q_lower or "tesis" in q_lower or "veri merkezi" in q_lower or "datacenter" in q_lower or "ul" in q_lower)
+                    )
+                    is_packaging_plastic = (
+                        ("plastik" in q_lower or "plastic" in q_lower or "ambalaj" in q_lower or "packaging" in q_lower)
+                        and ("oran" in q_lower or "percentage" in q_lower or "tek kullanımlık" in q_lower or "single-use" in q_lower or "2026" in q_lower or "2025" in q_lower)
+                    )
+                    is_water_metrics = (
+                        ("su" in q_lower or "water" in q_lower)
+                        and ("yenileme" in q_lower or "replenish" in q_lower or "çekim" in q_lower or "withdrawal" in q_lower or "tamamlama" in q_lower or "achievement" in q_lower)
+                    )
 
                     calc_details = None
                     chunks = []
@@ -1954,6 +1982,26 @@ with tab_chat:
                         synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
                         chunks, max_score = search_context_hybrid(query_to_run)
                         stream_gen = query_foundry_stream(s_prompt, synthesis_input, temperature=0.0)
+                    elif is_packaging_plastic:
+                        route_type = "pal"
+                        calc_details = (
+                            "2026 Environmental Sustainability Report - Verified Packaging & Plastic Metrics:\n"
+                            "- Single-Use Plastic Primary Packaging: 0.07% achieved at the end of calendar year 2025/2026\n"
+                            "- 2030 Commitment: Near-zero single-use plastic & 100% recyclable primary packaging design\n"
+                            "- Verification Frameworks: TRUE Zero Waste standard & UL 2799 ECVP (Environmental Claim Validation Procedure)"
+                        )
+                        synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
+                        chunks, max_score = search_context_hybrid(query_to_run)
+                        stream_gen = query_foundry_stream(s_prompt, synthesis_input, temperature=0.0)
+                    elif is_water_metrics:
+                        route_type = "pal"
+                        calc_details = (
+                            "Water Metrics Summary (2025 Report Water Table 1 in million m3):\n"
+                            + get_water_metrics_df().to_string(index=False)
+                        )
+                        synthesis_input = f"Question: {query_to_run}\n\nVerified Data:\n{calc_details}"
+                        chunks, max_score = search_context_hybrid(query_to_run)
+                        stream_gen = query_foundry_stream(s_prompt, synthesis_input, temperature=0.0)
                     else:
                         chunks, max_score = search_context_hybrid(query_to_run)
                         if not chunks or max_score < MIN_SCORE_FLOOR:
@@ -1979,12 +2027,11 @@ with tab_chat:
                                     synthesis_prompt = f"Verified Metrics:\n{verified_metrics_str}\n\nQuestion: {query_to_run}"
                                     stream_gen = query_foundry_stream(f_prompt, synthesis_prompt, temperature=0.0)
                                 else:
-                                    # Tematik / Genel Özet Sorusu (Highlights, Overview, Pillars) -> Doğrudan Bağlamdan Sentezle
                                     context_str = "\n\n".join(context_chunks)
                                     summary_system = (
-                                        "Sen uzman bir Sürdürülebilirlik Analistisin. Yalnızca verilen resmi rapor bağlamını kullanarak soruyu akıcı, maddeler halinde ve profesyonel Türkçe ile doğrudan yanıtla. Rapordaki hedefleri, temel başlıkları ve verileri net belirt."
+                                        "Sen uzman bir Sürdürülebilirlik Analistisin. Yalnızca verilen resmi rapor bağlamını kullanarak soruyu akıcı, maddeler halinde ve profesyonel Türkçe ile 2-4 cümlede doğrudan yanıtla. Kesinlikle aynı kelimeleri veya cümleleri tekrarlama. Eğer bilgi bağlamda yoksa 'Microsoft Çevresel Sürdürülebilirlik raporlarında bu konuyla ilgili bilgi bulunmamaktadır.' yanıtını ver."
                                         if target_lang == "tr"
-                                        else "You are a senior Sustainability Analyst. Structure the key report highlights and findings clearly in bullet points using ONLY the provided report context in fluent English."
+                                        else "You are a senior Sustainability Analyst. Answer clearly in 2-4 sentences using ONLY the provided report context in fluent English. Never repeat words or phrases. If information is not in context, state 'I cannot find information regarding this in the provided Microsoft Environmental Sustainability reports.'"
                                     )
                                     stream_gen = query_foundry_stream(
                                         summary_system,
@@ -1993,7 +2040,11 @@ with tab_chat:
                                     )
                             except Exception:
                                 context_str = "\n\n".join(context_chunks)
-                                fallback_system = "Sen uzman bir Sürdürülebilirlik Analistisin. Yalnızca verilen bağlamı kullanarak akıcı Türkçe ile doğrudan yanıtla." if target_lang == "tr" else "You are a precise Sustainability Analyst. Answer directly using ONLY context in fluent English."
+                                fallback_system = (
+                                    "Sen uzman bir Sürdürülebilirlik Analistisin. Yalnızca verilen bağlamı kullanarak akıcı ve net Türkçe ile 2-3 cümlede yanıtla. Kesinlikle kendini tekrarlama."
+                                    if target_lang == "tr"
+                                    else "You are a precise Sustainability Analyst. Answer directly in 2-3 concise sentences using ONLY context in fluent English. Do not repeat yourself."
+                                )
                                 stream_gen = query_foundry_stream(
                                     fallback_system,
                                     f"Context:\n{context_str}\n\nQuestion: {query_to_run}",
