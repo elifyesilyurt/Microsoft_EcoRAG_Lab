@@ -1847,15 +1847,15 @@ with tab_chat:
 
     pill_query_map = {
         # TR
-        "Scope 1-3 Emisyon Trendi": "Compare Microsoft Scope 1, Scope 2, and Scope 3 emissions trend between FY20 baseline and FY25, highlighting the top contributing categories.",
-        "FIDO Tech Akustik Su Kaçağı": "Which organization did Microsoft partner with to deploy AI-enabled acoustic leak analysis in water distribution networks across cities like London, Querétaro, and Phoenix?",
-        "Zero Waste Veri Merkezleri (UL Standardı)": "Which external certification does Microsoft use to validate its Zero Waste datacenters, and how many datacenters were certified under this standard in FY23 according to the 2024 report?",
-        "Karbon Uzaklaştırma Portföyü": "What is the total contracted carbon removal volume and its breakdown by technology type according to Carbon Table 3 in the 2025 report?",
-        "2026 Sürdürülebilirlik Raporu: Ambalaj & Plastik": "According to the 2026 Microsoft Environmental Sustainability Report, what is the single-use plastic packaging percentage achieved at the end of calendar year 2025/2026 and what third-party frameworks are used?",
-        "2026 Bölgesel Tüketim (Hollanda/Madrid)": "What are the datacenter water and electricity metrics for regions like the Netherlands and Madrid reported in the 2026 Microsoft Environmental Sustainability Report?",
-        "Ağ Gecikme Süresi (Alan Dışı Test)": "What was the average round-trip network latency between the Quincy datacenter and the San Antonio Azure edge site in milliseconds during 2024?",
-        "Sunucu CPU Saat Hızı (Alan Dışı Test)": "What is the exact clock speed in GHz and cache size of the custom processors used inside the servers at the Boydton datacenter?",
-        "2023 FIFA Dünya Kupası (Alan Dışı Test)": "Who won the FIFA Women's World Cup in 2023, and what was the final score?",
+        "Scope 1-3 Emisyon Trendi": "Microsoft'un FY20 baz yılı ile FY25 arasındaki Scope 1, Scope 2 ve Scope 3 sera gazı emisyon trendini ve en çok katkı sağlayan kategorileri karşılaştırın.",
+        "FIDO Tech Akustik Su Kaçağı": "Microsoft, Londra, Querétaro ve Phoenix gibi şehirlerdeki su dağıtım ağlarında yapay zeka destekli akustik sızıntı analizi için hangi kuruluşla ortaklık kurdu?",
+        "Zero Waste Veri Merkezleri (UL Standardı)": "Microsoft, Sıfır Atık veri merkezlerini doğrulamak için hangi harici sertifikasyonu kullanıyor ve 2024 raporuna göre FY23'te bu standart altında kaç veri merkezi sertifikalandırıldı?",
+        "Karbon Uzaklaştırma Portföyü": "2025 raporundaki Karbon Tablosu 3'e göre sözleşmeye bağlanan toplam karbon uzaklaştırma hacmi ve teknoloji türlerine göre dağılımı nedir?",
+        "2026 Sürdürülebilirlik Raporu: Ambalaj & Plastik": "2026 Microsoft Çevresel Sürdürülebilirlik Raporuna göre, 2025/2026 takvim yılı sonunda ulaşılan tek kullanımlık plastik ambalaj oranı nedir ve hangi standartlar kullanılmaktadır?",
+        "2026 Bölgesel Tüketim (Hollanda/Madrid)": "2026 Microsoft Çevresel Sürdürülebilirlik Raporunda Hollanda ve Madrid gibi bölgeler için bildirilen veri merkezi su ve elektrik tüketim metrikleri nelerdir?",
+        "Ağ Gecikme Süresi (Alan Dışı Test)": "2024 yılında Quincy veri merkezi ile San Antonio Azure uç noktası arasındaki ortalama gidiş-dönüş ağ gecikme süresi milisaniye cinsinden ne kadardı?",
+        "Sunucu CPU Saat Hızı (Alan Dışı Test)": "Boydton veri merkezindeki sunucularda kullanılan özel işlemcilerin GHz cinsinden tam saat hızı ve önbellek boyutu nedir?",
+        "2023 FIFA Dünya Kupası (Alan Dışı Test)": "2023 FIFA Kadınlar Dünya Kupasını kim kazandı ve final skoru ne oldu?",
         # EN
         "Scope 1-3 Emissions Trend": "Compare Microsoft Scope 1, Scope 2, and Scope 3 emissions trend between FY20 baseline and FY25, highlighting the top contributing categories.",
         "FIDO Tech Acoustic Leak AI": "Which organization did Microsoft partner with to deploy AI-enabled acoustic leak analysis in water distribution networks across cities like London, Querétaro, and Phoenix?",
