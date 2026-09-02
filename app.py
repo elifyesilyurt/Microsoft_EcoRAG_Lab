@@ -338,6 +338,12 @@ if current_theme_id == "dark":
     st.html("""
     <style>
     /* 🌿 Midnight Emerald Dark Theme */
+    :root, .stApp {
+        --background-color: #0d1117 !important;
+        --secondary-background-color: #161b22 !important;
+        --text-color: #e6edf3 !important;
+        --primary-color: #3fb950 !important;
+    }
     .stApp {
         background-color: #0d1117 !important;
     }
@@ -354,43 +360,67 @@ if current_theme_id == "dark":
     section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] h3 {
         color: #e6edf3 !important;
     }
+    /* 🔘 Universal Sub-element Border Reset */
+    [data-testid*="stPills"] *,
+    [data-testid*="stSegmentedControl"] *,
+    [data-baseweb="tag"] *,
+    .stTabs * {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
     /* Pills (Hızlı Sorular) */
     div[data-testid="stPills"] button, div[data-testid="stPills"] [data-baseweb="tag"], div[data-testid="stPills"] span {
         background-color: #21262d !important;
         color: #e6edf3 !important;
         border: 1px solid #30363d !important;
         font-weight: 500 !important;
+        border-radius: 20px !important;
     }
     div[data-testid="stPills"] button:hover {
         background-color: #30363d !important;
-        color: #58a6ff !important;
+        color: #7ee787 !important;
+        border-color: #3fb950 !important;
     }
-    div[data-testid="stPills"] button[aria-pressed="true"], div[data-testid="stPills"] [aria-selected="true"] {
+    div[data-testid="stPills"] [aria-pressed="true"], div[data-testid="stPills"] [aria-selected="true"], div[data-testid="stPills"] [aria-checked="true"] {
         background-color: #238636 !important;
         color: #ffffff !important;
-        border-color: #2ea043 !important;
+        border: 2px solid #3fb950 !important;
     }
     div[data-testid="stPills"] button[aria-pressed="true"] span {
         color: #ffffff !important;
     }
-    /* Segmented Control (Dil Seçici) */
-    div[data-testid="stSegmentedControl"] button {
+    /* Segmented Control (Dil & Tema Seçici) */
+    div[data-testid="stSegmentedControl"] > div,
+    div[data-testid="stSegmentedControl"] [data-baseweb="button-group"] {
         background-color: #21262d !important;
-        color: #e6edf3 !important;
         border: 1px solid #30363d !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
+    }
+    div[data-testid="stSegmentedControl"] button {
+        background-color: transparent !important;
+        color: #e6edf3 !important;
         font-weight: 500 !important;
+        border: none !important;
     }
     div[data-testid="stSegmentedControl"] button[aria-checked="true"], div[data-testid="stSegmentedControl"] button[aria-pressed="true"] {
         background-color: #238636 !important;
         color: #ffffff !important;
+        font-weight: 700 !important;
+        border: none !important;
     }
     div[data-testid="stSegmentedControl"] button[aria-checked="true"] p, div[data-testid="stSegmentedControl"] button[aria-checked="true"] span {
         color: #ffffff !important;
     }
     /* Chat Input */
+    [data-testid="stBottom"], [data-testid="stBottom"] > div, [data-testid="stBottomBlockContainer"], [data-testid="stChatInputContainer"] {
+        background-color: transparent !important;
+        border: none !important;
+    }
     div[data-testid="stChatInput"] {
         background-color: #161b22 !important;
-        border: 1px solid #30363d !important;
+        border: 1.5px solid #30363d !important;
         border-radius: 12px !important;
     }
     div[data-testid="stChatInput"] textarea {
@@ -401,13 +431,13 @@ if current_theme_id == "dark":
         color: #8b949e !important;
     }
     div[data-testid="stChatInput"] button {
-        color: #58a6ff !important;
+        color: #7ee787 !important;
     }
     /* Code Badges */
     code {
-        background-color: #21262d !important;
-        color: #58a6ff !important;
-        border: 1px solid #30363d !important;
+        background-color: #1f3b28 !important;
+        color: #7ee787 !important;
+        border: 1px solid #238636 !important;
         border-radius: 4px;
         padding: 2px 6px;
         font-weight: 600;
@@ -421,7 +451,8 @@ if current_theme_id == "dark":
     }
     .stButton > button:hover {
         background-color: #30363d !important;
-        border-color: #8b949e !important;
+        border-color: #3fb950 !important;
+        color: #7ee787 !important;
     }
     /* Selectbox */
     div[data-baseweb="select"] > div {
@@ -433,7 +464,7 @@ if current_theme_id == "dark":
         color: #e6edf3 !important;
     }
     /* Metrics, Cards, Expanders */
-    div[data-testid="stMetricValue"] { color: #58a6ff !important; }
+    div[data-testid="stMetricValue"] { color: #7ee787 !important; }
     div[data-testid="stMetricLabel"] { color: #8b949e !important; }
     div[data-testid="stMetric"] {
         background-color: #161b22 !important;
@@ -461,14 +492,18 @@ if current_theme_id == "dark":
     .stTabs [data-baseweb="tab"] {
         color: #8b949e !important;
         background-color: #21262d !important;
+        border: 1px solid #30363d !important;
         border-radius: 6px;
         padding: 8px 16px;
+        font-weight: 600;
     }
     .stTabs [data-baseweb="tab"] p, .stTabs [data-baseweb="tab"] span { color: #8b949e !important; }
     .stTabs [aria-selected="true"] {
         background-color: #238636 !important;
         color: #ffffff !important;
-        font-weight: 600;
+        font-weight: 700;
+        border: 2px solid #3fb950 !important;
+        border-bottom: 3px solid #7ee787 !important;
     }
     .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span { color: #ffffff !important; }
     .stApp small, .stApp .stCaption, .stApp caption, .stApp div[data-testid="stCaptionContainer"] { color: #8b949e !important; }
@@ -477,12 +512,12 @@ if current_theme_id == "dark":
 elif current_theme_id == "white":
     st.html("""
     <style>
-    /* ⚪ Pure Light (Saf Beyaz & Açık Mod) */
+    /* ⚪ Pure Light (Saf Beyaz & Tatlı Pastel Yeşil Aksanlı Açık Mod) */
     :root, .stApp {
         --background-color: #ffffff !important;
-        --secondary-background-color: #f6f8fa !important;
+        --secondary-background-color: #f0fdf4 !important;
         --text-color: #111827 !important;
-        --primary-color: #0969da !important;
+        --primary-color: #16a34a !important;
     }
     .stApp {
         background-color: #ffffff !important;
@@ -534,13 +569,13 @@ elif current_theme_id == "white":
         box-shadow: none !important;
     }
 
-    /* 🔘 Pills (Hızlı Sorular - Saf Beyaz & Açık Gri) */
+    /* 🔘 Pills (Hızlı Sorular - Tatlı Pastel Adaçayı Yeşili) */
     div[data-testid="stPills"] button,
     div[data-testid="stPills"] [data-baseweb="tag"],
     div[role="radiogroup"] button {
-        background-color: #f3f4f6 !important;
-        color: #1f2937 !important;
-        border: 1.5px solid #d1d5db !important;
+        background-color: #f0fdf4 !important;
+        color: #064e3b !important;
+        border: 1.5px solid #bbf7d0 !important;
         border-radius: 20px !important;
         padding: 6px 14px !important;
         font-weight: 600 !important;
@@ -548,17 +583,17 @@ elif current_theme_id == "white":
     div[data-testid="stPills"] button:hover,
     div[data-testid="stPills"] [data-baseweb="tag"]:hover,
     div[role="radiogroup"] button:hover {
-        background-color: #e5e7eb !important;
-        color: #111827 !important;
-        border-color: #0969da !important;
+        background-color: #dcfce7 !important;
+        color: #042f2e !important;
+        border-color: #22c55e !important;
     }
     div[data-testid="stPills"] [aria-pressed="true"],
     div[data-testid="stPills"] [aria-selected="true"],
     div[data-testid="stPills"] [aria-checked="true"],
     div[role="radiogroup"] [aria-checked="true"] {
-        background-color: #0969da !important;
-        color: #ffffff !important;
-        border: 2px solid #054da7 !important;
+        background-color: #dcfce7 !important;
+        color: #064e3b !important;
+        border: 2px solid #22c55e !important;
     }
     div[data-testid="stPills"] span,
     div[data-testid="stPills"] p,
@@ -567,23 +602,23 @@ elif current_theme_id == "white":
         color: inherit !important;
     }
 
-    /* 🎛️ Segmented Control (Dil & Tema Seçici) */
+    /* 🎛️ Segmented Control (Dil & Tema Seçici - Tatlı Pastel Nane Yeşili) */
     div[data-testid="stSegmentedControl"] > div,
     div[data-testid="stSegmentedControl"] [data-baseweb="button-group"] {
-        background-color: #f3f4f6 !important;
-        border: 1.5px solid #d1d5db !important;
+        background-color: #f0fdf4 !important;
+        border: 1.5px solid #bbf7d0 !important;
         border-radius: 8px !important;
         overflow: hidden !important;
     }
     div[data-testid="stSegmentedControl"] button {
         background-color: transparent !important;
-        color: #1f2937 !important;
+        color: #064e3b !important;
         font-weight: 600 !important;
         border: none !important;
     }
     div[data-testid="stSegmentedControl"] button[aria-checked="true"],
     div[data-testid="stSegmentedControl"] button[aria-pressed="true"] {
-        background-color: #0969da !important;
+        background-color: #22c55e !important; /* Tatlı pastel nane yeşili */
         color: #ffffff !important;
         font-weight: 700 !important;
         border: none !important;
@@ -602,9 +637,9 @@ elif current_theme_id == "white":
     }
     [data-testid="stChatInput"] {
         background-color: #ffffff !important;
-        border: 2px solid #d0d7de !important;
+        border: 2px solid #86efac !important;
         border-radius: 14px !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+        box-shadow: 0 2px 8px rgba(34, 197, 94, 0.08) !important;
     }
     [data-testid="stChatInput"] textarea,
     [data-testid="stChatInput"] textarea * {
@@ -616,15 +651,15 @@ elif current_theme_id == "white":
         color: #6b7280 !important;
     }
     [data-testid="stChatInput"] button {
-        background-color: #f3f4f6 !important;
-        color: #0969da !important;
+        background-color: #f0fdf4 !important;
+        color: #16a34a !important;
         border-radius: 8px !important;
     }
 
     /* Code Badges & Code Blocks */
     div[data-testid="stCode"], div[data-testid="stCodeBlock"], pre {
         background-color: #f6f8fa !important;
-        border: 1.5px solid #d0d7de !important;
+        border: 1.5px solid #bbf7d0 !important;
         border-radius: 12px !important;
         padding: 10px !important;
     }
@@ -635,9 +670,9 @@ elif current_theme_id == "white":
         font-weight: 500 !important;
     }
     code {
-        background-color: #f3f4f6 !important;
-        color: #0969da !important;
-        border: 1px solid #d1d5db !important;
+        background-color: #f0fdf4 !important;
+        color: #16a34a !important;
+        border: 1px solid #bbf7d0 !important;
         border-radius: 6px;
         padding: 2px 6px;
         font-weight: 600;
@@ -651,8 +686,9 @@ elif current_theme_id == "white":
         font-weight: 600 !important;
     }
     .stButton > button:hover {
-        background-color: #f3f4f6 !important;
-        border-color: #0969da !important;
+        background-color: #f0fdf4 !important;
+        border-color: #22c55e !important;
+        color: #064e3b !important;
     }
 
     /* Selectbox */
@@ -667,11 +703,11 @@ elif current_theme_id == "white":
 
     /* Metrics, Cards, Expanders */
     div[data-testid="stMetricValue"] {
-        color: #0969da !important;
+        color: #16a34a !important;
         font-weight: 700;
     }
     div[data-testid="stMetricLabel"] {
-        color: #4b5563 !important;
+        color: #374151 !important;
         font-weight: 600;
     }
     div[data-testid="stMetric"] {
@@ -702,28 +738,30 @@ elif current_theme_id == "white":
     div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] summary {
         color: #111827 !important;
     }
+    /* Sekmeler (Tabs - Tatlı Pastel Adaçayı Yeşili) */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
     }
     .stTabs [data-baseweb="tab"] {
-        color: #374151 !important;
-        background-color: #f3f4f6 !important;
-        border: 1.5px solid #d1d5db !important;
+        color: #064e3b !important;
+        background-color: #f0fdf4 !important;
+        border: 1.5px solid #bbf7d0 !important;
         border-radius: 6px;
         padding: 8px 16px;
         font-weight: 600;
     }
     .stTabs [data-baseweb="tab"] p, .stTabs [data-baseweb="tab"] span {
-        color: #374151 !important;
+        color: #064e3b !important;
     }
     .stTabs [aria-selected="true"] {
-        background-color: #0969da !important;
-        color: #ffffff !important;
+        background-color: #dcfce7 !important;
+        color: #064e3b !important;
         font-weight: 700;
-        border: 1.5px solid #054da7 !important;
+        border: 2px solid #86efac !important;
+        border-bottom: 3px solid #22c55e !important;
     }
     .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span {
-        color: #ffffff !important;
+        color: #064e3b !important;
     }
 
     /* 📊 DataFrames & Tables */
@@ -732,25 +770,25 @@ elif current_theme_id == "white":
     .stDataFrame,
     table {
         background-color: #ffffff !important;
-        border: 1.5px solid #d0d7de !important;
+        border: 1.5px solid #bbf7d0 !important;
         border-radius: 10px !important;
     }
     table thead tr th, th {
-        background-color: #f6f8fa !important;
-        color: #111827 !important;
+        background-color: #f0fdf4 !important;
+        color: #064e3b !important;
         font-weight: 700 !important;
-        border-bottom: 2px solid #d0d7de !important;
+        border-bottom: 2px solid #86efac !important;
     }
     table tbody tr td, td {
         background-color: #ffffff !important;
         color: #111827 !important;
-        border-bottom: 1px solid #f0f3f6 !important;
+        border-bottom: 1px solid #f0fdf4 !important;
     }
     table tbody tr:nth-child(even) td {
-        background-color: #f6f8fa !important;
+        background-color: #f9fafb !important;
     }
     .stApp small, .stApp .stCaption, .stApp caption, .stApp div[data-testid="stCaptionContainer"] {
-        color: #6b7280 !important;
+        color: #4b5563 !important;
     }
     </style>
     """)
