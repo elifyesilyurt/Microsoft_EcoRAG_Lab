@@ -9,7 +9,7 @@ LLM'in zihinsel tahminine bırakmadan, izole ve güvenli bir Python çalışma z
 import ast
 import operator
 import re
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, Optional
 
 # İzin verilen güvenli matematiksel operatörler
 _ALLOWED_OPERATORS = {
