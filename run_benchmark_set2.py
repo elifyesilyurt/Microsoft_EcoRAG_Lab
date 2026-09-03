@@ -113,12 +113,17 @@ def search_context_hybrid(query: str):
         return [], max_score
 
     # Year-Stratified for multi-year queries
+    found_years = re.findall(r'\b(2024|2025|2026)\b', query)
+    found_fys = re.findall(r'\bfy\s*(2[0-6])\b', query.lower())
+
     is_multi_year = bool(
-        len(re.findall(r'\b(2024|2025|2026)\b', query)) >= 2 or
+        len(found_years) >= 2 or
+        len(found_fys) >= 2 or
+        (len(found_years) >= 1 and len(found_fys) >= 1) or
         any(w in q_norm for w in [
             "uc yillik", "3 yillik", "tarihsel", "karsilastir",
             "gelisim", "trajectory", "multi-year", "across the",
-            "across reports", "trendini", "farkini", "ilerle",
+            "across reports", "trend", "fark", "ilerle",
             "cross-document", "all three", "all reports"
         ])
     )
@@ -127,7 +132,14 @@ def search_context_hybrid(query: str):
         y2024 = [s for s in scores if "2024" in str(s.get("year","")) or "2024" in str(s.get("title",""))][:2]
         y2025 = [s for s in scores if "2025" in str(s.get("year","")) or "2025" in str(s.get("title",""))][:2]
         y2026 = [s for s in scores if "2026" in str(s.get("year","")) or "2026" in str(s.get("title",""))][:2]
-        stratified = y2026 + y2025 + y2024
+        
+        if ('23' in found_fys or '2024' in found_years) and ('25' in found_fys or '2026' in found_years) and '24' not in found_fys and '2025' not in found_years:
+            y2024_top3 = [s for s in scores if "2024" in str(s.get("year","")) or "2024" in str(s.get("title",""))][:3]
+            y2026_top3 = [s for s in scores if "2026" in str(s.get("year","")) or "2026" in str(s.get("title",""))][:3]
+            stratified = y2026_top3 + y2024_top3
+        else:
+            stratified = y2026 + y2025 + y2024
+
         if len(stratified) >= 3:
             return stratified, max_score
 

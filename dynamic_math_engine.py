@@ -45,6 +45,16 @@ class SafeMathEvaluator:
         tree = ast.parse(expr, mode="eval")
         return cls._eval_node(tree.body, context)
 
+    @staticmethod
+    def _tuple_to_number(val: Any) -> Any:
+        if isinstance(val, tuple) and all(isinstance(x, (int, float)) for x in val):
+            s = "".join(f"{int(x):03d}" if idx > 0 else str(int(x)) for idx, x in enumerate(val))
+            try:
+                return float(s) if '.' in s else int(s)
+            except ValueError:
+                return val
+        return val
+
     @classmethod
     def _eval_node(cls, node: ast.AST, context: Dict[str, Any]) -> Any:
         if isinstance(node, ast.Constant):
@@ -59,19 +69,20 @@ class SafeMathEvaluator:
             op_type = type(node.op)
             if op_type not in _ALLOWED_OPERATORS:
                 raise ValueError(f"İzin verilmeyen operatör: {op_type}")
-            left = cls._eval_node(node.left, context)
-            right = cls._eval_node(node.right, context)
+            left = cls._tuple_to_number(cls._eval_node(node.left, context))
+            right = cls._tuple_to_number(cls._eval_node(node.right, context))
             return _ALLOWED_OPERATORS[op_type](left, right)
         elif isinstance(node, ast.UnaryOp):
             op_type = type(node.op)
             if op_type not in _ALLOWED_OPERATORS:
                 raise ValueError(f"İzin verilmeyen unar operatör: {op_type}")
-            operand = cls._eval_node(node.operand, context)
+            operand = cls._tuple_to_number(cls._eval_node(node.operand, context))
             return _ALLOWED_OPERATORS[op_type](operand)
         elif isinstance(node, ast.List):
-            return [cls._eval_node(elem, context) for elem in node.elts]
+            return [cls._tuple_to_number(cls._eval_node(elem, context)) for elem in node.elts]
         elif isinstance(node, ast.Tuple):
-            return tuple(cls._eval_node(elem, context) for elem in node.elts)
+            raw_tup = tuple(cls._eval_node(elem, context) for elem in node.elts)
+            return cls._tuple_to_number(raw_tup)
         elif isinstance(node, ast.Call):
             func = cls._eval_node(node.func, context)
             if func not in _SAFE_FUNCTIONS.values():

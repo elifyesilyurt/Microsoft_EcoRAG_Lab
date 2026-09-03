@@ -5,24 +5,26 @@
     "query": "Microsoft'un FY23 ve FY25 dönemlerinde Kategori 1 (Purchased Goods and Services) ile Kategori 2 (Capital Goods) Scope 3 emisyon payları yüzde kaçtır? Bu iki upstream kategorinin toplam payı FY23'ten FY25'e nasıl değişmiştir (yüzde puan farkı)?",
     "is_math": true,
     "retrieval_hits": [
+      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.54) (Score: 1.0835)",
+      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.30) (Score: 0.9304)",
+      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.54) (Score: 0.9211)",
       "Microsoft_2024_Sustainability_Report.pdf (p.12) (Score: 1.0394)",
       "Microsoft_2024_Sustainability_Report.pdf (p.13) (Score: 0.9757)",
-      "Microsoft_2025_Sustainability_Report.pdf (p.13) (Score: 0.9704)",
-      "Microsoft_2024_Sustainability_Report.pdf (p.12) (Score: 0.9594)",
-      "Microsoft_2025_Sustainability_Report.pdf (p.13) (Score: 0.9496)",
-      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.30) (Score: 0.9296)"
+      "Microsoft_2024_Sustainability_Report.pdf (p.12) (Score: 0.9594)"
     ],
-    "pot_code": "```python\n# Extracted numbers from report\ncat1_fy23 = 36.23  # Purchased Goods and Services (Category 1) in FY23\ncat2_fy23 = 38.24  # Capital Goods (Category 2) in FY23\n\n# Sum of Category 1 and Category 2 in FY23\ntotal_fy23 = cat1_fy23 + cat2_fy23\n\n# Since the data for FY25 is not provided in the context, we cannot calculate the percentage for FY25.\n# However, we can calculate the total percentage for FY23.\ntotal_percentage_fy23 = (total_fy23 / 100) * 100  # Total percentage in FY23\n\n# Since we do not have data for FY25, we cannot calculate the difference in percentage points.\n# We can only provide the total percentage for FY23.\ndifference_points_fy23_fy25 = None  # Cannot calculate difference without FY25 data\n\n# Final answer variables\ntotal_percentage_fy23 = total_percentage_fy23  # Total percentage in FY23 (cannot calculate for FY25)\ndifference_points_fy23_fy25 = difference_points_fy23_fy25  # Cannot calculate difference without FY25 data\n```",
+    "pot_code": "```python\n# Extracted numbers from report\ncat1_fy23 = 36.23  # Category 1 (A) FY23\ncat2_fy23 = 38.24  # Category 2 (B) FY23\ncat1_fy25 = None   # Category 1 (A) FY25 data missing in the provided context\ncat2_fy25 = None   # Category 2 (B) FY25 data missing in the provided context\n\n# Since data for FY25 is missing in the provided context, we cannot calculate the percentage change.\n# We can only provide the data for FY23.\ntotal_fy23 = cat1_fy23 + cat2_fy23\n\n# Since data for FY25 is missing in the provided context, we cannot calculate the percentage change.\n# We can only provide the data for FY23.\ntotal_fy25 = None  # No data available for FY25 in the provided context\n\n# Since data for FY25 is missing in the provided context, we cannot calculate the percentage change.\n# We can only provide the data for FY23.\npercentage_change = None  # No data available to calculate the percentage change\n\n# Final answer variables\ntotal_fy23 = total_fy23  # Total percentage for FY23\ntotal_fy25 = total_fy25  # Total percentage for FY25 (data missing)\npercentage_change = percentage_change  # Change in percentage points (data missing)\n```",
     "pot_env": {
       "cat1_fy23": 36.23,
       "cat2_fy23": 38.24,
+      "cat1_fy25": null,
+      "cat2_fy25": null,
       "total_fy23": 74.47,
-      "total_percentage_fy23": 74.47,
-      "difference_points_fy23_fy25": null
+      "total_fy25": null,
+      "percentage_change": null
     },
-    "calc_details": "Doğrulanmış Python Matematik Sonuçları:\n• cat1_fy23: 36.23\n• cat2_fy23: 38.24\n• total_fy23: 74.47\n• total_percentage_fy23: 74.47\n• difference_points_fy23_fy25: None",
-    "response": "Cat1_FY23 (76.23%) ve Cat2_FY23 (100 - 76.23% = 23.77%) Scope 3 emisyon paylarını temsil ederken, FY25'de Cat1_FY25 'None' olduğundan, FY25'de Cat1_FY25 ve Cat2_FY25 Scope 3 emisyon payları artımlı olarak hesaplanamaz (None).\n\nCat1_FY23 ile Cat2_FY23 Scope 3 emisyon paylarıFY23'tenFY25'e artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay farkı artımlı pay fark",
-    "latency": 37.25719904899597,
+    "calc_details": "Doğrulanmış Python Matematik Sonuçları:\n• cat1_fy23: 36.23\n• cat2_fy23: 38.24\n• cat1_fy25: None\n• cat2_fy25: None\n• total_fy23: 74.47\n• total_fy25: None\n• percentage_change: None",
+    "response": "Cat1_fy23 ve Cat2_fy23 Scope 3 emisyon payları için FY23'ün %74.47'inde birikmiştir. FY25'te Cat1_fy25 ve Cat2_fy25 Scope 3 emisyon payları 'None' olduğundan, yüzde değişimi veya payda farkı hesaplanamaz.\n\nCat1_fy25 ve Cat2_fy25 Scope 3 emisyon payları 'None' olduğundan, FY23'ten FY25'e payda farkı hesaplanamaz.",
+    "latency": 64.51489305496216,
     "ground_truth": {
       "fy23_cat1": 36.23,
       "fy23_cat2": 38.24,
@@ -39,29 +41,29 @@
     "query": "2026 Sürdürülebilirlik Raporu'ndaki su tüketimi grafiğine göre, Microsoft'un FY25 yılındaki su çekimi (withdrawals) ile su tüketimi (consumption) arasındaki fark kaç metreküptür (m^3)?",
     "is_math": true,
     "retrieval_hits": [
-      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.25) (Score: 0.8728)",
-      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.26) (Score: 0.8546)",
-      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.25) (Score: 0.8492)",
-      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.49) (Score: 0.8373)",
-      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.53) (Score: 0.8360)",
-      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.26) (Score: 0.8358)"
+      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.25) (Score: 1.1960)",
+      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.6) (Score: 0.9660)",
+      "Microsoft_2025_Sustainability_Report.pdf (p.44) (Score: 0.6972)",
+      "Microsoft_2025_Sustainability_Report.pdf (p.69) (Score: 0.6865)",
+      "Microsoft_2024_Sustainability_Report.pdf (p.40) (Score: 0.7100)",
+      "Microsoft_2024_Sustainability_Report.pdf (p.38) (Score: 0.7079)"
     ],
-    "pot_code": "```python\n# Extracted numbers from report\nwater_withdrawal = 000,497,4  # Assuming this is the total water withdrawal in m^3\nwater_consumption = 000,923,5  # Assuming this is the total water consumption in m^3\n\n# Difference in m^3\ndifference_points = water_withdrawal - water_consumption\n```",
+    "pot_code": "```python\n# Extracted numbers from the report\nsu_kekimisi_fy25 = 13,266,000  # Total Water Withdrawals (FY25)\nsu_tuketimi_fy25 = 8,170,000  # Total Water Consumption (FY25)\n\n# Difference in m³\nsu_fark = su_kekimisi_fy25 - su_tuketimi_fy25\n```",
     "pot_env": {
-      "water_withdrawal": [
-        0,
-        497,
-        4
+      "su_kekimisi_fy25": [
+        13,
+        266,
+        0
       ],
-      "water_consumption": [
-        0,
-        923,
-        5
+      "su_tuketimi_fy25": [
+        8,
+        170,
+        0
       ]
     },
-    "calc_details": "Doğrulanmış Python Matematik Sonuçları:\n• water_withdrawal: (0, 497, 4)\n• water_consumption: (0, 923, 5)",
-    "response": "Süreç grafiği verildiğinde, Microsoft'un FY25 su çekimi ile su tüketimi arasındaki fark 492 m^3'dur (su tüketimi - su çekimi).\n\nYani, 492 m^3.",
-    "latency": 17.753368139266968,
+    "calc_details": "Doğrulanmış Python Matematik Sonuçları:\n• su_kekimisi_fy25: (13, 266, 0)\n• su_tuketimi_fy25: (8, 170, 0)",
+    "response": "Verilen metrikler arasında Microsoft'un FY25 su çekimi ile su tüketimi arasındaki fark yok. Verilen metrikler su_kekimisi_fy25 (su çekimi) ve su_tuketimi_fy25 (su tüketimi) olarak belirtilmiş olup, her iki metrikin de sıfır artışla sonuçlanmıştır (13, 266, 0) ve (8, 170, 0) sırasıyla. Bu nedenle, FY25 yılındaki su tüketimi grafiğine göre Microsoft'un su çekimi ile su tüketimi arasındaki fark 0 m^3'dur.",
+    "latency": 35.589993953704834,
     "ground_truth": {
       "withdrawals": 13266000,
       "consumption": 8170000,
@@ -75,25 +77,21 @@
     "is_math": true,
     "retrieval_hits": [
       "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.23) (Score: 1.1261)",
-      "Microsoft_2025_Sustainability_Report.pdf (p.36) (Score: 1.0371)",
       "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.23) (Score: 1.0197)",
+      "Microsoft_2025_Sustainability_Report.pdf (p.36) (Score: 1.0371)",
       "Microsoft_2025_Sustainability_Report.pdf (p.36) (Score: 0.9850)",
-      "Microsoft_2025_Sustainability_Report.pdf (p.36) (Score: 0.9725)",
-      "Microsoft_2024_Sustainability_Report.pdf (p.27) (Score: 0.9615)"
+      "Microsoft_2024_Sustainability_Report.pdf (p.27) (Score: 0.9615)",
+      "Microsoft_2024_Sustainability_Report.pdf (p.14) (Score: 0.9420)"
     ],
-    "pot_code": "```python\n# Extracted numbers from report\npue_fy25 = 1.17  # Power Usage Effectiveness (PUE) in FY25\nwue_fy25 = 0.30  # Water Usage Effectiveness (WUE) in FY25\n\n# Water Usage Effectiveness reduction target and achieved percentage in FY25\nwue_reduction_target = 40  # Target reduction percentage in FY25\nwue_reduction_achieved = 18  # Achieved reduction percentage in FY25\n\n# Final answer variables\ngroup1_total = pue_fy25  # PUE in FY25\ngroup2_total = wue_fy25  # WUE in FY25\ndifference_points = wue_reduction_target - wue_reduction_achieved  # Difference in reduction percentage\n```",
+    "pot_code": "```python\n# Extracted numbers from report\nglobal_average_PUE = 1.17  # PUE value from FY25 datacenters\nWUE_reduction_target = 40  # WUE reduction target percentage for 2030\nWUE_reduction_achieved = 18  # Actual WUE reduction percentage achieved in 2022\n\n# Final answer variables\nglobal_average_PUE = global_average_PUE\nWUE_reduction_target = WUE_reduction_target\nWUE_reduction_achieved = WUE_reduction_achieved\n```",
     "pot_env": {
-      "pue_fy25": 1.17,
-      "wue_fy25": 0.3,
-      "wue_reduction_target": 40,
-      "wue_reduction_achieved": 18,
-      "group1_total": 1.17,
-      "group2_total": 0.3,
-      "difference_points": 22
+      "global_average_PUE": 1.17,
+      "WUE_reduction_target": 40,
+      "WUE_reduction_achieved": 18
     },
-    "calc_details": "Doğrulanmış Python Matematik Sonuçları:\n• pue_fy25: 1.17\n• wue_fy25: 0.30\n• wue_reduction_target: 40\n• wue_reduction_achieved: 18\n• group1_total: 1.17\n• group2_total: 0.30\n• difference_points: 22",
-    "response": "Microsoft'un veri merkezlerinde FY25 döneminde küresel ortalama PUE değeri 1.17 ve WUE değeri 0.30'dur. Şirketin FY25'teki WUE azaltım hedefi 40'tır ve bu hedefin %45'lik bir oranla (18/40) gerçekleşmiştir.",
-    "latency": 19.624014854431152,
+    "calc_details": "Doğrulanmış Python Matematik Sonuçları:\n• global_average_PUE: 1.17\n• WUE_reduction_target: 40\n• WUE_reduction_achieved: 18",
+    "response": "Microsoft'un veri merkezlerinde FY25 döneminde küresel ortalama PUE 1.17 ve WUE azaltım hedefi 40 olmuştur. Bu hedefe ulaşma oranı FY25'te 18'dır. Bu, FY22'den itibaren 18%'lik bir artış demektir.",
+    "latency": 27.064285039901733,
     "ground_truth": {
       "pue": 1.17,
       "wue": 0.27,
@@ -107,22 +105,22 @@
     "query": "2026 Raporu sayfa 6'daki emisyon grafiğine göre, Microsoft'un FY25 yılı için fiilen raporladığı toplam sera gazı emisyonu (Actual reported emissions) ile müdahaleler olmasaydı oluşacağı tahmin edilen emisyon (Estimated emissions without select interventions) miktarları kaç milyon mtCO2e'dir? Yapılan müdahalelerle engellenen emisyon farkı kaçtır?",
     "is_math": true,
     "retrieval_hits": [
-      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.6) (Score: 1.2850)",
-      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.63) (Score: 1.1521)",
-      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.30) (Score: 1.0793)",
-      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.64) (Score: 1.0544)",
-      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.35) (Score: 1.0433)",
-      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.53) (Score: 1.0095)"
+      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.6) (Score: 1.5794)",
+      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.6) (Score: 1.2734)",
+      "Microsoft_2025_Sustainability_Report.pdf (p.88) (Score: 0.8221)",
+      "Microsoft_2025_Sustainability_Report.pdf (p.88) (Score: 0.8193)",
+      "Microsoft_2024_Sustainability_Report.pdf (p.86) (Score: 0.8542)",
+      "Microsoft_2024_Sustainability_Report.pdf (p.85) (Score: 0.8426)"
     ],
-    "pot_code": "```python\n# Extracted numbers from report\nreported_emissions = 16 * 10**6 # Actual reported emissions in tons of CO2e\nestimated_emissions = 22 * 10**6 # Estimated emissions without select interventions in tons of CO2e\n\n# Difference in emissions points\nemission_difference = estimated_emissions - reported_emissions\n```",
+    "pot_code": "```python\n# Extracted numbers from report\nactual_emissions_fy25 = 14 * 10**6  # Actual reported emissions in FY25 (14M mtCO2e)\nestimated_emissions_without_interventions_fy25 = 34 * 10**6  # Estimated emissions without interventions in FY25 (34M mtCO2e)\n\n# Difference in emissions points\ndifference_points = estimated_emissions_without_interventions_fy25 - actual_emissions_fy25\n```",
     "pot_env": {
-      "reported_emissions": 16000000,
-      "estimated_emissions": 22000000,
-      "emission_difference": 6000000
+      "actual_emissions_fy25": 14000000,
+      "estimated_emissions_without_interventions_fy25": 34000000,
+      "difference_points": 20000000
     },
-    "calc_details": "Doğrulanmış Python Matematik Sonuçları:\n• reported_emissions: 16000000\n• estimated_emissions: 22000000\n• emission_difference: 6000000",
-    "response": "Microsoft'un FY25 yılı için fiilen raporladığı toplam sera gazı emisyonu 16 milyon mtCO2e'dur ve müdahaleler olmasaydı oluşan tahmin edilen emisyon 22 milyon mtCO2e'dur. Bu müdahalelerle engellenen emisyon farkı 6 milyon mtCO2e'dur.",
-    "latency": 11.909573078155518,
+    "calc_details": "Doğrulanmış Python Matematik Sonuçları:\n• actual_emissions_fy25: 14000000\n• estimated_emissions_without_interventions_fy25: 34000000\n• difference_points: 20000000",
+    "response": "Microsoft'un FY25 yılı için fiilen raporladığı toplam sera gazı emisyonu 14 milyon mtCO2e'dur ve müdahaleler olmasaydı oluşan tahmin edilen emisyon 34 milyon mtCO2e'dur. Yapılan müdahalelerle engellenen emisyon farkı 20 milyon mtCO2e'dur.",
+    "latency": 28.152338981628418,
     "ground_truth": {
       "actual": 20,
       "estimated_without": 34,
@@ -136,17 +134,17 @@
     "is_math": false,
     "retrieval_hits": [
       "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.49) (Score: 0.9337)",
-      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.30) (Score: 0.9186)",
+      "2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf (p.30) (Score: 0.9199)",
       "Microsoft_2025_Sustainability_Report.pdf (p.11) (Score: 0.8949)",
       "Microsoft_2025_Sustainability_Report.pdf (p.21) (Score: 0.8933)",
       "Microsoft_2024_Sustainability_Report.pdf (p.19) (Score: 0.8879)",
-      "Microsoft_2025_Sustainability_Report.pdf (p.12) (Score: 0.8872)"
+      "Microsoft_2024_Sustainability_Report.pdf (p.10) (Score: 0.8656)"
     ],
     "pot_code": null,
     "pot_env": null,
     "calc_details": null,
-    "response": "Microsoft'un FY23, FY24 ve FY25 mali yıllarında ilgili yılların raporlarında duyurulan yıllık sözleşmeye bağlanmış karbon uzaklaştırma miktarları şöyledir:\n\n- FY23: Microsoft, FY23 için 5.015 million metric tons'ı sözleşmeye bağlarsız karbon uzaklaştırma yapsa da procured.\n- FY24: Microsoft, FY24 için 596,922 metric tons'ı sözleşmeye bağlarsız karbon uzaklaştırma yapsa da procured.\n- FY25: Microsoft, FY25 için 892,002 metric tons'ı sözleşmeye bağlarsız karbon uzaklaştırma yapsa da procured. \n\nBu rakamlar Microsoft'un karbon negatif hedeflerine ulaşmak için yürüten çabaların bir parçasıdır.",
-    "latency": 10.423345804214478,
+    "response": "Microsoft'un FY23, FY24 ve FY25 raporlarında duyurulan yıllık sözleşmeye bağlanan karbon uzaklaştırma miktarları şöyledir:\n\n- FY23: Microsoft, FY23'de 5,015,019 metric ton karbon uzaklaştırma sözleşmesine katıldı.\n- FY24: Microsoft, FY24'de 2,804,056 metric ton karbon uzaklaştırma sözleşmesine katıldı.\n- FY25: Microsoft, FY25'de 2,800,000 metric ton karbon uzaklaştırma sözleşmesine katıldı.\n\nBu miktarlar Microsoft'un karbon negatif hedeflerine ulaşmak için attığı önemli adımlardan bazılarıdır.",
+    "latency": 21.393203258514404,
     "ground_truth": {
       "fy23": "5,015,019",
       "fy24": "21,927,370 (veya ~22 milyon)",
