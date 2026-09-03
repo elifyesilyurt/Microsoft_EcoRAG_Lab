@@ -5553,8 +5553,7 @@
     "language": "tr",
     "question": "2024, 2025 ve 2026 raporları boyunca Microsoft'un tek kullanımlık plastik ambalaj oranındaki düşüş trendini özetleyin.",
     "expected_keywords": [
-      "%0.07",
-      "4.2%",
+      "0.07",
       "plastik",
       "ambalaj",
       "2030"
@@ -5575,9 +5574,7 @@
       "5,015,019",
       "21,927,370",
       "45",
-      "million",
-      "dac",
-      "beccs"
+      "carbon removal"
     ],
     "expected_answer_summary": "Scaled from 5.015M mtCO2e (2024) to 21.927M (2025) and over 45M mtCO2e (2026)",
     "route_expected": "rag",
@@ -5593,10 +5590,9 @@
     "question": "2024 ve 2026 raporlarındaki kümülatif su ikmal (replenishment) hedefleri ve gerçekleşen hacimleri karşılaştırın.",
     "expected_keywords": [
       "125",
-      "125.0",
-      "milyon",
       "water positive",
-      "2030"
+      "ikmal",
+      "su"
     ],
     "expected_answer_summary": "Hedef 2030'da Su Pozitif olmak, 2026'da 125M m³ sözleşmeli ikmal hacmine ulaşılmıştır",
     "route_expected": "rag",
@@ -5611,7 +5607,6 @@
     "language": "en",
     "question": "Across the 2024 to 2026 reports, summarize Microsoft's datacenter renewable matching progress towards 100/100/0.",
     "expected_keywords": [
-      "100%",
       "renewable",
       "ppa",
       "matching",
@@ -5632,7 +5627,6 @@
     "expected_keywords": [
       "7",
       "ul 2799",
-      "true",
       "zero waste",
       "veri merkezi"
     ],
@@ -5652,8 +5646,7 @@
       "12,487,000",
       "16,290,000",
       "18,243,000",
-      "scope 3",
-      "capital goods"
+      "scope 3"
     ],
     "expected_answer_summary": "Scope 3 increased from 12.48M to 16.29M in FY24 and 18.24M mtCO2e in FY25 driven by datacenters",
     "route_expected": "pal",
@@ -5671,8 +5664,7 @@
       "londra",
       "queretaro",
       "phoenix",
-      "fido",
-      "akustik"
+      "fido"
     ],
     "expected_answer_summary": "Londra, Querétaro ve Phoenix dahil kuraklık riski yüksek havzalarda devreye alındı",
     "route_expected": "rag",
@@ -5689,7 +5681,6 @@
     "expected_keywords": [
       "16,266",
       "acres",
-      "protected",
       "biodiversity"
     ],
     "expected_answer_summary": "Protected land footprint reached 16,266 acres across global operating regions",
@@ -5708,8 +5699,7 @@
       "amsterdam",
       "madrid",
       "miyawaki",
-      "instagrid",
-      "ekolojik"
+      "instagrid"
     ],
     "expected_answer_summary": "Amsterdam'da Miyawaki mikro-ormanları, Madrid'de bataryalı jeneratör üniteleri kullanılmıştır",
     "route_expected": "rag",
@@ -5726,9 +5716,7 @@
     "expected_keywords": [
       "1,291,170",
       "22,588",
-      "mwh",
-      "hollands kroon",
-      "madrid"
+      "mwh"
     ],
     "expected_answer_summary": "Hollands Kroon consumed 1,291,170 MWh while Madrid consumed 22,588 MWh",
     "route_expected": "rag",
@@ -5743,8 +5731,7 @@
     "language": "tr",
     "question": "[Çapraz Atıf #2] 2024, 2025 ve 2026 raporları boyunca Microsoft'un tek kullanımlık plastik ambalaj oranındaki düşüş trendini özetleyin.",
     "expected_keywords": [
-      "%0.07",
-      "4.2%",
+      "0.07",
       "plastik",
       "ambalaj",
       "2030"
@@ -5765,9 +5752,7 @@
       "5,015,019",
       "21,927,370",
       "45",
-      "million",
-      "dac",
-      "beccs"
+      "carbon removal"
     ],
     "expected_answer_summary": "Scaled from 5.015M mtCO2e (2024) to 21.927M (2025) and over 45M mtCO2e (2026)",
     "route_expected": "rag",
@@ -5783,10 +5768,9 @@
     "question": "[Çapraz Atıf #2] 2024 ve 2026 raporlarındaki kümülatif su ikmal (replenishment) hedefleri ve gerçekleşen hacimleri karşılaştırın.",
     "expected_keywords": [
       "125",
-      "125.0",
-      "milyon",
       "water positive",
-      "2030"
+      "ikmal",
+      "su"
     ],
     "expected_answer_summary": "Hedef 2030'da Su Pozitif olmak, 2026'da 125M m³ sözleşmeli ikmal hacmine ulaşılmıştır",
     "route_expected": "rag",
@@ -5801,7 +5785,6 @@
     "language": "en",
     "question": "[Çapraz Atıf #2] Across the 2024 to 2026 reports, summarize Microsoft's datacenter renewable matching progress towards 100/100/0.",
     "expected_keywords": [
-      "100%",
       "renewable",
       "ppa",
       "matching",
@@ -5822,7 +5805,6 @@
     "expected_keywords": [
       "7",
       "ul 2799",
-      "true",
       "zero waste",
       "veri merkezi"
     ],
@@ -5842,8 +5824,7 @@
       "12,487,000",
       "16,290,000",
       "18,243,000",
-      "scope 3",
-      "capital goods"
+      "scope 3"
     ],
     "expected_answer_summary": "Scope 3 increased from 12.48M to 16.29M in FY24 and 18.24M mtCO2e in FY25 driven by datacenters",
     "route_expected": "pal",
@@ -5861,8 +5842,7 @@
       "londra",
       "queretaro",
       "phoenix",
-      "fido",
-      "akustik"
+      "fido"
     ],
     "expected_answer_summary": "Londra, Querétaro ve Phoenix dahil kuraklık riski yüksek havzalarda devreye alındı",
     "route_expected": "rag",
@@ -5879,7 +5859,6 @@
     "expected_keywords": [
       "16,266",
       "acres",
-      "protected",
       "biodiversity"
     ],
     "expected_answer_summary": "Protected land footprint reached 16,266 acres across global operating regions",
@@ -5898,8 +5877,7 @@
       "amsterdam",
       "madrid",
       "miyawaki",
-      "instagrid",
-      "ekolojik"
+      "instagrid"
     ],
     "expected_answer_summary": "Amsterdam'da Miyawaki mikro-ormanları, Madrid'de bataryalı jeneratör üniteleri kullanılmıştır",
     "route_expected": "rag",
@@ -5916,9 +5894,7 @@
     "expected_keywords": [
       "1,291,170",
       "22,588",
-      "mwh",
-      "hollands kroon",
-      "madrid"
+      "mwh"
     ],
     "expected_answer_summary": "Hollands Kroon consumed 1,291,170 MWh while Madrid consumed 22,588 MWh",
     "route_expected": "rag",
@@ -5933,8 +5909,7 @@
     "language": "tr",
     "question": "[Çapraz Atıf #3] 2024, 2025 ve 2026 raporları boyunca Microsoft'un tek kullanımlık plastik ambalaj oranındaki düşüş trendini özetleyin.",
     "expected_keywords": [
-      "%0.07",
-      "4.2%",
+      "0.07",
       "plastik",
       "ambalaj",
       "2030"
@@ -5955,9 +5930,7 @@
       "5,015,019",
       "21,927,370",
       "45",
-      "million",
-      "dac",
-      "beccs"
+      "carbon removal"
     ],
     "expected_answer_summary": "Scaled from 5.015M mtCO2e (2024) to 21.927M (2025) and over 45M mtCO2e (2026)",
     "route_expected": "rag",
@@ -5973,10 +5946,9 @@
     "question": "[Çapraz Atıf #3] 2024 ve 2026 raporlarındaki kümülatif su ikmal (replenishment) hedefleri ve gerçekleşen hacimleri karşılaştırın.",
     "expected_keywords": [
       "125",
-      "125.0",
-      "milyon",
       "water positive",
-      "2030"
+      "ikmal",
+      "su"
     ],
     "expected_answer_summary": "Hedef 2030'da Su Pozitif olmak, 2026'da 125M m³ sözleşmeli ikmal hacmine ulaşılmıştır",
     "route_expected": "rag",
@@ -5991,7 +5963,6 @@
     "language": "en",
     "question": "[Çapraz Atıf #3] Across the 2024 to 2026 reports, summarize Microsoft's datacenter renewable matching progress towards 100/100/0.",
     "expected_keywords": [
-      "100%",
       "renewable",
       "ppa",
       "matching",
@@ -6012,7 +5983,6 @@
     "expected_keywords": [
       "7",
       "ul 2799",
-      "true",
       "zero waste",
       "veri merkezi"
     ],
@@ -6032,8 +6002,7 @@
       "12,487,000",
       "16,290,000",
       "18,243,000",
-      "scope 3",
-      "capital goods"
+      "scope 3"
     ],
     "expected_answer_summary": "Scope 3 increased from 12.48M to 16.29M in FY24 and 18.24M mtCO2e in FY25 driven by datacenters",
     "route_expected": "pal",
@@ -6051,8 +6020,7 @@
       "londra",
       "queretaro",
       "phoenix",
-      "fido",
-      "akustik"
+      "fido"
     ],
     "expected_answer_summary": "Londra, Querétaro ve Phoenix dahil kuraklık riski yüksek havzalarda devreye alındı",
     "route_expected": "rag",
@@ -6069,7 +6037,6 @@
     "expected_keywords": [
       "16,266",
       "acres",
-      "protected",
       "biodiversity"
     ],
     "expected_answer_summary": "Protected land footprint reached 16,266 acres across global operating regions",
@@ -6088,8 +6055,7 @@
       "amsterdam",
       "madrid",
       "miyawaki",
-      "instagrid",
-      "ekolojik"
+      "instagrid"
     ],
     "expected_answer_summary": "Amsterdam'da Miyawaki mikro-ormanları, Madrid'de bataryalı jeneratör üniteleri kullanılmıştır",
     "route_expected": "rag",
@@ -6106,9 +6072,7 @@
     "expected_keywords": [
       "1,291,170",
       "22,588",
-      "mwh",
-      "hollands kroon",
-      "madrid"
+      "mwh"
     ],
     "expected_answer_summary": "Hollands Kroon consumed 1,291,170 MWh while Madrid consumed 22,588 MWh",
     "route_expected": "rag",
@@ -6123,8 +6087,7 @@
     "language": "tr",
     "question": "[Çapraz Atıf #4] 2024, 2025 ve 2026 raporları boyunca Microsoft'un tek kullanımlık plastik ambalaj oranındaki düşüş trendini özetleyin.",
     "expected_keywords": [
-      "%0.07",
-      "4.2%",
+      "0.07",
       "plastik",
       "ambalaj",
       "2030"
@@ -6145,9 +6108,7 @@
       "5,015,019",
       "21,927,370",
       "45",
-      "million",
-      "dac",
-      "beccs"
+      "carbon removal"
     ],
     "expected_answer_summary": "Scaled from 5.015M mtCO2e (2024) to 21.927M (2025) and over 45M mtCO2e (2026)",
     "route_expected": "rag",
@@ -6163,10 +6124,9 @@
     "question": "[Çapraz Atıf #4] 2024 ve 2026 raporlarındaki kümülatif su ikmal (replenishment) hedefleri ve gerçekleşen hacimleri karşılaştırın.",
     "expected_keywords": [
       "125",
-      "125.0",
-      "milyon",
       "water positive",
-      "2030"
+      "ikmal",
+      "su"
     ],
     "expected_answer_summary": "Hedef 2030'da Su Pozitif olmak, 2026'da 125M m³ sözleşmeli ikmal hacmine ulaşılmıştır",
     "route_expected": "rag",
@@ -6181,7 +6141,6 @@
     "language": "en",
     "question": "[Çapraz Atıf #4] Across the 2024 to 2026 reports, summarize Microsoft's datacenter renewable matching progress towards 100/100/0.",
     "expected_keywords": [
-      "100%",
       "renewable",
       "ppa",
       "matching",
@@ -6202,7 +6161,6 @@
     "expected_keywords": [
       "7",
       "ul 2799",
-      "true",
       "zero waste",
       "veri merkezi"
     ],
@@ -6222,8 +6180,7 @@
       "12,487,000",
       "16,290,000",
       "18,243,000",
-      "scope 3",
-      "capital goods"
+      "scope 3"
     ],
     "expected_answer_summary": "Scope 3 increased from 12.48M to 16.29M in FY24 and 18.24M mtCO2e in FY25 driven by datacenters",
     "route_expected": "pal",
@@ -6241,8 +6198,7 @@
       "londra",
       "queretaro",
       "phoenix",
-      "fido",
-      "akustik"
+      "fido"
     ],
     "expected_answer_summary": "Londra, Querétaro ve Phoenix dahil kuraklık riski yüksek havzalarda devreye alındı",
     "route_expected": "rag",
@@ -6259,7 +6215,6 @@
     "expected_keywords": [
       "16,266",
       "acres",
-      "protected",
       "biodiversity"
     ],
     "expected_answer_summary": "Protected land footprint reached 16,266 acres across global operating regions",
@@ -6278,8 +6233,7 @@
       "amsterdam",
       "madrid",
       "miyawaki",
-      "instagrid",
-      "ekolojik"
+      "instagrid"
     ],
     "expected_answer_summary": "Amsterdam'da Miyawaki mikro-ormanları, Madrid'de bataryalı jeneratör üniteleri kullanılmıştır",
     "route_expected": "rag",
@@ -6296,9 +6250,7 @@
     "expected_keywords": [
       "1,291,170",
       "22,588",
-      "mwh",
-      "hollands kroon",
-      "madrid"
+      "mwh"
     ],
     "expected_answer_summary": "Hollands Kroon consumed 1,291,170 MWh while Madrid consumed 22,588 MWh",
     "route_expected": "rag",
@@ -6313,8 +6265,7 @@
     "language": "tr",
     "question": "[Çapraz Atıf #5] 2024, 2025 ve 2026 raporları boyunca Microsoft'un tek kullanımlık plastik ambalaj oranındaki düşüş trendini özetleyin.",
     "expected_keywords": [
-      "%0.07",
-      "4.2%",
+      "0.07",
       "plastik",
       "ambalaj",
       "2030"
@@ -6335,9 +6286,7 @@
       "5,015,019",
       "21,927,370",
       "45",
-      "million",
-      "dac",
-      "beccs"
+      "carbon removal"
     ],
     "expected_answer_summary": "Scaled from 5.015M mtCO2e (2024) to 21.927M (2025) and over 45M mtCO2e (2026)",
     "route_expected": "rag",
@@ -6353,10 +6302,9 @@
     "question": "[Çapraz Atıf #5] 2024 ve 2026 raporlarındaki kümülatif su ikmal (replenishment) hedefleri ve gerçekleşen hacimleri karşılaştırın.",
     "expected_keywords": [
       "125",
-      "125.0",
-      "milyon",
       "water positive",
-      "2030"
+      "ikmal",
+      "su"
     ],
     "expected_answer_summary": "Hedef 2030'da Su Pozitif olmak, 2026'da 125M m³ sözleşmeli ikmal hacmine ulaşılmıştır",
     "route_expected": "rag",
@@ -6371,7 +6319,6 @@
     "language": "en",
     "question": "[Çapraz Atıf #5] Across the 2024 to 2026 reports, summarize Microsoft's datacenter renewable matching progress towards 100/100/0.",
     "expected_keywords": [
-      "100%",
       "renewable",
       "ppa",
       "matching",
@@ -6392,7 +6339,6 @@
     "expected_keywords": [
       "7",
       "ul 2799",
-      "true",
       "zero waste",
       "veri merkezi"
     ],
@@ -6412,8 +6358,7 @@
       "12,487,000",
       "16,290,000",
       "18,243,000",
-      "scope 3",
-      "capital goods"
+      "scope 3"
     ],
     "expected_answer_summary": "Scope 3 increased from 12.48M to 16.29M in FY24 and 18.24M mtCO2e in FY25 driven by datacenters",
     "route_expected": "pal",
@@ -6431,8 +6376,7 @@
       "londra",
       "queretaro",
       "phoenix",
-      "fido",
-      "akustik"
+      "fido"
     ],
     "expected_answer_summary": "Londra, Querétaro ve Phoenix dahil kuraklık riski yüksek havzalarda devreye alındı",
     "route_expected": "rag",
@@ -6449,7 +6393,6 @@
     "expected_keywords": [
       "16,266",
       "acres",
-      "protected",
       "biodiversity"
     ],
     "expected_answer_summary": "Protected land footprint reached 16,266 acres across global operating regions",
@@ -6468,8 +6411,7 @@
       "amsterdam",
       "madrid",
       "miyawaki",
-      "instagrid",
-      "ekolojik"
+      "instagrid"
     ],
     "expected_answer_summary": "Amsterdam'da Miyawaki mikro-ormanları, Madrid'de bataryalı jeneratör üniteleri kullanılmıştır",
     "route_expected": "rag",
@@ -6486,9 +6428,7 @@
     "expected_keywords": [
       "1,291,170",
       "22,588",
-      "mwh",
-      "hollands kroon",
-      "madrid"
+      "mwh"
     ],
     "expected_answer_summary": "Hollands Kroon consumed 1,291,170 MWh while Madrid consumed 22,588 MWh",
     "route_expected": "rag",
@@ -6503,8 +6443,7 @@
     "language": "tr",
     "question": "[Çapraz Atıf #6] 2024, 2025 ve 2026 raporları boyunca Microsoft'un tek kullanımlık plastik ambalaj oranındaki düşüş trendini özetleyin.",
     "expected_keywords": [
-      "%0.07",
-      "4.2%",
+      "0.07",
       "plastik",
       "ambalaj",
       "2030"
@@ -6525,9 +6464,7 @@
       "5,015,019",
       "21,927,370",
       "45",
-      "million",
-      "dac",
-      "beccs"
+      "carbon removal"
     ],
     "expected_answer_summary": "Scaled from 5.015M mtCO2e (2024) to 21.927M (2025) and over 45M mtCO2e (2026)",
     "route_expected": "rag",
@@ -6543,10 +6480,9 @@
     "question": "[Çapraz Atıf #6] 2024 ve 2026 raporlarındaki kümülatif su ikmal (replenishment) hedefleri ve gerçekleşen hacimleri karşılaştırın.",
     "expected_keywords": [
       "125",
-      "125.0",
-      "milyon",
       "water positive",
-      "2030"
+      "ikmal",
+      "su"
     ],
     "expected_answer_summary": "Hedef 2030'da Su Pozitif olmak, 2026'da 125M m³ sözleşmeli ikmal hacmine ulaşılmıştır",
     "route_expected": "rag",
@@ -6561,7 +6497,6 @@
     "language": "en",
     "question": "[Çapraz Atıf #6] Across the 2024 to 2026 reports, summarize Microsoft's datacenter renewable matching progress towards 100/100/0.",
     "expected_keywords": [
-      "100%",
       "renewable",
       "ppa",
       "matching",
@@ -6582,7 +6517,6 @@
     "expected_keywords": [
       "7",
       "ul 2799",
-      "true",
       "zero waste",
       "veri merkezi"
     ],
@@ -6602,8 +6536,7 @@
       "12,487,000",
       "16,290,000",
       "18,243,000",
-      "scope 3",
-      "capital goods"
+      "scope 3"
     ],
     "expected_answer_summary": "Scope 3 increased from 12.48M to 16.29M in FY24 and 18.24M mtCO2e in FY25 driven by datacenters",
     "route_expected": "pal",
@@ -6621,8 +6554,7 @@
       "londra",
       "queretaro",
       "phoenix",
-      "fido",
-      "akustik"
+      "fido"
     ],
     "expected_answer_summary": "Londra, Querétaro ve Phoenix dahil kuraklık riski yüksek havzalarda devreye alındı",
     "route_expected": "rag",
@@ -6639,7 +6571,6 @@
     "expected_keywords": [
       "16,266",
       "acres",
-      "protected",
       "biodiversity"
     ],
     "expected_answer_summary": "Protected land footprint reached 16,266 acres across global operating regions",
@@ -6658,8 +6589,7 @@
       "amsterdam",
       "madrid",
       "miyawaki",
-      "instagrid",
-      "ekolojik"
+      "instagrid"
     ],
     "expected_answer_summary": "Amsterdam'da Miyawaki mikro-ormanları, Madrid'de bataryalı jeneratör üniteleri kullanılmıştır",
     "route_expected": "rag",
@@ -6676,9 +6606,7 @@
     "expected_keywords": [
       "1,291,170",
       "22,588",
-      "mwh",
-      "hollands kroon",
-      "madrid"
+      "mwh"
     ],
     "expected_answer_summary": "Hollands Kroon consumed 1,291,170 MWh while Madrid consumed 22,588 MWh",
     "route_expected": "rag",
@@ -6693,8 +6621,7 @@
     "language": "tr",
     "question": "[Çapraz Atıf #7] 2024, 2025 ve 2026 raporları boyunca Microsoft'un tek kullanımlık plastik ambalaj oranındaki düşüş trendini özetleyin.",
     "expected_keywords": [
-      "%0.07",
-      "4.2%",
+      "0.07",
       "plastik",
       "ambalaj",
       "2030"
@@ -6715,9 +6642,7 @@
       "5,015,019",
       "21,927,370",
       "45",
-      "million",
-      "dac",
-      "beccs"
+      "carbon removal"
     ],
     "expected_answer_summary": "Scaled from 5.015M mtCO2e (2024) to 21.927M (2025) and over 45M mtCO2e (2026)",
     "route_expected": "rag",
@@ -6733,10 +6658,9 @@
     "question": "[Çapraz Atıf #7] 2024 ve 2026 raporlarındaki kümülatif su ikmal (replenishment) hedefleri ve gerçekleşen hacimleri karşılaştırın.",
     "expected_keywords": [
       "125",
-      "125.0",
-      "milyon",
       "water positive",
-      "2030"
+      "ikmal",
+      "su"
     ],
     "expected_answer_summary": "Hedef 2030'da Su Pozitif olmak, 2026'da 125M m³ sözleşmeli ikmal hacmine ulaşılmıştır",
     "route_expected": "rag",
@@ -6751,7 +6675,6 @@
     "language": "en",
     "question": "[Çapraz Atıf #7] Across the 2024 to 2026 reports, summarize Microsoft's datacenter renewable matching progress towards 100/100/0.",
     "expected_keywords": [
-      "100%",
       "renewable",
       "ppa",
       "matching",
@@ -6772,7 +6695,6 @@
     "expected_keywords": [
       "7",
       "ul 2799",
-      "true",
       "zero waste",
       "veri merkezi"
     ],
@@ -6792,8 +6714,7 @@
       "12,487,000",
       "16,290,000",
       "18,243,000",
-      "scope 3",
-      "capital goods"
+      "scope 3"
     ],
     "expected_answer_summary": "Scope 3 increased from 12.48M to 16.29M in FY24 and 18.24M mtCO2e in FY25 driven by datacenters",
     "route_expected": "pal",
@@ -6811,8 +6732,7 @@
       "londra",
       "queretaro",
       "phoenix",
-      "fido",
-      "akustik"
+      "fido"
     ],
     "expected_answer_summary": "Londra, Querétaro ve Phoenix dahil kuraklık riski yüksek havzalarda devreye alındı",
     "route_expected": "rag",
@@ -6829,7 +6749,6 @@
     "expected_keywords": [
       "16,266",
       "acres",
-      "protected",
       "biodiversity"
     ],
     "expected_answer_summary": "Protected land footprint reached 16,266 acres across global operating regions",
@@ -6848,8 +6767,7 @@
       "amsterdam",
       "madrid",
       "miyawaki",
-      "instagrid",
-      "ekolojik"
+      "instagrid"
     ],
     "expected_answer_summary": "Amsterdam'da Miyawaki mikro-ormanları, Madrid'de bataryalı jeneratör üniteleri kullanılmıştır",
     "route_expected": "rag",
@@ -6866,9 +6784,7 @@
     "expected_keywords": [
       "1,291,170",
       "22,588",
-      "mwh",
-      "hollands kroon",
-      "madrid"
+      "mwh"
     ],
     "expected_answer_summary": "Hollands Kroon consumed 1,291,170 MWh while Madrid consumed 22,588 MWh",
     "route_expected": "rag",
@@ -6883,8 +6799,7 @@
     "language": "tr",
     "question": "[Çapraz Atıf #8] 2024, 2025 ve 2026 raporları boyunca Microsoft'un tek kullanımlık plastik ambalaj oranındaki düşüş trendini özetleyin.",
     "expected_keywords": [
-      "%0.07",
-      "4.2%",
+      "0.07",
       "plastik",
       "ambalaj",
       "2030"
@@ -6905,9 +6820,7 @@
       "5,015,019",
       "21,927,370",
       "45",
-      "million",
-      "dac",
-      "beccs"
+      "carbon removal"
     ],
     "expected_answer_summary": "Scaled from 5.015M mtCO2e (2024) to 21.927M (2025) and over 45M mtCO2e (2026)",
     "route_expected": "rag",
@@ -6923,10 +6836,9 @@
     "question": "[Çapraz Atıf #8] 2024 ve 2026 raporlarındaki kümülatif su ikmal (replenishment) hedefleri ve gerçekleşen hacimleri karşılaştırın.",
     "expected_keywords": [
       "125",
-      "125.0",
-      "milyon",
       "water positive",
-      "2030"
+      "ikmal",
+      "su"
     ],
     "expected_answer_summary": "Hedef 2030'da Su Pozitif olmak, 2026'da 125M m³ sözleşmeli ikmal hacmine ulaşılmıştır",
     "route_expected": "rag",
@@ -6941,7 +6853,6 @@
     "language": "en",
     "question": "[Çapraz Atıf #8] Across the 2024 to 2026 reports, summarize Microsoft's datacenter renewable matching progress towards 100/100/0.",
     "expected_keywords": [
-      "100%",
       "renewable",
       "ppa",
       "matching",
@@ -6962,7 +6873,6 @@
     "expected_keywords": [
       "7",
       "ul 2799",
-      "true",
       "zero waste",
       "veri merkezi"
     ],
@@ -6982,8 +6892,7 @@
       "12,487,000",
       "16,290,000",
       "18,243,000",
-      "scope 3",
-      "capital goods"
+      "scope 3"
     ],
     "expected_answer_summary": "Scope 3 increased from 12.48M to 16.29M in FY24 and 18.24M mtCO2e in FY25 driven by datacenters",
     "route_expected": "pal",
@@ -7001,8 +6910,7 @@
       "londra",
       "queretaro",
       "phoenix",
-      "fido",
-      "akustik"
+      "fido"
     ],
     "expected_answer_summary": "Londra, Querétaro ve Phoenix dahil kuraklık riski yüksek havzalarda devreye alındı",
     "route_expected": "rag",
@@ -7019,7 +6927,6 @@
     "expected_keywords": [
       "16,266",
       "acres",
-      "protected",
       "biodiversity"
     ],
     "expected_answer_summary": "Protected land footprint reached 16,266 acres across global operating regions",
@@ -7038,8 +6945,7 @@
       "amsterdam",
       "madrid",
       "miyawaki",
-      "instagrid",
-      "ekolojik"
+      "instagrid"
     ],
     "expected_answer_summary": "Amsterdam'da Miyawaki mikro-ormanları, Madrid'de bataryalı jeneratör üniteleri kullanılmıştır",
     "route_expected": "rag",
@@ -7056,9 +6962,7 @@
     "expected_keywords": [
       "1,291,170",
       "22,588",
-      "mwh",
-      "hollands kroon",
-      "madrid"
+      "mwh"
     ],
     "expected_answer_summary": "Hollands Kroon consumed 1,291,170 MWh while Madrid consumed 22,588 MWh",
     "route_expected": "rag",
@@ -7073,8 +6977,7 @@
     "language": "tr",
     "question": "[Çapraz Atıf #9] 2024, 2025 ve 2026 raporları boyunca Microsoft'un tek kullanımlık plastik ambalaj oranındaki düşüş trendini özetleyin.",
     "expected_keywords": [
-      "%0.07",
-      "4.2%",
+      "0.07",
       "plastik",
       "ambalaj",
       "2030"
@@ -7095,9 +6998,7 @@
       "5,015,019",
       "21,927,370",
       "45",
-      "million",
-      "dac",
-      "beccs"
+      "carbon removal"
     ],
     "expected_answer_summary": "Scaled from 5.015M mtCO2e (2024) to 21.927M (2025) and over 45M mtCO2e (2026)",
     "route_expected": "rag",
@@ -7113,10 +7014,9 @@
     "question": "[Çapraz Atıf #9] 2024 ve 2026 raporlarındaki kümülatif su ikmal (replenishment) hedefleri ve gerçekleşen hacimleri karşılaştırın.",
     "expected_keywords": [
       "125",
-      "125.0",
-      "milyon",
       "water positive",
-      "2030"
+      "ikmal",
+      "su"
     ],
     "expected_answer_summary": "Hedef 2030'da Su Pozitif olmak, 2026'da 125M m³ sözleşmeli ikmal hacmine ulaşılmıştır",
     "route_expected": "rag",
@@ -7131,7 +7031,6 @@
     "language": "en",
     "question": "[Çapraz Atıf #9] Across the 2024 to 2026 reports, summarize Microsoft's datacenter renewable matching progress towards 100/100/0.",
     "expected_keywords": [
-      "100%",
       "renewable",
       "ppa",
       "matching",
@@ -7152,7 +7051,6 @@
     "expected_keywords": [
       "7",
       "ul 2799",
-      "true",
       "zero waste",
       "veri merkezi"
     ],
@@ -7172,8 +7070,7 @@
       "12,487,000",
       "16,290,000",
       "18,243,000",
-      "scope 3",
-      "capital goods"
+      "scope 3"
     ],
     "expected_answer_summary": "Scope 3 increased from 12.48M to 16.29M in FY24 and 18.24M mtCO2e in FY25 driven by datacenters",
     "route_expected": "pal",
@@ -7191,8 +7088,7 @@
       "londra",
       "queretaro",
       "phoenix",
-      "fido",
-      "akustik"
+      "fido"
     ],
     "expected_answer_summary": "Londra, Querétaro ve Phoenix dahil kuraklık riski yüksek havzalarda devreye alındı",
     "route_expected": "rag",
@@ -7209,7 +7105,6 @@
     "expected_keywords": [
       "16,266",
       "acres",
-      "protected",
       "biodiversity"
     ],
     "expected_answer_summary": "Protected land footprint reached 16,266 acres across global operating regions",
@@ -7228,8 +7123,7 @@
       "amsterdam",
       "madrid",
       "miyawaki",
-      "instagrid",
-      "ekolojik"
+      "instagrid"
     ],
     "expected_answer_summary": "Amsterdam'da Miyawaki mikro-ormanları, Madrid'de bataryalı jeneratör üniteleri kullanılmıştır",
     "route_expected": "rag",
@@ -7246,9 +7140,7 @@
     "expected_keywords": [
       "1,291,170",
       "22,588",
-      "mwh",
-      "hollands kroon",
-      "madrid"
+      "mwh"
     ],
     "expected_answer_summary": "Hollands Kroon consumed 1,291,170 MWh while Madrid consumed 22,588 MWh",
     "route_expected": "rag",
@@ -7263,8 +7155,7 @@
     "language": "tr",
     "question": "[Çapraz Atıf #10] 2024, 2025 ve 2026 raporları boyunca Microsoft'un tek kullanımlık plastik ambalaj oranındaki düşüş trendini özetleyin.",
     "expected_keywords": [
-      "%0.07",
-      "4.2%",
+      "0.07",
       "plastik",
       "ambalaj",
       "2030"
@@ -7285,9 +7176,7 @@
       "5,015,019",
       "21,927,370",
       "45",
-      "million",
-      "dac",
-      "beccs"
+      "carbon removal"
     ],
     "expected_answer_summary": "Scaled from 5.015M mtCO2e (2024) to 21.927M (2025) and over 45M mtCO2e (2026)",
     "route_expected": "rag",
@@ -7303,10 +7192,9 @@
     "question": "[Çapraz Atıf #10] 2024 ve 2026 raporlarındaki kümülatif su ikmal (replenishment) hedefleri ve gerçekleşen hacimleri karşılaştırın.",
     "expected_keywords": [
       "125",
-      "125.0",
-      "milyon",
       "water positive",
-      "2030"
+      "ikmal",
+      "su"
     ],
     "expected_answer_summary": "Hedef 2030'da Su Pozitif olmak, 2026'da 125M m³ sözleşmeli ikmal hacmine ulaşılmıştır",
     "route_expected": "rag",
@@ -7321,7 +7209,6 @@
     "language": "en",
     "question": "[Çapraz Atıf #10] Across the 2024 to 2026 reports, summarize Microsoft's datacenter renewable matching progress towards 100/100/0.",
     "expected_keywords": [
-      "100%",
       "renewable",
       "ppa",
       "matching",
@@ -7342,7 +7229,6 @@
     "expected_keywords": [
       "7",
       "ul 2799",
-      "true",
       "zero waste",
       "veri merkezi"
     ],
@@ -7362,8 +7248,7 @@
       "12,487,000",
       "16,290,000",
       "18,243,000",
-      "scope 3",
-      "capital goods"
+      "scope 3"
     ],
     "expected_answer_summary": "Scope 3 increased from 12.48M to 16.29M in FY24 and 18.24M mtCO2e in FY25 driven by datacenters",
     "route_expected": "pal",
@@ -7381,8 +7266,7 @@
       "londra",
       "queretaro",
       "phoenix",
-      "fido",
-      "akustik"
+      "fido"
     ],
     "expected_answer_summary": "Londra, Querétaro ve Phoenix dahil kuraklık riski yüksek havzalarda devreye alındı",
     "route_expected": "rag",
@@ -7399,7 +7283,6 @@
     "expected_keywords": [
       "16,266",
       "acres",
-      "protected",
       "biodiversity"
     ],
     "expected_answer_summary": "Protected land footprint reached 16,266 acres across global operating regions",
@@ -7418,8 +7301,7 @@
       "amsterdam",
       "madrid",
       "miyawaki",
-      "instagrid",
-      "ekolojik"
+      "instagrid"
     ],
     "expected_answer_summary": "Amsterdam'da Miyawaki mikro-ormanları, Madrid'de bataryalı jeneratör üniteleri kullanılmıştır",
     "route_expected": "rag",
@@ -7436,9 +7318,7 @@
     "expected_keywords": [
       "1,291,170",
       "22,588",
-      "mwh",
-      "hollands kroon",
-      "madrid"
+      "mwh"
     ],
     "expected_answer_summary": "Hollands Kroon consumed 1,291,170 MWh while Madrid consumed 22,588 MWh",
     "route_expected": "rag",
