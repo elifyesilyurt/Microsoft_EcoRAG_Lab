@@ -35,6 +35,8 @@ Thumbs.db
 
 # Temporary Database Backups & SQLite Locks
 rag_storage_BACKUP*.db
+*.bak
+*.db.bak
 *.db-journal
 *.db-wal
 *.db-shm

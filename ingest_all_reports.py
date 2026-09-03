@@ -70,8 +70,49 @@ def clean_text(text: str) -> str:
         return ""
     text = text.replace('\xa0', ' ').replace('\r', '\n')
     text = re.sub(r'[ \t]+', ' ', text)
+    # Satır sonu hece bölmelerini birleştir (örn. corpo-\nrate -> corporate)
+    text = re.sub(r'(\b[a-zA-Z]{2,})-\n\s*([a-zA-Z]{2,}\b)', r'\1\2', text)
     text = re.sub(r'\n{3,}', '\n\n', text)
     return text.strip()
+
+
+def extract_clean_overlap(text: str, target_overlap: int = CHUNK_OVERLAP) -> str:
+    """
+    Önceki chunk'ın sonundan güvenli bir örtüşme (overlap) penceresi alır.
+    Rastgele bir karakter indeksinden değil; öncelikle cümle sonundan (. ! ? \n),
+    ikincil olarak büyük harfle başlayan bir kelimeden veya boşluktan hizalayarak başlatır.
+    """
+    if not text or target_overlap <= 0:
+        return ""
+    if len(text) <= target_overlap:
+        return text
+
+    # Geriye doğru 2 katı kadar bir pencereye bakarak en uygun doğal sınırı ara
+    window = text[-min(len(text), int(target_overlap * 2.0)):]
+
+    # 1. Öncelik: Tam cümle başlangıcı (noktalama sonrası büyük harf veya tırnak)
+    matches = list(re.finditer(r'(?:[\.\!\?](?:\s+|\n+))([A-Z0-9"“\'])', window))
+    if matches:
+        best_match = min(matches, key=lambda m: abs((len(window) - m.start(1)) - target_overlap))
+        start_idx = best_match.start(1)
+        if len(window) - start_idx >= 35:
+            return window[start_idx:].strip()
+
+    # 2. Öncelik: Büyük Harfle başlayan bir kelime/başlık/özne sınırı
+    cap_matches = list(re.finditer(r'(?:\s+|\n+)([A-Z0-9"“\'])', window))
+    if cap_matches:
+        best_cap = min(cap_matches, key=lambda m: abs((len(window) - m.start(1)) - target_overlap))
+        start_idx = best_cap.start(1)
+        if len(window) - start_idx >= 30:
+            return window[start_idx:].strip()
+
+    # 3. Öncelik: En yakın kelime sınırı (boşluk)
+    cutoff = len(text) - target_overlap
+    space_idx = text.find(' ', cutoff)
+    if space_idx != -1 and space_idx < len(text) - 20:
+        return text[space_idx + 1:].strip()
+
+    return text[-target_overlap:].strip()
 
 
 def remove_nav_artifacts(text: str) -> str:
@@ -130,11 +171,12 @@ def recursive_character_splitter(
     separators: Optional[List[str]] = None
 ) -> List[str]:
     """
-    Metni hiyerarşik ayırıcılar (Paragraf -> Satır -> Cümle -> Boşluk) kullanarak
-    hedef boyutta akıllı parçalara (chunks) böler.
+    Metni hiyerarşik ayırıcılar (Paragraf -> Cümle -> Satır -> Kelime) kullanarak
+    hedef boyutta akıllı ve sınır-duyarlı parçalara (chunks) böler.
     """
     if separators is None:
-        separators = ["\n\n", "\n", ". ", "; ", ", ", " ", ""]
+        # Cümle sonları (. \n, . , !\n, ?\n) tek satır sonu (\n)'den önce değerlendirilir
+        separators = ["\n\n", ".\n", ". ", "!\n", "! ", "?\n", "? ", "\n", "; ", ", ", " ", ""]
 
     text = clean_text(text)
     if len(text) < min_length:
@@ -180,8 +222,9 @@ def recursive_character_splitter(
                         combined = clean_text("".join(current_chunk))
                         if len(combined) >= min_length:
                             chunks.append(combined)
-                    current_chunk = [sc]
-                    current_len = len(sc)
+                    overlap_sc = extract_clean_overlap("".join(current_chunk), chunk_overlap) if chunk_overlap > 0 else ""
+                    current_chunk = [overlap_sc, sc] if overlap_sc else [sc]
+                    current_len = sum(len(x) for x in current_chunk)
         else:
             if current_len + piece_len <= chunk_size:
                 current_chunk.append(piece_str)
@@ -193,11 +236,9 @@ def recursive_character_splitter(
                         chunks.append(combined)
 
                 if chunk_overlap > 0 and current_chunk:
-                    overlap_text = "".join(current_chunk)
-                    if len(overlap_text) > chunk_overlap:
-                        overlap_text = overlap_text[-chunk_overlap:]
-                    current_chunk = [overlap_text, piece_str]
-                    current_len = len(overlap_text) + piece_len
+                    overlap_text = extract_clean_overlap("".join(current_chunk), chunk_overlap)
+                    current_chunk = [overlap_text, piece_str] if overlap_text else [piece_str]
+                    current_len = sum(len(x) for x in current_chunk)
                 else:
                     current_chunk = [piece_str]
                     current_len = piece_len
