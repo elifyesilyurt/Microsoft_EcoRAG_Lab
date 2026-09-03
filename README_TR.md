@@ -179,10 +179,10 @@ python generate_and_run_500_benchmark.py
 |---|---|---|---|---|---|---|
 | 🟢 **1. Olgusal Doğruluk (Factual Retrieval - %40)** | 200 | 173 | **%86.50** | **%0.00** | 0.6575 | Asimetrik Hibrit Vektör RAG |
 | 🟡 **2. Sayısal, Trend & PAL Matematik (%20)** | 100 | 100 | **%100.00** | **%0.00** | 1.0000 | PAL Deterministik Motoru |
-| 🟣 **3. Çapraz Atıf & Karşılaştırma (%20)** | 100 | 50 | **%50.00** | **%0.00** | 0.5086 | Çok Yıllı Çapraz Sentez |
+| 🟣 **3. Çapraz Atıf & Karşılaştırma (%20)** | 100 | 90 | **%90.00** | **%0.00** | 0.6180 | Year-Stratified Çok Yıllı Sentez |
 | 🔴 **4. Adversarial / Negatif Ret (%10)** | 50 | 50 | **%100.00** | **%0.00** | 1.0000 | Sıfır Halüsinasyon Kalkanı |
 | 🔵 **5. Dil, Format & Edge-Case (%10)** | 50 | 43 | **%86.00** | **%0.00** | 0.7424 | Unicode NFD & Dipnot Modülü |
-| **🏆 Sistem Geneli Toplam Skor** | **500 Soru** | **416** | **%83.20 Doğruluk** | **%0.00 Halüsinasyon** | **0.7248** | **Sıfır Hatalı/Uydurma Veri Üretimi** |
+| **🏆 Sistem Geneli Toplam Skor** | **500 Soru** | **456** | **%91.20 Doğruluk** | **%0.00 Halüsinasyon** | **0.7471** | **Sıfır Hatalı/Uydurma Veri Üretimi** |
 
 > 📄 Tüm soruların tekil milisaniye logları, sadakat metrikleri ve JSON dökümü için **[BENCHMARK_500_REPORT.md](BENCHMARK_500_REPORT.md)** ve **[benchmark_500_results.json](benchmark_500_results.json)** dosyalarına bakınız.
 

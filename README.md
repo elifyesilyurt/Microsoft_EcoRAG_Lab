@@ -179,10 +179,10 @@ python generate_and_run_500_benchmark.py
 |---|---|---|---|---|---|---|
 | 🟢 **1. Factual / Retrieval Accuracy (%40)** | 200 | 173 | **86.50%** | **0.00%** | 0.6575 | Asymmetric Hybrid Vector RAG |
 | 🟡 **2. Quantitative, Trend & PAL Math (%20)** | 100 | 100 | **100.00%** | **0.00%** | 1.0000 | Deterministic PAL Engine |
-| 🟣 **3. Cross-Document Reasoning (%20)** | 100 | 50 | **50.00%** | **0.00%** | 0.5086 | Multi-Year Cross Synthesis |
+| 🟣 **3. Cross-Document Reasoning (%20)** | 100 | 90 | **90.00%** | **0.00%** | 0.6180 | Year-Stratified Multi-RAG |
 | 🔴 **4. Adversarial / Negative Rejection (%10)** | 50 | 50 | **100.00%** | **0.00%** | 1.0000 | Zero-Hallucination Safe Guardrail |
 | 🔵 **5. Language, Format & Edge-Cases (%10)** | 50 | 43 | **86.00%** | **0.00%** | 0.7424 | Unicode NFD & Footnote Handler |
-| **🏆 System-Wide Overall Score** | **500 Questions** | **416** | **83.20% Accuracy** | **0.00% Hallucination** | **0.7248** | **Zero False Information Produced** |
+| **🏆 System-Wide Overall Score** | **500 Questions** | **456** | **91.20% Accuracy** | **0.00% Hallucination** | **0.7471** | **Zero False Information Produced** |
 
 > 📄 For full individual question logs, metrics, and JSON data, see **[BENCHMARK_500_REPORT.md](BENCHMARK_500_REPORT.md)** and **[benchmark_500_results.json](benchmark_500_results.json)**.
 
