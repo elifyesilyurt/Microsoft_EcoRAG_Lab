@@ -2349,25 +2349,25 @@ with tab_system:
             st.markdown(f"#### :material/verified: **{T['sys_card2_title']}**")
             if is_tr:
                 st.markdown("""
-                - **Toplam Test Kapsamı:** `50 Soru (5 Zorluk / 4 Kullanıcı Tipi / 4 Senaryo)`
-                - **Sayısal & PAL Matematik Doğruluğu:** `%100.0 (10/10 Başarılı)`
-                - **Alan Dışı / Sıfır Halüsinasyon:** `%100.0 (8/8 Reddetme)`
-                - **3-Yıl Trend Analizi Doğruluğu:** `%90.0 (9/10 Başarılı)`
-                - **Olgusal Doğruluk Oranı:** `%90.5 (42/42 Soru)`
-                - **PAL Sayısal Latency:** `~4.57 saniye`
-                - **Hibrit RAG Latency:** `~14.20 saniye`
-                - **Birim & Tip Koruma Güvencesi:** `Pydantic Assertion`
+                - **Toplam Test Kapsamı:** `500 Soru (5 Boyut / 4 Kullanıcı Tipi / 3 Rapor)`
+                - **Sistem Geneli Doğruluk Oranı:** `%83.20 (416/500 Başarılı)`
+                - **Sayısal & PAL Matematik Doğruluğu:** `%100.0 (100/100 Başarılı)`
+                - **Alan Dışı / Sıfır Halüsinasyon:** `%100.0 (50/50 Reddetme)`
+                - **Olgusal Doğruluk (Factual Retrieval):** `%86.50 (173/200 Başarılı)`
+                - **Dil, Format & Edge-Case Doğruluğu:** `%86.00 (43/50 Başarılı)`
+                - **Ortalama İşleme Gecikmesi:** `~46 ms / soru`
+                - **Birim & Tip Koruma Güvencesi:** `Pydantic & Reproducibility (Temp: 0.0)`
                 """)
             else:
                 st.markdown("""
-                - **Total Test Scope:** `50 Questions (5 Difficulty / 4 User Personas / 4 Scenarios)`
-                - **Quantitative & PAL Math Accuracy:** `100.0% (10/10 Passed)`
-                - **Out-of-Domain / Zero Hallucination:** `100.0% (8/8 Rejected)`
-                - **3-Year Trend Analysis Accuracy:** `90.0% (9/10 Passed)`
-                - **Factual Accuracy Rate:** `90.5% (42/42 Questions)`
-                - **PAL Numerical Latency:** `~4.57 seconds`
-                - **Hybrid RAG Latency:** `~14.20 seconds`
-                - **Unit & Type Safeguard:** `Pydantic Assertion`
+                - **Total Test Scope:** `500 Questions (5 Dimensions / 4 Personas / 3 Reports)`
+                - **System-Wide Overall Accuracy:** `83.20% (416/500 Passed)`
+                - **Quantitative & PAL Math Accuracy:** `100.0% (100/100 Passed)`
+                - **Out-of-Domain / Zero Hallucination:** `100.0% (50/50 Rejected)`
+                - **Factual Retrieval Accuracy:** `86.50% (173/200 Passed)`
+                - **Language, Format & Edge-Case:** `86.00% (43/50 Passed)`
+                - **Average Latency:** `~46 ms / query`
+                - **Unit & Type Safeguard:** `Pydantic & Reproducibility (Temp: 0.0)`
                 """)
 
     with st.container(border=True):

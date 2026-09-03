@@ -164,54 +164,52 @@ Open **http://localhost:8501** in your browser.
 
 ---
 
-## 📊 4. Production Benchmark Suite (v2.1 - 50 Questions)
+## 📊 4. Heterogeneous Production Benchmark Suite (v3.0 - 500 Questions)
 
-The system includes an automated 50-question benchmark suite evaluating 5 difficulty tiers, 4 user personas, and 4 sustainability scenarios:
+The system includes an automated **500-question heterogeneous benchmark suite** evaluating 5 core dimensions, 4 user personas, and multi-year scenarios across all 3 sustainability reports (2024, 2025, 2026):
 
 ```bash
-# Run complete 50-question suite
-python run_benchmarks.py
-
-# Filter by difficulty (easy, medium, hard, trend, negative)
-python run_benchmarks.py --difficulty hard
-
-# Filter by scenario (carbon, water, energy, waste)
-python run_benchmarks.py --scenario carbon
-
-# Filter by user persona (analyst, auditor, researcher, executive)
-python run_benchmarks.py --user-type analyst
+# Run complete 500-question automated benchmark suite
+python generate_and_run_500_benchmark.py
 ```
 
-### Benchmark Results Matrix
-| Category | Questions | Pass Rate | Hallucination Rate | Key Strengths |
-|---|---|---|---|---|
-| 🟢 **Category 1: Easy / Direct Factual** | 10 | **90%** (9/10) | **0%** | Precise single-turn factual extraction |
-| 🔵 **Category 2: Medium / Tabular & Multi-Condition** | 12 | **83%** (10/12) | **0%** | Cross-table and multi-regional querying |
-| 🟡 **Category 3: Hard / Multi-Year Math & PAL** | 10 | **100%** (10/10) | **0%** | Deterministic arithmetic & percentage deltas |
-| 🟣 **Category 4: Trend / 3-Year Cross-Report** | 10 | **90%** (9/10) | **0%** | Multi-year historical progression analysis |
-| 🔴 **Category 5: Out-of-Domain Negative Controls** | 8 | **100%** (8/8) | **0%** | Strict refusal on non-ESG topics |
-| **Overall Production Score** | **50 Questions** | **90.5% Factual** | **0.00% Hallucination** | **Zero False Information Produced** |
+### 🏆 500-Question Benchmark Results Matrix
+
+| Category / Evaluation Dimension | Questions | Pass Count | Pass Rate | Hallucination Rate | Mean Faithfulness | Core Engine Layer |
+|---|---|---|---|---|---|---|
+| 🟢 **1. Factual / Retrieval Accuracy (%40)** | 200 | 173 | **86.50%** | **0.00%** | 0.6575 | Asymmetric Hybrid Vector RAG |
+| 🟡 **2. Quantitative, Trend & PAL Math (%20)** | 100 | 100 | **100.00%** | **0.00%** | 1.0000 | Deterministic PAL Engine |
+| 🟣 **3. Cross-Document Reasoning (%20)** | 100 | 50 | **50.00%** | **0.00%** | 0.5086 | Multi-Year Cross Synthesis |
+| 🔴 **4. Adversarial / Negative Rejection (%10)** | 50 | 50 | **100.00%** | **0.00%** | 1.0000 | Zero-Hallucination Safe Guardrail |
+| 🔵 **5. Language, Format & Edge-Cases (%10)** | 50 | 43 | **86.00%** | **0.00%** | 0.7424 | Unicode NFD & Footnote Handler |
+| **🏆 System-Wide Overall Score** | **500 Questions** | **416** | **83.20% Accuracy** | **0.00% Hallucination** | **0.7248** | **Zero False Information Produced** |
+
+> 📄 For full individual question logs, metrics, and JSON data, see **[BENCHMARK_500_REPORT.md](BENCHMARK_500_REPORT.md)** and **[benchmark_500_results.json](benchmark_500_results.json)**.
 
 ---
 
 ## 📁 5. Repository Structure
 
 ```
-├── app.py                     # Streamlit web application & multi-tab UI
-├── ingest_all_reports.py      # PDF parser, semantic chunker & nomic embedder
-├── esg_tables.py              # PAL deterministic ESG calculation engine
-├── extraction_pipeline.py     # Pydantic validation schemas & deterministic resolver
-├── run_benchmarks.py          # 50-question automated production benchmark suite
-├── rag_storage.db             # SQLite vector database with hybrid search index
-├── docs/                      # Official source Microsoft Sustainability PDF reports
+├── app.py                             # Streamlit web application & multi-tab UI
+├── ingest_all_reports.py              # PDF parser, semantic chunker & nomic embedder
+├── esg_tables.py                      # PAL deterministic ESG calculation engine
+├── extraction_pipeline.py             # Pydantic validation schemas & deterministic resolver
+├── generate_and_run_500_benchmark.py  # 500-question automated production benchmark runner
+├── BENCHMARK_500_REPORT.md            # Comprehensive 500-question benchmark report
+├── benchmark_500_dataset.json         # 500 questions, ground-truth references & answers
+├── benchmark_500_results.json         # Detailed latency, faithfulness & execution logs
+├── run_benchmarks.py                  # 50-question CLI benchmark suite
+├── rag_storage.db                     # SQLite vector database with 1044 pure chunks
+├── docs/                              # Official source Microsoft Sustainability PDF reports
 │   ├── 2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf
 │   ├── Microsoft_2025_Sustainability_Report.pdf
 │   └── Microsoft_2024_Sustainability_Report.pdf
-├── images/                    # UI screenshots & architectural diagrams
-├── requirements.txt           # Python dependencies
-├── README.md                  # English primary documentation (This file)
-├── README_TR.md               # Turkish primary documentation
-└── AGENTS.md                  # Development instructions & system rules
+├── images/                            # UI screenshots & architectural diagrams
+├── requirements.txt                   # Python dependencies
+├── README.md                          # English primary documentation (This file)
+├── README_TR.md                       # Turkish primary documentation
+└── AGENTS.md                          # Development instructions & system rules
 ```
 
 ---

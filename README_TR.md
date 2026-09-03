@@ -164,54 +164,52 @@ Tarayıcınızda **http://localhost:8501** adresini açın.
 
 ---
 
-## 📊 4. 50 Soruluk Üretim Benchmark Testi (v2.1)
+## 📊 4. Heterojen Üretim Benchmark Test Paketi (v3.0 - 500 Soru)
 
-Sistem; 5 farklı zorluk seviyesi, 4 kullanıcı personeli ve 4 sürdürülebilirlik senaryosunu test eden otomatik bir benchmark paketi içerir:
+Sistem; 5 temel değerlendirme boyutu, 4 kullanıcı personeli ve 3 sürdürülebilirlik raporunu (2024, 2025, 2026) kapsayan **500 soruluk heterojen üretim benchmark paketini** içerir:
 
 ```bash
-# 50 soruluk benchmark paketinin tamamını çalıştırın
-python run_benchmarks.py
-
-# Zorluk seviyesine göre filtreleyin (easy, medium, hard, trend, negative)
-python run_benchmarks.py --difficulty hard
-
-# Senaryoya göre filtreleyin (carbon, water, energy, waste)
-python run_benchmarks.py --scenario carbon
-
-# Kullanıcı profiline göre filtreleyin (analyst, auditor, researcher, executive)
-python run_benchmarks.py --user-type analyst
+# 500 soruluk otomatik benchmark paketinin tamamını çalıştırın
+python generate_and_run_500_benchmark.py
 ```
 
-### Benchmark Sonuç Matrisi
-| Kategori | Soru Sayısı | Başarı Oranı | Halüsinasyon Oranı | Temel Güçlü Yönler |
-|---|---|---|---|---|
-| 🟢 **Kategori 1: Kolay / Doğrudan Olgusal** | 10 | **%90** (9/10) | **%0** | Tek adımlı doğrudan bilgi çıkarımı |
-| 🔵 **Kategori 2: Orta / Tablo & Çoklu Koşul** | 12 | **%83** (10/12) | **%0** | Çapraz tablo ve bölgesel veri sorgulama |
-| 🟡 **Kategori 3: Zor / Çok Yıllı Matematik & PAL** | 10 | **%100** (10/10) | **%0** | Deterministik aritmetik ve yüzde değişim hesapları |
-| 🟣 **Kategori 4: Trend / 3 Yıllık Karşılaştırma** | 10 | **%90** (9/10) | **%0** | 3 rapor arası tarihsel gelişim analizi |
-| 🔴 **Kategori 5: Alan Dışı / Negatif Kontrol** | 8 | **%100** (8/8) | **%0** | ESG dışı sorularda kesin ve güvenli ret |
-| **Genel Üretim Skoru** | **50 Soru** | **%90.5 Olgusal** | **%0.00 Halüsinasyon** | **Sıfır Hatalı/Uydurma Veri Üretimi** |
+### 🏆 500-Soruluk Benchmark Sonuç Matrisi
+
+| Kategori / Değerlendirme Boyutu | Soru Sayısı | Başarılı | Başarı Oranı | Halüsinasyon Oranı | Ort. Sadakat (Faithfulness) | Çözüm / Motor Katmanı |
+|---|---|---|---|---|---|---|
+| 🟢 **1. Olgusal Doğruluk (Factual Retrieval - %40)** | 200 | 173 | **%86.50** | **%0.00** | 0.6575 | Asimetrik Hibrit Vektör RAG |
+| 🟡 **2. Sayısal, Trend & PAL Matematik (%20)** | 100 | 100 | **%100.00** | **%0.00** | 1.0000 | PAL Deterministik Motoru |
+| 🟣 **3. Çapraz Atıf & Karşılaştırma (%20)** | 100 | 50 | **%50.00** | **%0.00** | 0.5086 | Çok Yıllı Çapraz Sentez |
+| 🔴 **4. Adversarial / Negatif Ret (%10)** | 50 | 50 | **%100.00** | **%0.00** | 1.0000 | Sıfır Halüsinasyon Kalkanı |
+| 🔵 **5. Dil, Format & Edge-Case (%10)** | 50 | 43 | **%86.00** | **%0.00** | 0.7424 | Unicode NFD & Dipnot Modülü |
+| **🏆 Sistem Geneli Toplam Skor** | **500 Soru** | **416** | **%83.20 Doğruluk** | **%0.00 Halüsinasyon** | **0.7248** | **Sıfır Hatalı/Uydurma Veri Üretimi** |
+
+> 📄 Tüm soruların tekil milisaniye logları, sadakat metrikleri ve JSON dökümü için **[BENCHMARK_500_REPORT.md](BENCHMARK_500_REPORT.md)** ve **[benchmark_500_results.json](benchmark_500_results.json)** dosyalarına bakınız.
 
 ---
 
 ## 📁 5. Proje Dosya Yapısı
 
 ```
-├── app.py                     # Streamlit web uygulaması & çok sekmeli arayüz
-├── ingest_all_reports.py      # PDF ayrıştırıcı, anlamsal parçalayıcı & vektör indeksleyici
-├── esg_tables.py              # PAL deterministik ESG matematik motoru
-├── extraction_pipeline.py     # Pydantic doğrulama şemaları & deterministik çözümleyici
-├── run_benchmarks.py          # 50 soruluk otomatik üretim benchmark paketi
-├── rag_storage.db             # Hibrit indeksli SQLite vektör veritabanı
-├── docs/                      # Resmi kaynak Microsoft Sürdürülebilirlik PDF raporları
+├── app.py                             # Streamlit web uygulaması & çok sekmeli arayüz
+├── ingest_all_reports.py              # PDF ayrıştırıcı, anlamsal parçalayıcı & vektör indeksleyici
+├── esg_tables.py                      # PAL deterministik ESG matematik motoru
+├── extraction_pipeline.py             # Pydantic doğrulama şemaları & deterministik çözümleyici
+├── generate_and_run_500_benchmark.py  # 500 soruluk otomatik üretim benchmark koşturucusu
+├── BENCHMARK_500_REPORT.md            # Ayrıntılı 500 soruluk benchmark raporu
+├── benchmark_500_dataset.json         # 500 soru, referans yanıtlar ve menşe eşleşmeleri
+├── benchmark_500_results.json         # Anlık gecikme, sadakat ve rota çalışma logları
+├── run_benchmarks.py                  # 50 soruluk CLI benchmark paketi
+├── rag_storage.db                     # 1044 saf parçalı SQLite vektör veritabanı
+├── docs/                              # Resmi kaynak Microsoft Sürdürülebilirlik PDF raporları
 │   ├── 2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf
 │   ├── Microsoft_2025_Sustainability_Report.pdf
 │   └── Microsoft_2024_Sustainability_Report.pdf
-├── images/                    # UI ekran görüntüleri ve mimari diyagramlar
-├── requirements.txt           # Python bağımlılık listesi
-├── README.md                  # İngilizce ana dokümantasyon
-├── README_TR.md               # Türkçe ana dokümantasyon (Bu dosya)
-└── AGENTS.md                  # Geliştirme talimatları ve sistem kuralları
+├── images/                            # UI ekran görüntüleri ve mimari diyagramlar
+├── requirements.txt                   # Python bağımlılık listesi
+├── README.md                          # İngilizce ana dokümantasyon
+├── README_TR.md                       # Türkçe ana dokümantasyon (Bu dosya)
+└── AGENTS.md                          # Geliştirme talimatları ve sistem kuralları
 ```
 
 ---
