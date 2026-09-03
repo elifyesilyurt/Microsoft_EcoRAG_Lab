@@ -19,6 +19,20 @@
 
 ---
 
+## 🎥 Canlı Video Demosu (YouTube)
+
+Projenin uçtan uca canlı kullanımını, yerel `phi-4-mini` çıkarımını, PAL deterministik hesaplamalarını ve çok dilli Streamlit arayüzünü aşağıdaki video üzerinden izleyebilirsiniz:
+
+<div align="center">
+
+[![Microsoft EcoRAG Lab Canlı Demo](https://img.youtube.com/vi/vYcT6NhWmaY/maxresdefault.jpg)](https://www.youtube.com/watch?v=vYcT6NhWmaY)
+
+**[▶️ YouTube'da İzle: Microsoft EcoRAG Lab — Sıfır Halüsinasyonlu Deterministik ESG Analiz Motoru](https://www.youtube.com/watch?v=vYcT6NhWmaY)**
+
+</div>
+
+---
+
 ## 📸 Görsel Tanıtım & Kullanıcı Arayüzü
 
 ### 1. Akıllı Asistan & PAL Deterministik Hesaplama (Türkçe & İngilizce)
@@ -62,76 +76,138 @@ Mühendislik tabanlı ve doğa tabanlı karbon uzaklaştırma teknolojileri, bö
 
 ---
 
-### 6. Altyapı Parametreleri & 50 Soruluk Benchmark Değerlendirme Raporu
+### 6. Altyapı Parametreleri & 500 Soruluk Benchmark Değerlendirme Raporu
 Farklı zorluk seviyelerinde ve kullanıcı tiplerinde sistem performansını ölçen kapsamlı sistem tanılama ve otomatik üretim benchmark paneli.
 
 ![Sistem ve Benchmark Raporu](images/system_benchmark_report.png)
 
 ---
 
-## 🏗️ 1. Çekirdek Mimari ve Mühendislik İnovasyonları
+## 🏛️ 1. Mimari Akış Şeması (Architecture Flow)
 
-```
-+-----------------------------------------------------------------------------------+
-|                        Kullanıcı Sorgusu / Web Arayüzü                            |
-|             (Streamlit Arayüzü: Çift Dilli TR/EN, 4 Tema, Port 8501)              |
-+-----------------------------------------+-----------------------------------------+
-                                          |
-                        +-----------------+-----------------+
-                        |                                   |
-                        v                                   v
-             +--------------------+               +--------------------+
-             | PAL Matematik Mot. |               |    Hibrit Arama    |
-             |  (esg_tables.py)   |               | (nomic-embed v1.5) |
-             | - Scope 1/2/3      |               | - Yoğun Vektör     |
-             | - Karbon Uzaklaşt. |               | - Sözcüksel Takviye|
-             | - Su / Atık        |               +---------+----------+
-             +----------+---------+                         |
-                        |                                   v
-                        |                         +--------------------+
-                        |                         |   Pydantic Muhafız |
-                        |                         | (extraction_pipe)  |
-                        +-----------------+       +---------+----------+
-                                          |                 |
-                                          +--------+--------+
-                                                   |
-                                                   v
-                                    +------------------------------+
-                                    |    Yerel SLM: phi-4-mini     |
-                                    |  (Foundry Local Port API'si) |
-                                    +--------------+---------------+
-                                                   |
-                                                   v
-                                    +------------------------------+
-                                    | Doğrulanmış Akış & Kaynaklar |
-                                    | (Sıfır Halüsinasyon Yanıtı)  |
-                                    +------------------------------+
-```
+Sistemin uçtan uca veri işleme, indeksleme, arama ve deterministik yanıt üretim hattı aşağıdaki gibidir:
 
-### Öne Çıkan Teknik Yetenekler:
-1. **%100 Cihaz İçi Gizlilik & Sıfır Bulut Bağımlılığı:** Microsoft Foundry Local üzerinde yerel olarak çalışan `phi-4-mini` modeli ile çalışır. Hiçbir şirket verisi yerel makineden dışarı çıkmaz, API maliyeti oluşturmaz.
-2. **Program-Aided Language (PAL) Deterministik Matematik Motoru (`esg_tables.py`):** Karmaşık aritmetik hesaplamalar (Scope 3 artış deltaları, büyüme çarpanları, su hedefi gerçekleştirme yüzdeleri vb.) LLM'in tahminine bırakılmadan tip-güvenli Python DataFrame'leri üzerinden kesin olarak hesaplanır.
-3. **Asimetrik Yoğun + Sözcüksel Hibrit Vektör Arama:**
-   - **Embedding Modeli:** `nomic-ai/nomic-embed-text-v1.5` (768 boyutlu, 8192 token bağlam penceresi).
-   - **Asimetrik Önekler:** Parça indekslemede `search_document:`, kullanıcı sorgusunda `search_query:`.
-   - **Unicode NFD Normalizasyonu:** Özel isim ve terim eşleşmelerini güçlendiren sözcüksel takviye (*FIDO Tech, UL 2799, HVO vb.*).
-4. **Düzen Duyarlı PDF Ayrıştırma ve Görsel Etiketleme (`ingest_all_reports.py`):**
-   - Tablolar hem Markdown matrisi hem de satır bazlı anahtar-değer haritaları olarak çift temsilli indekslenir.
-   - Sayısal çıkarım yapılamayan grafikler otomatik olarak `[VISUAL REFERENCE]` ile etiketlenerek modelin uydurma veri üretmesi engellenir.
-5. **Pydantic Tip Doğrulaması ve Sıfır Halüsinasyon Kalkanı (`extraction_pipeline.py`):** Zaman kapsamı (FY20–FY25) ve birim uyumluluğunu (`mtCO2e`, `milyon m³`, `MWh`, `metrik ton`) zorunlu kılar; kapsam dışı soruları anında reddeder.
+```mermaid
+graph TD
+    subgraph INGESTION["📄 1. Gelişmiş PDF İşleme Hattı (ingest_all_reports.py)"]
+        PDF["Resmi PDF Raporları<br/>(2024, 2025, 2026 - 244 Sayfa)"] --> PLUMB["pdfplumber Ayrıştırıcı"]
+        PLUMB --> UNREV["Dikey/Ters Sayı Düzeltme<br/>(000,662,31 ➔ 13,266,000)"]
+        UNREV --> SPLIT{"İçerik Tipi Tespiti"}
+        SPLIT -->|Yapısal Tablo| TAB["Çift Temsilli Tablo Çıkarıcı<br/>• Markdown Matrisi<br/>• Satır Bazlı Anahtar-Değer"]
+        SPLIT -->|Görsel / Çizelge| VIS["Görsel Güvenlik Kalkanı<br/>[⚠ VISUAL REFERENCE] Etiketi<br/>ve Doğrulanmış Tablo Enjeksiyonu"]
+        SPLIT -->|Gövde Metni| TEXT["Sınır Hizalamalı Parçalayıcı<br/>(900 Karakter / 150 Overlap<br/>Cümle Sonu Kilitlemeli)"]
+        TAB --> EMB["nomic-embed-text-v1.5<br/>(768 Boyut, Normalize)"]
+        VIS --> EMB
+        TEXT --> EMB
+        EMB --> DB[("SQLite Vektör DB<br/>rag_storage.db (1.207 Chunk)")]
+    end
+
+    subgraph RUNTIME["⚙️ 2. Gerçek Zamanlı Yürütme Hattı (app.py)"]
+        USER["Kullanıcı Sorgusu"] --> ROUTE{"Matematik / Sorgu Tipi Sınıflandırıcı"}
+        
+        ROUTE -->|Statik ESG Tablosu| PAL_FIXED["esg_tables.py<br/>(Scope 1/2/3, CDR, Su, Atık)"]
+        
+        ROUTE -->|Dinamik Matematik / Kıyaslama| PAL_DYN["dynamic_math_engine.py<br/>Program-of-Thoughts (PoT)<br/>• Python Kodu Çıkarımı<br/>• İzole AST Yürütücüsü (Python ALU)"]
+        
+        ROUTE -->|Olgusal / Metin Sorgusu| HYBRID["search_context_hybrid()<br/>• Yoğun Vektör Arama<br/>• Unicode NFD Lexical Boost<br/>• Mali Yıl Katmanlı (Stratified) Filtre"]
+        
+        DB -.-> HYBRID
+        DB -.-> PAL_DYN
+        
+        PAL_FIXED --> SYNTH["Doğrulanmış Yanıt Sentezi"]
+        PAL_DYN --> SYNTH
+        HYBRID --> GUARD["Pydantic Doğrulama Kalkanı<br/>(extraction_pipeline.py)"]
+        GUARD --> SLM["Yerel Model: phi-4-mini<br/>(Microsoft Foundry Local)"]
+        SLM --> SYNTH
+        
+        SYNTH --> STREAM["⚡ Canlı Akışlı Çıktı & Menşe (Provenance)<br/>(Streamlit Web UI - Port 8501)"]
+    end
+```
 
 ---
 
-## 📚 2. Çok Yıllı Rapor Veri Kapsamı (1044 Chunk)
+## ⚙️ 2. Tasarım Kararları ve Mühendislik Rasyoneli (Design Rationale)
+
+### A. `TARGET_CHUNK_SIZE = 900` Karakter
+* **Bağlam Bütçesi Dengesi:** 900 karakter (~180–220 belirteç), `nomic-embed-text-v1.5` modelinin 768 boyutlu uzayda bilgi kaybı yaşamadan en yüksek semantik yoğunluğa ulaşmasını sağlar.
+* **SLM Bellek Uyumu:** `phi-4-mini` modeline Top-6 chunk gönderildiğinde toplam bağlam ~1.200–1.400 token civarında kalır. Bu, modelin dikkat (attention) mekanizmasının dağılmasını ("Lost in the Middle") önler ve çıkarım gecikmesini 1–2 saniye bandında tutar.
+* **Tablo Bütünlüğü:** 900 karakterlik pencere, ortalama 4–6 sütunlu bir ESG tablosunun başlık satırlarıyla birlikte tek bir chunk içine sığmasını garantiler; satırların havada kalmasını önler.
+
+### B. `CHUNK_OVERLAP = 150` Karakter ve Sınır Hizalaması (Boundary Alignment)
+Standart RAG kütüphanelerinin aksine, karakter sınırından körü körüne dilimleme (`text[-150:]`) yapılmaz. Bunun yerine [ingest_all_reports.py](ingest_all_reports.py) içine özel geliştirilen `extract_clean_overlap()` algoritması devreye girer:
+* **Cümle Sonu Kilitlemesi (Snapping):** Dilimleme noktası geriye doğru taranarak tam cümle bitişlerine (`.\n`, `. `, `!\n`, `?\n`) veya büyük harfle başlayan kelime sınırlarına hizalanır.
+* **Ölçülen Kalite Artışı (1.207 Chunk Üzerinde):**
+  * Temiz cümle başlangıç oranı: **%28.35'ten %97.18'e çıktı** (Cümle ortası bölünmeler %70.59'dan %2.82'ye geriledi).
+  * Temiz cümle bitiş oranı: **%28.64'ten %98.59'a yükseldi**.
+  * Başlık ve anahtar-değer bütünlüğü: **%100 korundu**.
+
+### C. Gürültü Filtreleme ve Dikey Sayı Matrisi Düzeltmesi
+* **De-Hyphenation:** PDF satır sonlarındaki heceleme kırılmaları (`corpo-\nrate` $\rightarrow$ `corporate`) regex ile onarıldı.
+* **Dikey/Ters Metin Matrisi Onarımı (`fix_reversed_chart_text`):** 2026 Raporu s. 25 gibi sayfalarda PDF parser'ların dikey grafik koordinatları nedeniyle tersten okuduğu sayı dizileri (`000,662,31` $\rightarrow$ `13,266,000`) ham okuma aşamasında düzeltildi.
+* **Navigasyon Kalıntısı Temizliği (`remove_nav_artifacts`):** Sayfa üstü/altı menü kalıntıları (*"Overview Infrastructure Products..."*) ve anlamsız dipnot tekrarları elendi.
+
+---
+
+## 💻 3. Modüler Yapı ve Kod Organizasyonu (Code Organization)
+
+Sistem; veri çıkarma, doğrulanmış hesaplama ve yapay zeka çıkarımı katmanlarını birbirinden kesin çizgilerle ayıran modüler bir mimariye sahiptir:
+
+```
+├── ingest_all_reports.py      # PDF Ayrıştırma, Dikey Metin Düzeltme, Çift Temsilli Chunking
+├── esg_tables.py              # PAL Deterministik Pandas Veri Tabloları (Scope 1/2/3, CDR, Su, Atık)
+├── dynamic_math_engine.py     # Program-of-Thoughts (PoT) ve Güvenli AST Python ALU Yürütücüsü
+├── extraction_pipeline.py     # Pydantic Doğrulama Şemaları, Eşleştirici ve Güvenlik Kalkanı
+├── app.py                     # Streamlit Arayüzü, Katmanlı (Stratified) Hibrit Arama & Akış
+```
+
+### 🧩 Bileşenler Arası Entegrasyon Örneği:
+
+Aşağıdaki örnek kod; arama, veri çıkarma ve Python ALU motorunun birlikte nasıl çalıştığını özetler:
+
+```python
+from ingest_all_reports import fix_reversed_chart_text
+from dynamic_math_engine import DynamicMathExecutor, is_mathematical_query
+from esg_tables import get_carbon_emissions_df
+
+# 1. Ham metindeki dikey grafik hatalarını düzelt
+raw_chart_text = "FY25 Withdrawals: 000,662,31 m3, Consumption: 000,071,8 m3"
+clean_text = fix_reversed_chart_text(raw_chart_text)
+# Çıktı: "FY25 Withdrawals: 13,266,000 m3, Consumption: 8,170,000 m3"
+
+# 2. Matematiksel niyet tespiti
+query = "FY25 su çekimi ile tüketimi arasındaki fark kaç metreküptür?"
+if is_mathematical_query(query):
+    # Modelden üretilen PoT kod satırları izole Python ALU üzerinde çalıştırılır:
+    pot_code = """
+    withdrawals = 13266000
+    consumption = 8170000
+    difference_m3 = withdrawals - consumption
+    """
+    res = DynamicMathExecutor.execute_code_lines(pot_code)
+    print("Doğrulanmış Sonuç:", res["environment"]["difference_m3"])
+    # Çıktı: 5096000 (%100 matematiksel kesinlik, sıfır zihinsel hata)
+
+# 3. Statik PAL Tablosu üzerinden Scope 1+2+3 Trendi
+df = get_carbon_emissions_df()
+fy20_total = df[df["Metric"] == "Scope 1 + Scope 2 (Market-Based) + Scope 3"]["FY20"].values[0]
+fy25_total = df[df["Metric"] == "Scope 1 + Scope 2 (Market-Based) + Scope 3"]["FY25"].values[0]
+delta_pct = ((fy25_total - fy20_total) / fy20_total) * 100
+print(f"5 Yıllık Emisyon Değişimi: +%{delta_pct:.2f}")
+# Çıktı: +%61.71 (Raporla birebir uyumlu)
+```
+
+---
+
+## 📚 4. Çok Yıllı Rapor Veri Kapsamı (1.207 Chunk)
 
 Sistem, Microsoft'un resmi **3 Çevresel Sürdürülebilirlik Raporunu** eksiksiz indeksler:
 
 | Doküman Adı | Sayfa Sayısı | Parça (Chunk) | Temel Kapsam Alanları |
 |---|---|---|---|
-| `2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf` | 66 | **239 Parça** | 2026 taahhütleri, bölgesel veri merkezi enerjisi, AI altyapısı & tedarik zinciri |
-| `Microsoft_2025_Sustainability_Report.pdf` | 90 | **409 Parça** | FY25 Scope 1/2/3 tabloları, Karbon Tablo 3, Su Tablo 1, Enerji muhasebesi |
-| `Microsoft_2024_Sustainability_Report.pdf` | 88 | **398 Parça** | FY20 baz yıl karşılaştırmaları, FY23 geçmiş verileri, UL 2799 Sıfır Atık tesisleri |
-| **Toplam Üretim İndeksi** | **244 Sayfa** | **1.050 Parça** | **SQLite WAL Vektör Veritabanı (`rag_storage.db`)** |
+| `2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf` | 66 | **286 Parça** | 2026 taahhütleri, bölgesel veri merkezi enerjisi, AI altyapısı & tedarik zinciri |
+| `Microsoft_2025_Sustainability_Report.pdf` | 90 | **475 Parça** | FY25 Scope 1/2/3 tabloları, Karbon Tablo 3, Su Tablo 1, Enerji muhasebesi |
+| `Microsoft_2024_Sustainability_Report.pdf` | 88 | **446 Parça** | FY20 baz yıl karşılaştırmaları, FY23 geçmiş verileri, UL 2799 Sıfır Atık tesisleri |
+| **Toplam Üretim İndeksi** | **244 Sayfa** | **1.207 Parça** | **SQLite WAL Vektör Veritabanı (`rag_storage.db`)** |
 
 ---
 
