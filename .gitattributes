@@ -1,0 +1,5 @@
+# GitHub Linguist Overrides
+# Mark archived workshop reference materials as vendored and documentation
+# so they are excluded from the repository primary language statistics
+workshop-reference/** linguist-vendored
+workshop-reference/** linguist-documentation
