@@ -7,8 +7,8 @@
 [![Embeddings](https://img.shields.io/badge/Embedding-nomic--embed--text--v1.5-008080?style=for-the-badge)](https://huggingface.co/nomic-ai/nomic-embed-text-v1.5)
 [![Accuracy](https://img.shields.io/badge/Math_Accuracy-100%25_PAL-brightgreen?style=for-the-badge)]()
 [![Zero Hallucination](https://img.shields.io/badge/Hallucination-0.00%25_Guaranteed-success?style=for-the-badge)]()
-[![Release](https://img.shields.io/badge/Release-v2.0.0-007ACC?style=for-the-badge&logo=github)](https://github.com/elifyesilyurt/Foundry-Local-Lab/releases/tag/v2.0.0)
-[![CI](https://img.shields.io/badge/CI-Passing-brightgreen?style=for-the-badge&logo=githubactions)](https://github.com/elifyesilyurt/Foundry-Local-Lab/actions)
+[![Release](https://img.shields.io/badge/Release-v2.0.0-007ACC?style=for-the-badge&logo=github)](https://github.com/elifyesilyurt/Microsoft-EcoRAG-Lab/releases/tag/v2.0.0)
+[![CI](https://img.shields.io/badge/CI-Passing-brightgreen?style=for-the-badge&logo=githubactions)](https://github.com/elifyesilyurt/Microsoft-EcoRAG-Lab/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
 **Production-Grade, Zero-Hallucination On-Device Sustainability RAG & Deterministic ESG Engine**
@@ -222,8 +222,8 @@ The system indexes **3 official Microsoft Environmental Sustainability Reports**
 ### Setup
 ```bash
 # 1. Clone repository
-git clone https://github.com/elifyesilyurt/Foundry-Local-Lab.git
-cd Foundry-Local-Lab
+git clone https://github.com/elifyesilyurt/Microsoft-EcoRAG-Lab.git
+cd Microsoft-EcoRAG-Lab
 
 # 2. Setup virtual environment
 python -m venv .venv
@@ -272,6 +272,7 @@ python generate_and_run_500_benchmark.py
 ├── app.py                             # Streamlit web application & multi-tab UI
 ├── ingest_all_reports.py              # PDF parser, semantic chunker & nomic embedder
 ├── esg_tables.py                      # PAL deterministic ESG calculation engine
+├── dynamic_math_engine.py             # Program-of-Thoughts (PoT) & Sandboxed AST Python ALU
 ├── extraction_pipeline.py             # Pydantic validation schemas & deterministic resolver
 ├── generate_and_run_500_benchmark.py  # 500-question automated production benchmark runner
 ├── BENCHMARK_500_REPORT.md            # Comprehensive 500-question benchmark report
@@ -285,6 +286,7 @@ python generate_and_run_500_benchmark.py
 │   └── Microsoft_2024_Sustainability_Report.pdf
 ├── images/                            # UI screenshots & architectural diagrams
 ├── requirements.txt                   # Python dependencies
+├── workshop-reference/                # Archived Foundry Local foundational workshop labs & samples
 ├── README.md                          # English primary documentation (This file)
 ├── README_TR.md                       # Turkish primary documentation
 └── AGENTS.md                          # Development instructions & system rules

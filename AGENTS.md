@@ -4,27 +4,43 @@ This file provides context for AI coding agents (GitHub Copilot, Copilot Workspa
 
 ## Project Overview
 
-This is a **hands-on workshop** for building AI applications with [Foundry Local](https://foundrylocal.ai) — a lightweight runtime that downloads, manages, and serves language models entirely on-device via an OpenAI-compatible API. The workshop includes step-by-step lab guides and runnable code samples in Python, JavaScript, and C#.
+**Microsoft EcoRAG Lab** is a production-grade, zero-hallucination on-device Environmental Sustainability RAG and deterministic ESG engine built on Microsoft Foundry Local (`phi-4-mini`). It provides sentence-snapping semantic chunking, dual-representation table parsing, Program-Aided Language (PAL/PoT) execution for 100% mathematical accuracy, and an automated 500-question heterogeneous benchmark suite.
+
+The foundational Microsoft Foundry Local workshop labs and multi-language samples are archived under `workshop-reference/`.
 
 ## Repository Structure
 
 ```
-├── labs/                              # Markdown lab guides (Parts 1–13)
-├── python/                            # Python code samples (Parts 2–6, 8–9, 11)
-├── javascript/                        # JavaScript/Node.js code samples (Parts 2–6, 8–9, 11)
-├── csharp/                            # C# / .NET 9 code samples (Parts 2–6, 8–9, 11)
-├── zava-creative-writer-local/        # Part 7 capstone app + Part 12 UI (Python/JS/C#)
-│   ├── ui/                            # Shared browser UI (vanilla HTML/CSS/JS)
-│   └── src/
-│       ├── api/                       # Python FastAPI multi-agent service (serves UI)
-│       ├── javascript/                # Node.js CLI + HTTP server (server.mjs)
-│       ├── csharp/                    # .NET console multi-agent app
-│       └── csharp-web/                # .NET ASP.NET Core minimal API (serves UI)
-├── samples/audio/                     # Part 9 sample WAV files + generator script
-├── images/                            # Diagrams referenced by lab guides
-├── README.md                          # Workshop overview and navigation
-├── KNOWN-ISSUES.md                    # Known issues and workarounds
-├── package.json                       # Root devDependency (mermaid-cli for diagrams)
+├── app.py                             # Streamlit web application & multi-tab UI
+├── ingest_all_reports.py              # PDF parser, semantic chunker & nomic embedder
+├── esg_tables.py                      # PAL deterministic ESG calculation engine
+├── dynamic_math_engine.py             # Program-of-Thoughts (PoT) & Sandboxed AST Python ALU
+├── extraction_pipeline.py             # Pydantic validation schemas & deterministic resolver
+├── generate_and_run_500_benchmark.py  # 500-question automated production benchmark runner
+├── BENCHMARK_500_REPORT.md            # Comprehensive 500-question benchmark report
+├── benchmark_500_dataset.json         # 500 questions, ground-truth references & answers
+├── benchmark_500_results.json         # Detailed latency, faithfulness & execution logs
+├── run_benchmarks.py                  # 50-question CLI benchmark suite
+├── rag_storage.db                     # SQLite vector database with 1044 pure chunks
+├── docs/                              # Official source Microsoft Sustainability PDF reports
+│   ├── 2026-Microsoft-Environmental-Sustainability-Report-PDF.pdf
+│   ├── Microsoft_2025_Sustainability_Report.pdf
+│   └── Microsoft_2024_Sustainability_Report.pdf
+├── images/                            # UI screenshots & architectural diagrams
+├── requirements.txt                   # Python dependencies
+├── workshop-reference/                # Archived Foundry Local foundational workshop labs & samples
+│   ├── labs/                          # Markdown lab guides (Parts 1–13)
+│   ├── python/                        # Python code samples
+│   ├── javascript/                    # JavaScript/Node.js code samples
+│   ├── csharp/                        # C# / .NET 9 code samples
+│   ├── zava-creative-writer-local/    # Part 7 capstone app + Part 12 UI
+│   ├── samples/                       # Sample audio files + generator script
+│   ├── translations/                  # Multi-language translations
+│   ├── translated_images/             # Translated diagram assets
+│   ├── KNOWN-ISSUES.md                # Known issues and workarounds
+│   └── CHANGELOG.md                   # Foundry Local workshop changelog
+├── README.md                          # English primary documentation
+├── README_TR.md                       # Turkish primary documentation
 └── AGENTS.md                          # This file
 ```
 

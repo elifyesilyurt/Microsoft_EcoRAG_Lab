@@ -7,8 +7,8 @@
 [![Embeddings](https://img.shields.io/badge/Embedding-nomic--embed--text--v1.5-008080?style=for-the-badge)](https://huggingface.co/nomic-ai/nomic-embed-text-v1.5)
 [![Accuracy](https://img.shields.io/badge/Matematik_Doğruluğu-%25100_PAL-brightgreen?style=for-the-badge)]()
 [![Zero Hallucination](https://img.shields.io/badge/Halüsinasyon-%250.00_Garantili-success?style=for-the-badge)]()
-[![Release](https://img.shields.io/badge/Sürüm-v2.0.0-007ACC?style=for-the-badge&logo=github)](https://github.com/elifyesilyurt/Foundry-Local-Lab/releases/tag/v2.0.0)
-[![CI](https://img.shields.io/badge/CI-Geçti-brightgreen?style=for-the-badge&logo=githubactions)](https://github.com/elifyesilyurt/Foundry-Local-Lab/actions)
+[![Release](https://img.shields.io/badge/Sürüm-v2.0.0-007ACC?style=for-the-badge&logo=github)](https://github.com/elifyesilyurt/Microsoft-EcoRAG-Lab/releases/tag/v2.0.0)
+[![CI](https://img.shields.io/badge/CI-Geçti-brightgreen?style=for-the-badge&logo=githubactions)](https://github.com/elifyesilyurt/Microsoft-EcoRAG-Lab/actions)
 [![License: MIT](https://img.shields.io/badge/Lisans-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
 **Üretim Standardında, Sıfır Halüsinasyonlu ve Tamamen Cihaz Üzerinde Çalışan Deterministik Sürdürülebilirlik & ESG Analiz Motoru**
@@ -222,8 +222,8 @@ Sistem, Microsoft'un resmi **3 Çevresel Sürdürülebilirlik Raporunu** eksiksi
 ### Kurulum Adımları
 ```bash
 # 1. Depoyu klonlayın
-git clone https://github.com/elifyesilyurt/Foundry-Local-Lab.git
-cd Foundry-Local-Lab
+git clone https://github.com/elifyesilyurt/Microsoft-EcoRAG-Lab.git
+cd Microsoft-EcoRAG-Lab
 
 # 2. Sanal ortam oluşturun ve etkinleştirin
 python -m venv .venv
@@ -272,6 +272,7 @@ python generate_and_run_500_benchmark.py
 ├── app.py                             # Streamlit web uygulaması & çok sekmeli arayüz
 ├── ingest_all_reports.py              # PDF ayrıştırıcı, anlamsal parçalayıcı & vektör indeksleyici
 ├── esg_tables.py                      # PAL deterministik ESG matematik motoru
+├── dynamic_math_engine.py             # Program-of-Thoughts (PoT) & Yalıtılmış AST Python ALU
 ├── extraction_pipeline.py             # Pydantic doğrulama şemaları & deterministik çözümleyici
 ├── generate_and_run_500_benchmark.py  # 500 soruluk otomatik üretim benchmark koşturucusu
 ├── BENCHMARK_500_REPORT.md            # Ayrıntılı 500 soruluk benchmark raporu
@@ -285,6 +286,7 @@ python generate_and_run_500_benchmark.py
 │   └── Microsoft_2024_Sustainability_Report.pdf
 ├── images/                            # UI ekran görüntüleri ve mimari diyagramlar
 ├── requirements.txt                   # Python bağımlılık listesi
+├── workshop-reference/                # Arşivlenen Foundry Local temel atölye laboratuvarları ve örnekleri
 ├── README.md                          # İngilizce ana dokümantasyon
 ├── README_TR.md                       # Türkçe ana dokümantasyon (Bu dosya)
 └── AGENTS.md                          # Geliştirme talimatları ve sistem kuralları
